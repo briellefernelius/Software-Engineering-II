@@ -1,4 +1,4 @@
 # Software-Engineering-II
 
 
-Sampel
+Sample
