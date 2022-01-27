@@ -4,8 +4,11 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
-class WelcomePage(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birthday = models.DateField()
+    status = models.CharField(max_length=20)
 
     def __str__(self):
         return self.user.username
+
