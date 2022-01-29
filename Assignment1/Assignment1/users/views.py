@@ -14,8 +14,8 @@ def register(request):
             user = form.save()
             user.refresh_from_db()
             user.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Welcome {username}!')
+            email = form.cleaned_data.get('birthday')
+            messages.success(request, f'Welcome {email}!')
             return redirect('login')
 
     else:
