@@ -11,7 +11,6 @@ class RegistrationForm(UserCreationForm):
     #email = forms.EmailField()
     birthday = forms.DateField()
 
-    Status = forms.CharField(label='Are you a student or instructor?', widget = forms.RadioSelect(choices = options))
 
     def clean_birthday(self):
         bday = self.cleaned_data['birthday']
@@ -20,6 +19,19 @@ class RegistrationForm(UserCreationForm):
             raise forms.ValidationError('Must be at least 16 years old to register')
         return bday
 
+
+    def clean_username(self):
+        mail = self.cleaned_data['username']
+
+        special_characters = "@"
+
+        if not any(c in special_characters for c in mail):
+            raise  forms.ValidationError('Username must be an email address')
+        return mail
+
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'birthday']
+        fields = ['first_name', 'last_name', 'username', 'password1', 'password2', 'birthday']
+
+    Status = forms.CharField(label='Are you a student or instructor?', widget=forms.RadioSelect(choices=options))
+
