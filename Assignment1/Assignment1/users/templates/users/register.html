@@ -13,14 +13,15 @@
                     <div class="card-body">
                         <form method="POST">
                             {% csrf_token %}
-                            {% for field in form %}
-                                <div class="form-group">
-                                    {{ field.name }}
-                                    <br>
-                                    {{ field }}
-                                </div>
-                            {% endfor %}
-                            <button type="submit" class="btn-primary">Signup</button>
+                            <body><b>Please enter your Email as your Username</b></body>
+                            {{ form|linebreaks }}
+{#                            <body>Are you a student or instructor?</body>#}
+{#                            <br>#}
+{#                            <input type="radio" name="editList" value="always">Student#}
+{#                            <br>#}
+{#                            <input type="radio" name="editList" value="never">Instructor#}
+{#                            <br>#}
+                            <button type="submit" class="btn-primary">Sign Up</button>
                         </form>
                     </div>
                 </div>

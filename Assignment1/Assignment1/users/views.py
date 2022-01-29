@@ -14,12 +14,12 @@ def register(request):
             user = form.save()
             user.refresh_from_db()
             user.save()
-            email = form.cleaned_data.get('birthday')
-            messages.success(request, f'Welcome {email}!')
+            firstname = form.cleaned_data.get('first_name')
+            lastname = form.cleaned_data.get('last_name')
+
+            messages.success(request, f'Registration Successful {firstname} {lastname}!')
             return redirect('login')
 
     else:
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
-
-
