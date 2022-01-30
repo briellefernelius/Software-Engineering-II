@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submissions</title>
+</head>
+<body>
+<h1>Submissions</h1><br><br>
+
+{% if all_submissions %}
+    <ul>
+
+        {% for submission in all_submissions %}
+        <li><a href="/main/submission/{{ submission.id }}">{{ submission.assignment_name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>There are no submissions</h3>
+{% endif %}
+
+
+</body>
+</html>

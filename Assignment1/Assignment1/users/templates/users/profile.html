@@ -1,0 +1,27 @@
+{% extends 'mysite/mainbase.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+
+<h1>Welcome</h1>
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <img src="{{ user.image_profile }}">
+
+            <h1>Welcome {{ user.first_name }} {{ user.last_name }}</h1>
+
+            {% if error_message  %}
+                <p><strong>{{ error_message }}</strong></p>
+            {% endif %}
+        </div>
+    </div>
+
+{%  endblock %}
+</body>
+</html>

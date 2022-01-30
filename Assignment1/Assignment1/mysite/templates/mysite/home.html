@@ -43,6 +43,16 @@
             margin-left: 550px;
             margin-right: 550px;
         }
+        .nav-item {
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            font-size: 25px;
+            margin: 10px;
+            display: inline-block;
+            color: white;
+            background-color: aqua;
+            background-opacity: 0.8;
+            text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px aqua;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +61,7 @@
     <div class="navbar">
         <a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
         <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
-        <a href="#" class="nav-item nav-link">Profile</a>
+        <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
         <a href="#" class="nav-item nav-link">Calendar</a>
         <a href="#" class="nav-item nav-link">FakeItem1</a>
         <a href="#" class="nav-item nav-link">FakeItem2</a>

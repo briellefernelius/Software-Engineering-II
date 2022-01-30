@@ -3,9 +3,8 @@ from django.contrib import messages
 from .forms import RegistrationForm
 from django.contrib.auth import login, authenticate
 
-
-# Create your views here.
-
+def profile(request):
+    return render(request, 'users/profile.html')
 
 def register(request):
     if request.method == 'POST':
