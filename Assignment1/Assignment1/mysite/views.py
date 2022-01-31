@@ -36,7 +36,7 @@ def submission_with_id(request, submission_id):
 def submission_graded(request, submission_id):
     submission = get_object_or_404(Submission, pk=submission_id)
     try:
-        selected_submission = submission.get(pk=request.POST['submission'])
+        selected_submission = submission.get(pk=request.POST['submission_id'])
     except (KeyError, Submission.DoesNotExist):
         return render(request, 'mysite/submission_details.html',
             {'submission': submission, 'error_message': "You did not select a valid submission"},)

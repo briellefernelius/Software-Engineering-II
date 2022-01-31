@@ -10,14 +10,16 @@
 
 <body>
     <br><br><br><h1>{{ submission }}</h1>
-    <form action="{% url 'submission_graded' submission.graded %}">
+    <form action="/main/submission/{{submission.id}}">
         {% csrf_token %}
         {% for submission in submission.object.all %}
             <input type=radio" id="graded{{ forloop.counter }}" name="graded" value="{{ submission.id }}"/>
             <label for="graded{{ forloop.counter }}">
                 {{ submission.assignment_name }}
-                {% if submission.is_graded %}
-                    <img src="<img src=https://img.icons8.com/color/48/000000/checkmark--v1.png"/>
+                {% if submission.is_graded == False %}
+                    <div> <img class="img-thumbnail" src="https://img.icons8.com/color/48/000000/checkmark--v1.png"/>
+                    </div>
+
                 {% endif %}
             </label><br>
         {% endfor %}
