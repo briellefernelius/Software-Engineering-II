@@ -5,11 +5,8 @@ from .models import Submission
 def home(request):
     return render(request, 'mysite/home.html')
 
-
 def main(request):
     return render(request, 'mysite/main.html')
-
-
 
 def submission_all(request):
     #use database calls

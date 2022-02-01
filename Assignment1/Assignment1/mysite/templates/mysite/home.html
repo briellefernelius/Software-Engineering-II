@@ -56,18 +56,16 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark">
-    <a href="#" class="navbar-brand">Login</a>
-    <div class="navbar">
-        <a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
-        <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
-        <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
-        <a href="#" class="nav-item nav-link">Calendar</a>
-        <a href="#" class="nav-item nav-link">FakeItem1</a>
-        <a href="#" class="nav-item nav-link">FakeItem2</a>
+    <nav class="navbar" style="background-color: gray">
+        <a href="#" class="navbar-brand" style="color: white"></a>
+        <div class="navbar">
+            <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
+            <a href="{% url 'calendar' %}" class="nav-item nav-link">Calendar</a>
+            <a href="#" class="nav-item nav-link">FakeItem1</a>
+            <a href="#" class="nav-item nav-link">FakeItem2</a>
 
-    </div>
-</nav>
+        </div>
+    </nav>
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }}">

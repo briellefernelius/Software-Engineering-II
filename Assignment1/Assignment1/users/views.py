@@ -1,10 +1,25 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+from django.views.decorators.vary import vary_on_cookie
 from .forms import RegistrationForm
-from django.contrib.auth import login, authenticate
+
+@vary_on_cookie
+def login(request):
+    form = AuthenticationForm(data=request.POST or None)
+
+    return render(request, 'users/login.html', {
+        'form': form
+    })
+
 
 def profile(request):
     return render(request, 'users/profile.html')
+
+#
+# def login(request):
+#     return render(request, 'users/login.html')
+
 
 def register(request):
     if request.method == 'POST':

@@ -7,6 +7,7 @@ from datetime import date
 options=[('student', 'Student'),
          ('instructor', 'Instructor'),]
 
+
 class RegistrationForm(UserCreationForm):
     #email = forms.EmailField()
     birthday = forms.DateField()
@@ -33,5 +34,8 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'password1', 'password2', 'birthday']
 
-    Status = forms.CharField(label='Are you a student or instructor?', widget=forms.RadioSelect(choices=options))
+    Status = forms.CharField(label='Are you a student or instructor?', widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}
+, choices=options))
+
+
 
