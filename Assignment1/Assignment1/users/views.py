@@ -12,9 +12,17 @@ def login(request):
         'form': form
     })
 
-
 def profile(request):
     return render(request, 'users/profile.html')
+
+def calendar(request):
+    return render(request, 'users/calendar.html')
+
+def courses(request):
+    return render(request, 'users/courses.html')
+
+def image(request):
+    return render(request, 'users/image.html')
 
 #
 # def login(request):
