@@ -45,3 +45,12 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
+
+def image(request):
+    if request.method == 'POST' and request.FILES['image']:
+        upload = request.FILES['image']
+        fss = FileSystemStorage()
+        file = fss.save(upload.name, upload)
+        file_url = fss.url(file)
+        return render(request, 'users/image.html', {'file_url': file_url})
+    return render(request, 'users/image.html')

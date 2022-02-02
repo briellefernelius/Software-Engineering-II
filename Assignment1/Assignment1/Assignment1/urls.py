@@ -27,6 +27,6 @@ urlpatterns = [
     path('profile/', user_views.profile, name="profile"),
     path('calendar/', user_views.calendar, name="calendar"),
     path('courses/', user_views.courses, name="courses"),
-    path('image/', user_views.image, name="image")
-
+    path('image/', user_views.image, name="image"),
 ]
+

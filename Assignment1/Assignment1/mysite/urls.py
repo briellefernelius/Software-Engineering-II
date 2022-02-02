@@ -1,6 +1,9 @@
 from . import views
 from django.urls import path
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
 
 app_name = 'mysite'
 
@@ -20,9 +23,7 @@ urlpatterns = [
     # main/submission/456/ = (site)/(submission_id)/
     url(r'^main/submission/(?P<submission_id>[0-9]+)/$', views.submission_with_id, name="submission_with_id"),
 
-    url(r'^main/submission/(?P<submission_id>[0-9]+)/graded/$', views.submission_graded, name="submission_graded")
-
-
+    url(r'^main/submission/(?P<submission_id>[0-9]+)/graded/$', views.submission_graded, name="submission_graded"),
 ]
 
 # INFO ON regular expressions
