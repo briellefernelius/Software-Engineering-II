@@ -12,4 +12,20 @@ class Profile(models.Model):
     image_profile = models.CharField(max_length=1000, default="")
 
     def __str__(self):
-        return self.user.username + " - " + self.birthday
+        return self.user.username + " - " + self.birthday.strftime('%m/%d/%Y')
+
+
+DEPARTMENT_CHOICES = (
+    ('Computer Science', 'Computer Science'),
+    ('Physics', 'Physics'),
+    ('Math', 'Math'),
+    ('English', 'English'),
+    ('Engineering', 'Engineering'),
+)
+
+
+class Course(models.Model):
+    department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES, default='')
+    course_number = models.CharField(max_length=20)
+    course_name = models.CharField(max_length=50)
+    credit_hours = models.IntegerField()

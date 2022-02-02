@@ -14,4 +14,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mysite.urls')),
     path('image', views.image, name="image"),
+    path('courses/', views.courses, name="courses"),
+    path('addcourses', views.courses_add, name="add_courses"),
+    path('courses/delete/<int:id>', views.courses_delete, name="delete_courses"),
+    path('courses/edit/<int:id>', views.courses_edit, name="edit_courses"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

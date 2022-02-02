@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from datetime import date
+from django.forms import ModelForm, Select
+from .models import Course
 
 
 options = [('student', 'Student'), ('instructor', 'Instructor'), ]
@@ -24,7 +26,7 @@ class RegistrationForm(UserCreationForm):
         special_characters = "@"
 
         if not any(c in special_characters for c in mail):
-            raise  forms.ValidationError('Username must be an email address')
+            raise forms.ValidationError('Username must be an email address')
         return mail
 
     class Meta:
@@ -34,5 +36,10 @@ class RegistrationForm(UserCreationForm):
     Status = forms.CharField(label='Are you a student or instructor?',
                              widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}, choices=options))
 
+
+class CourseForm(ModelForm):
+    class Meta:
+        model = Course
+        fields = ['department', 'course_number', 'course_name', 'credit_hours']
 
 

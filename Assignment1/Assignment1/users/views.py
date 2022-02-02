@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.vary import vary_on_cookie
-from .forms import RegistrationForm
+from .forms import RegistrationForm, CourseForm
+from .models import Course
 
 
 @vary_on_cookie
@@ -25,7 +26,11 @@ def calendar(request):
 
 
 def courses(request):
-    return render(request, 'users/courses.html')
+    item_list = Course.objects.all()
+    context = {
+        'item_list': item_list,
+    }
+    return render(request, 'users/courses.html', context)
 
 
 def image(request):
@@ -58,3 +63,32 @@ def image(request):
         file_url = fss.url(file)
         return render(request, 'users/image.html', {'file_url': file_url})
     return render(request, 'users/image.html')
+
+
+def courses_add(request):
+    form = CourseForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect('users:courses')
+    return render(request, 'users/courses-form.html', {'form': form})
+
+
+def courses_delete(request, id):
+    item = Course.objects.get(id=id)
+
+    if request.method == 'POST':
+        item.delete()
+        return redirect('users:courses')
+    return render(request, 'users/courses-delete.html', {'item': item})
+
+
+def courses_edit(request, id):
+    item = Course.objects.get(id=id)
+    form = CourseForm(request.POST or None, instance=item)
+
+    if form.is_valid():
+        form.save()
+        return redirect('users:courses')
+
+    return render(request, 'users/courses-form.html', {'form': form, 'item': item})
