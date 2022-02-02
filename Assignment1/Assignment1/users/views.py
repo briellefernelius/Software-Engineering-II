@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.vary import vary_on_cookie
-from .forms import RegistrationForm, CourseForm
+from .forms import *
 from .models import Course
-
+from django.http import HttpResponse
 
 @vary_on_cookie
 def login(request):
@@ -53,17 +53,6 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
-
-
-def image(request):
-    if request.method == 'POST' and request.FILES['image']:
-        upload = request.FILES['image']
-        fss = FileSystemStorage()
-        file = fss.save(upload.name, upload)
-        file_url = fss.url(file)
-        return render(request, 'users/image.html', {'file_url': file_url})
-    return render(request, 'users/image.html')
-
 
 def courses_add(request):
     form = CourseForm(request.POST or None)

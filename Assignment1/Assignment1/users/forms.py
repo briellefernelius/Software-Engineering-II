@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from datetime import date
 from django.forms import ModelForm, Select
 from .models import Course
+from .models import *
 
 
 options = [('student', 'Student'), ('instructor', 'Instructor'), ]
@@ -41,5 +42,3 @@ class CourseForm(ModelForm):
     class Meta:
         model = Course
         fields = ['department', 'course_number', 'course_name', 'credit_hours']
-
-
