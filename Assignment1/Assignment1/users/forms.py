@@ -4,14 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from datetime import date
 
 
-options=[('student', 'Student'),
-         ('instructor', 'Instructor'),]
+options = [('student', 'Student'), ('instructor', 'Instructor'), ]
 
 
 class RegistrationForm(UserCreationForm):
-    #email = forms.EmailField()
+    # email = forms.EmailField()
     birthday = forms.DateField()
-
 
     def clean_birthday(self):
         bday = self.cleaned_data['birthday']
@@ -19,7 +17,6 @@ class RegistrationForm(UserCreationForm):
         if age < 16:
             raise forms.ValidationError('Must be at least 16 years old to register')
         return bday
-
 
     def clean_username(self):
         mail = self.cleaned_data['username']
@@ -34,8 +31,8 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'password1', 'password2', 'birthday']
 
-    Status = forms.CharField(label='Are you a student or instructor?', widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}
-, choices=options))
+    Status = forms.CharField(label='Are you a student or instructor?',
+                             widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}, choices=options))
 
 
 

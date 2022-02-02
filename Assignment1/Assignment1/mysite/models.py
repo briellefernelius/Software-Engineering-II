@@ -2,9 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-#For future, assignment submission
+
+# For future, assignment submission
 class Submission(models.Model):
-    #assignment_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    # assignment_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
     assignment_name = models.CharField(max_length=250)
     file_type = models.CharField(max_length=10)
     is_graded = models.BooleanField(default=False)

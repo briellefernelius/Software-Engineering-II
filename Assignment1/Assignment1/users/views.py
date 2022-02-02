@@ -1,32 +1,35 @@
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.vary import vary_on_cookie
 from .forms import RegistrationForm
 
+
 @vary_on_cookie
 def login(request):
     form = AuthenticationForm(data=request.POST or None)
-
+    if form.is_valid():
+        return redirect('mysite:main')
     return render(request, 'users/login.html', {
         'form': form
     })
 
+
 def profile(request):
     return render(request, 'users/profile.html')
+
 
 def calendar(request):
     return render(request, 'users/calendar.html')
 
+
 def courses(request):
     return render(request, 'users/courses.html')
 
+
 def image(request):
     return render(request, 'users/image.html')
-
-#
-# def login(request):
-#     return render(request, 'users/login.html')
 
 
 def register(request):
@@ -45,6 +48,7 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
+
 
 def image(request):
     if request.method == 'POST' and request.FILES['image']:
