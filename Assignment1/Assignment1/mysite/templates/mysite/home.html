@@ -7,7 +7,6 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'PortfolioDatabase/style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
@@ -44,21 +43,29 @@
             margin-left: 550px;
             margin-right: 550px;
         }
+        .nav-item {
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            font-size: 25px;
+            margin: 10px;
+            display: inline-block;
+            color: white;
+            background-color: aqua;
+            background-opacity: 0.8;
+            text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px aqua;
+        }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark">
-    <a href="#" class="navbar-brand">Login</a>
-    <div class="navbar">
-        <a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
-        <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
-        <a href="#" class="nav-item nav-link">Profile</a>
-        <a href="#" class="nav-item nav-link">Calendar</a>
-        <a href="#" class="nav-item nav-link">FakeItem1</a>
-        <a href="#" class="nav-item nav-link">FakeItem2</a>
+    <nav class="navbar" style="background-color: gray">
+        <a href="#" class="navbar-brand" style="color: white"></a>
+        <div class="navbar">
+            <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
+            <a href="{% url 'calendar' %}" class="nav-item nav-link">Calendar</a>
+            <a href="{% url 'courses' %}" class="nav-item nav-link">Courses</a>
+            <a href="{% url 'image' %}" class="nav-item nav-link">Image Trial</a>
 
-    </div>
-</nav>
+        </div>
+    </nav>
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }}">

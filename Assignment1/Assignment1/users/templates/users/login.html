@@ -1,26 +1,31 @@
-{% extends 'mysite/mainbase.html' %}
-
-{% block body %}
+{% extends 'mysite/loginbase.html' %}
+ {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="card">
-                    <div class="card-header bg-primary text-black">
+                    <div class="card-header" style="background-color: lightblue">
                         <div class="card-title">
                             Login
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST">
+                        <form method="POST" style="text-align: center">
                             {% csrf_token %}
+<<<<<<< HEAD
                             {{ form }}
                             <br>
                             <button type="submit " value="Submit" class="btn-primary">Login</button>
+=======
+                            {{ form.as_p }}
+                            <input type="submit" value="Login" style="background-color: lightblue; text: white">
+                            <br>
+                            <a href="{% url 'register' %}" class="nav-item2 nav-link">Need an account?</a>
+>>>>>>> 5ae42db24561550a8bb39d74748cbbb71e449bb3
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-{%  endblock %}
+ {%  endblock %}

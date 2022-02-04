@@ -1,0 +1,48 @@
+{% extends 'mysite/mainbase.html' %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+
+    <style>
+        .card-body{
+            height: 100px;
+            width: 100px;
+            background-color: #24ff00;
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+{% block body %}
+<h2 style="text-align: center">Welcome to Profile</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 offset-md-2" >
+                <div class="card">
+                    <div class="card-header" style="background-color: lightblue">
+                        <div class="card-title">
+                            Profile Page
+                        </div>
+                    </div>
+                    <div class="card-body"  >
+                        <form method="POST" style="text-align: center">
+                          {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value="Save Profile" style="background-color: lightblue; text: white">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{%  endblock %}
+</body>
+</html>

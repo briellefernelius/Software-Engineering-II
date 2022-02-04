@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submission Details</title>
+</head>
+
+
+{#NOT WORKING NEEDS TO BE FIXED, CANT GET REFERENCE TO URL PAGE, STUPID#}
+
+<body>
+    <br><br><br><h1>{{ submission }}</h1>
+    <form action="/main/submission/{{submission.id}}">
+        {% csrf_token %}
+        {% for submission in submission.object.all %}
+            <input type=radio" id="graded{{ forloop.counter }}" name="graded" value="{{ submission.id }}"/>
+            <label for="graded{{ forloop.counter }}">
+                {{ submission.assignment_name }}
+                {% if submission.is_graded == False %}
+                    <div> <img class="img-thumbnail" src="https://img.icons8.com/color/48/000000/checkmark--v1.png"/>
+                    </div>
+
+                {% endif %}
+            </label><br>
+        {% endfor %}
+        <input type="submit" value="Submit Graded?">
+    </form>
+</body>
+</html>

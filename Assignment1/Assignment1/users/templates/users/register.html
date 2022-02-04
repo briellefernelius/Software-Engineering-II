@@ -1,11 +1,11 @@
-{% extends 'mysite/mainbase.html' %}
+{% extends 'mysite/registerbase.html' %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header" style="background-color: lightblue">
                         <div class="card-title">
                             Register
                         </div>
@@ -14,6 +14,7 @@
                         <form method="POST">
                             {% csrf_token %}
                             <body><b>Please enter your Email as your Username</b></body>
+<<<<<<< HEAD
                             {{ form|linebreaks }}
 {#                            <body>Are you a student or instructor?</body>#}
 {#                            <br>#}
@@ -22,11 +23,17 @@
 {#                            <input type="radio" name="editList" value="never">Instructor#}
 {#                            <br>#}
                             <button type="submit" class="btn-primary">Sign Up</button>
+=======
+                            {{ form.as_p }}
+                            <button type="submit" value="Register" style="background-color: lightblue; margin-left: 125px">Sign Up</button>
+                            <br>
+                            <a href="{% url 'login' %}" class="nav-item2 nav-link" style="margin-left: 10px; text-align: center">Already have an account?</a>
+>>>>>>> 5ae42db24561550a8bb39d74748cbbb71e449bb3
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 {%  endblock body%}
+

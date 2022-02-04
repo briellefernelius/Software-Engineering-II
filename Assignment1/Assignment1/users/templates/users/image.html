@@ -1,0 +1,37 @@
+{% extends 'mysite/mainbase.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+</head>
+<body>
+
+{% block body %}
+        <div class="container">
+
+          <h2 class="my-4">Add an Image</h2>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+                <input type="file" id="imageFile" accept="image/*">
+                <br>
+                <button class="btn btn-dark my-4" type="submit">Submit</button>
+          </form>
+
+          <h2 class="my-4">Image</h2>
+          <div class="row">
+            {% if file_url %}
+            <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
+              <img src="{{ file_url }}" class="img-fluid">
+              <br>
+              <a class="btn btn-dark my-4" href="/">Return to Homepage</a>
+            {% else %}
+            <p>No image added.</p>
+            {% endif %}
+          </div>
+
+        </div>
+{%  endblock %}
+</body>
+</html>
