@@ -7,6 +7,7 @@ from .forms import *
 from .models import Course
 from django.http import HttpResponse
 
+
 @vary_on_cookie
 def login(request):
     form = AuthenticationForm(data=request.POST or None)
@@ -53,6 +54,7 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
+
 
 def courses_add(request):
     form = CourseForm(request.POST or None)

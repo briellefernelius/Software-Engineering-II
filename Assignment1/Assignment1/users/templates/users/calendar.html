@@ -1,15 +1,33 @@
 {% extends 'mysite/mainbase.html' %}
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Calendar</title>
-</head>
-<body>
+
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+
+  </head>
 
 {% block body %}
-    <h2 style="text-align: center">Welcome to the Calendar</h2>
+
+
+  <body>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css" rel='stylesheet' />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+        });
+        calendar.render();
+      });
+</script>
+
+    <div id='calendar' class="container"></div>
+  </body>
 
 {%  endblock %}
-</body>
 </html>
+
+
