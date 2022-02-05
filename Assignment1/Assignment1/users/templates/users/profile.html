@@ -10,7 +10,6 @@
     <h1>Profile</h1>
     <hr></hr>
 {% if user.is_authenticated %}
-    <h2 style="text-align: center">Welcome, {{ form.first_name }} {{ form.last_name }}</h2>
     {% for item in item_list %}
         {% if item.email == user.email %}
         <div class="container">

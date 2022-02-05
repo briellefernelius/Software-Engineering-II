@@ -67,6 +67,7 @@ DEPARTMENT_CHOICES = (
 
 
 class Course(models.Model):
+    instructor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES, default='')
     course_number = models.CharField(max_length=20)
     course_name = models.CharField(max_length=50)
