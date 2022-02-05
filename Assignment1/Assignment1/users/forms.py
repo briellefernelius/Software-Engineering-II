@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from datetime import date
 from django.forms import ModelForm, Select
-from .models import Course
 from .models import *
 
 
@@ -42,3 +41,10 @@ class CourseForm(ModelForm):
     class Meta:
         model = Course
         fields = ['department', 'course_number', 'course_name', 'credit_hours']
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name', 'phone_number', 'birthday', 'addressLine1', 'addressLine2', 'city', 'bio',
+                  'link1', 'link2', 'link3']

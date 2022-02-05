@@ -1,0 +1,26 @@
+{% extends 'mysite/mainbase.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="card">
+                    <div class="card-header" style="background-color: lightblue">
+                        <div class="card-title">
+                            Edit Profile
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" style="text-align: center">
+                          {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value="Save Changes" style="background-color: lightblue; text: white">
+                            <a href="{% url 'profile' %}">
+                                <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ {%  endblock %}

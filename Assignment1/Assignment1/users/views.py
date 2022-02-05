@@ -1,13 +1,15 @@
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.vary import vary_on_cookie
 from .forms import *
-from .models import Course
+from .models import *
 from django.http import HttpResponse
 
 
+@login_required
 @vary_on_cookie
 def login(request):
     form = AuthenticationForm(data=request.POST or None)
@@ -18,20 +20,28 @@ def login(request):
     })
 
 
+@login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    item_list = Profile.objects.filter(user=request.user)
+    context = {
+        'item_list': item_list,
+    }
+    return render(request, 'users/profile.html', context)
+
+
+def profile_edit(request, id):
+    item = Profile.objects.get(id=id)
+    form = ProfileForm(request.POST or None, instance=item)
+
+    if form.is_valid():
+        form.save()
+        return redirect('users:profile')
+
+    return render(request, 'users/profile-form.html', {'form': form, 'item': item})
 
 
 def calendar(request):
     return render(request, 'users/calendar.html')
-
-
-def courses(request):
-    item_list = Course.objects.all()
-    context = {
-        'item_list': item_list,
-    }
-    return render(request, 'users/courses.html', context)
 
 
 def image(request):
@@ -54,6 +64,14 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def courses(request):
+    item_list = Course.objects.all()
+    context = {
+        'item_list': item_list,
+    }
+    return render(request, 'users/courses.html', context)
 
 
 def courses_add(request):
@@ -83,3 +101,7 @@ def courses_edit(request, id):
         return redirect('users:courses')
 
     return render(request, 'users/courses-form.html', {'form': form, 'item': item})
+
+
+
+

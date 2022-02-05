@@ -15,6 +15,9 @@
                           {% csrf_token %}
                           <h2>Are you sure you want to delete {{ item.department }}, {{ item.course_number }}</h2>
                           <input type="submit" value="Confirm" style="background-color: lightblue; text: white">
+                          <a href="{% url 'courses' %}">
+                              <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
+                          </a>
                       </form>
                     </div>
                 </div>

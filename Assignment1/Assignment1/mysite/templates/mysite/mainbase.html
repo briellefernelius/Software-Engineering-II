@@ -48,10 +48,14 @@
     <nav class="navbar" style="background-color: gray">
         <a href="#" class="navbar-brand" style="color: white"></a>
         <div class="navbar">
+            <a href="{% url 'mysite:main' %}" class="nav-item nav-link">Dashboard</a>
             <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
             <a href="{% url 'calendar' %}" class="nav-item nav-link">Calendar</a>
             <a href="{% url 'courses' %}" class="nav-item nav-link">Courses</a>
             <a href="{% url 'image' %}" class="nav-item nav-link">Image Trial</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
+            {% endif %}
         </div>
     </nav>
 
