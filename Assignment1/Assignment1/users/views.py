@@ -3,11 +3,13 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model
 from django.views.decorators.vary import vary_on_cookie
 from .forms import *
 from .models import *
 from django.http import HttpResponse
 
+User = get_user_model()
 
 @login_required
 @vary_on_cookie
@@ -22,7 +24,7 @@ def login(request):
 
 @login_required
 def profile(request):
-    item_list = Profile.objects.filter(user=request.user)
+    item_list = User.objects.filter(user=request.user)
     context = {
         'item_list': item_list,
     }
@@ -30,7 +32,7 @@ def profile(request):
 
 
 def profile_edit(request, id):
-    item = Profile.objects.get(id=id)
+    item = User.objects.get(id=id)
     form = ProfileForm(request.POST or None, instance=item)
 
     if form.is_valid():
