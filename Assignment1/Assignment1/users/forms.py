@@ -44,3 +44,10 @@ class AdminUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ('email',)
+
+
+class EditProfileForm(ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['image_profile', 'first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1', 'addressLine2',
+                  'city', 'bio']

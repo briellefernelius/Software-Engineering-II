@@ -24,16 +24,22 @@ def login(request):
 
 @login_required
 def profile(request):
-    item_list = User.objects.filter(user=request.user)
-    context = {
-        'item_list': item_list,
-    }
-    return render(request, 'users/profile.html', context)
+    try:
+        # user_id = int(User.pk)
+        item_list = User.objects.all()
+        return render(request, 'users/profile.html', {'item_list': item_list})
+    except User.DoesNotExist:
+        return render(request, 'users/home.html')
+    # form = EditProfileForm(instance=User)
+    # if form.is_valid():
+    #     return render(request, 'users/profile.html', {'form': form})
+
+
 
 
 def profile_edit(request, id):
     item = User.objects.get(id=id)
-    form = ProfileForm(request.POST or None, instance=item)
+    form = EditProfileForm(request.POST or None, instance=item)
 
     if form.is_valid():
         form.save()
