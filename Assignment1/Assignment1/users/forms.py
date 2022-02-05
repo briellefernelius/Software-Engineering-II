@@ -32,6 +32,13 @@ class CourseForm(ModelForm):
         fields = ['department', 'course_number', 'course_name', 'credit_hours']
 
 
+class ProfileEditForm(ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'phone_number', 'birthday', 'addressLine1', 'addressLine2', 'city', 'bio',
+                  'link1', 'link2', 'link3']
+
+
 class AdminUserCreationForm(UserCreationForm):
 
     class Meta:

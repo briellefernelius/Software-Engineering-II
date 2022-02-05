@@ -11,6 +11,7 @@ from django.http import HttpResponse
 
 User = get_user_model()
 
+
 @login_required
 @vary_on_cookie
 def login(request):
@@ -24,7 +25,7 @@ def login(request):
 
 @login_required
 def profile(request):
-    item_list = User.objects.filter(user=request.user)
+    item_list = User.objects.all()
     context = {
         'item_list': item_list,
     }
@@ -33,7 +34,7 @@ def profile(request):
 
 def profile_edit(request, id):
     item = User.objects.get(id=id)
-    form = ProfileForm(request.POST or None, instance=item)
+    form = ProfileEditForm(request.POST or None, instance=item)
 
     if form.is_valid():
         form.save()
