@@ -1,13 +1,15 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from .models import Submission
 from django.core.files.storage import FileSystemStorage
 
-
+@login_required
 def home(request):
     return render(request, 'mysite/home.html')
 
 
+@login_required
 def main(request):
     return render(request, 'mysite/main.html')
 
