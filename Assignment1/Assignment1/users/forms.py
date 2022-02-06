@@ -7,7 +7,6 @@ from .models import *
 
 
 class RegistrationForm(UserCreationForm):
-
     bool_choices = ((1, 'Instructor'), (0, 'Student'))
 
     is_instructor = forms.TypedChoiceField(
@@ -26,21 +25,25 @@ class RegistrationForm(UserCreationForm):
         fields = ['email', 'first_name', 'last_name', 'password1', 'password2', 'birthday', 'is_instructor']
 
 
+choices = (('Monday', 'Monday'), ('Tuesday', 'Tuesday'), ('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'),
+           ('Friday', 'Friday'))
+
+
 class CourseForm(ModelForm):
+    #choice = forms.CharField(choices=choices, widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = Course
-        fields = ['department', 'course_number', 'course_name', 'credit_hours']
+        fields = ['department', 'course_number', 'course_name',  'credit_hours', 'start_time',
+                  'end_time']
 
 
 class AdminUserCreationForm(UserCreationForm):
-
     class Meta:
         model = CustomUser
         fields = ('email',)
 
 
 class AdminUserChangeForm(UserChangeForm):
-
     class Meta:
         model = CustomUser
         fields = ('email',)
@@ -49,5 +52,12 @@ class AdminUserChangeForm(UserChangeForm):
 class EditProfileForm(ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['image_profile', 'first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1', 'addressLine2',
+        fields = ['image_profile', 'first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1',
+                  'addressLine2',
                   'city', 'bio']
+
+
+class StudentEnrollForm(ModelForm):
+    class Meta:
+        model = Course
+        fields = ['department']

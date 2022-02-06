@@ -86,6 +86,7 @@ def courses_add(request):
     form = CourseForm(request.POST or None)
 
     if form.is_valid():
+        # For adding the course
         course = Course()
         course.department = request.POST.get('department')
         course.course_name = request.POST.get('course_name')
@@ -93,6 +94,9 @@ def courses_add(request):
         course.credit_hours = request.POST.get('credit_hours')
         course.instructor = CustomUser.objects.get(pk=request.user.pk)
         course.save()
+        # For attaching the course to the user
+        CustomUser.objects.get(pk=request.user.pk).courses.append(course)
+
         return redirect('users:courses')
     return render(request, 'users/courses-form.html', {'form': form})
 
@@ -117,5 +121,9 @@ def courses_edit(request, id):
     return render(request, 'users/courses-form.html', {'form': form, 'item': item})
 
 
+def courses_enroll(request, id):
+    CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
+    return redirect('mysite:main')
 
+    #return render(request, 'users/courses-form.html', {'form': form, 'item': item})
 

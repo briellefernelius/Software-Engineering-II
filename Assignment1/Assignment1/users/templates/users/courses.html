@@ -11,6 +11,8 @@
     <h2 style="text-align: center">Welcome to Courses</h2>
     <a href="{% url 'users:add_courses' %}" class="btn btn-primary" style="margin-left: 500px">Add Courses</a>
     {% for item in item_list %}
+{#        Only the instructor can view, edit, and delete the courses they made#}
+        {% if item.instructor == user or user.is_staff == True %}
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 offset-md-1">
@@ -33,6 +35,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     {% endfor %}
 {%  endblock %}
 </body>
