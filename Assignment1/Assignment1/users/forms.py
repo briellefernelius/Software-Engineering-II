@@ -1,40 +1,29 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from datetime import date
 from django.forms import ModelForm, Select
 from .models import *
 
 
-options = [('student', 'Student'), ('instructor', 'Instructor'), ]
-
-
 class RegistrationForm(UserCreationForm):
-    # email = forms.EmailField()
-    birthday = forms.DateField()
+
+    bool_choices = ((1, 'Instructor'), (0, 'Student'))
+
+    is_instructor = forms.TypedChoiceField(
+        choices=bool_choices, widget=forms.RadioSelect, coerce=int
+    )
 
     def clean_birthday(self):
         bday = self.cleaned_data['birthday']
-        age = (date.today() - bday).days/362
+        age = (date.today() - bday).days / 362
         if age < 16:
             raise forms.ValidationError('Must be at least 16 years old to register')
         return bday
 
-    def clean_username(self):
-        mail = self.cleaned_data['username']
-
-        special_characters = "@"
-
-        if not any(c in special_characters for c in mail):
-            raise forms.ValidationError('Username must be an email address')
-        return mail
-
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'username', 'password1', 'password2', 'birthday']
-
-    Status = forms.CharField(label='Are you a student or instructor?',
-                             widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}, choices=options))
+        model = CustomUser
+        fields = ['email', 'first_name', 'last_name', 'password1', 'password2', 'birthday', 'is_instructor']
 
 
 class CourseForm(ModelForm):
@@ -43,8 +32,22 @@ class CourseForm(ModelForm):
         fields = ['department', 'course_number', 'course_name', 'credit_hours']
 
 
-class ProfileForm(ModelForm):
+class AdminUserCreationForm(UserCreationForm):
+
     class Meta:
-        model = Profile
-        fields = ['first_name', 'last_name', 'phone_number', 'birthday', 'addressLine1', 'addressLine2', 'city', 'bio',
-                  'link1', 'link2', 'link3']
+        model = CustomUser
+        fields = ('email',)
+
+
+class AdminUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = CustomUser
+        fields = ('email',)
+
+
+class EditProfileForm(ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['image_profile', 'first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1', 'addressLine2',
+                  'city', 'bio']

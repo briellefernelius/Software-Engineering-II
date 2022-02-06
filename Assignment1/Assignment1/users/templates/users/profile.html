@@ -10,8 +10,8 @@
     <h1>Profile</h1>
     <hr></hr>
 {% if user.is_authenticated %}
-    <h2 style="text-align: center">Welcome, {{ user.first_name }} {{ user.last_name }}</h2>
     {% for item in item_list %}
+        {% if item.email == user.email %}
         <div class="container">
             <div class="row">
                 <div class="col-md-4 offset-md-4">
@@ -23,8 +23,9 @@
                         </div>
                         <div class="card-body">
                             <img src="Assignment1/Assignment1/media/images/IMG_1723.JPG">
-                             <h5 style="margin-left: auto; margin-right: auto;">First Name: {{ item.first_name }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;">First Name: {{ item.first_name }}</h5>
                             <h5 style="margin-left: auto; margin-right: auto;">Last Name: {{ item.last_name }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;">Email: {{ item.email }}</h5>
                             <h5 style="margin-left: auto; margin-right: auto;">Phone Number: {{ item.phone_number }}</h5>
                             <h5 style="margin-left: auto; margin-right: auto;">Birthday: {{ item.birthday }}</h5>
                             <h5 style="margin-left: auto; margin-right: auto;">Address Line1: {{ item.addressLine1 }}</h5>
@@ -33,13 +34,13 @@
                             <h5>Link 1: <a href="{{ item.link1  }}" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link1 }}</a></h5>
                             <h5>Link 2: <a href="{{ item.link2 }}" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link2 }}</a></h5>
                             <h5>Link 3: <a href="{{ item.link3 }}" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link3 }}</a></h5>
-
                             <a href="{% url 'users:edit_profile' item.id %}" class="btn btn-warning">Edit</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
     {% endfor %}
 {% endif %}
 {%  endblock %}

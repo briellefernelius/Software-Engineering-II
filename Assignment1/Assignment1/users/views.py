@@ -3,11 +3,13 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model
 from django.views.decorators.vary import vary_on_cookie
 from .forms import *
 from .models import *
 from django.http import HttpResponse
 
+User = get_user_model()
 
 @login_required
 @vary_on_cookie
@@ -22,16 +24,22 @@ def login(request):
 
 @login_required
 def profile(request):
-    item_list = Profile.objects.filter(user=request.user)
-    context = {
-        'item_list': item_list,
-    }
-    return render(request, 'users/profile.html', context)
+    try:
+        # user_id = int(User.pk)
+        item_list = User.objects.all()
+        return render(request, 'users/profile.html', {'item_list': item_list})
+    except User.DoesNotExist:
+        return render(request, 'users/home.html')
+    # form = EditProfileForm(instance=User)
+    # if form.is_valid():
+    #     return render(request, 'users/profile.html', {'form': form})
+
+
 
 
 def profile_edit(request, id):
-    item = Profile.objects.get(id=id)
-    form = ProfileForm(request.POST or None, instance=item)
+    item = User.objects.get(id=id)
+    form = EditProfileForm(request.POST or None, instance=item)
 
     if form.is_valid():
         form.save()
@@ -78,7 +86,13 @@ def courses_add(request):
     form = CourseForm(request.POST or None)
 
     if form.is_valid():
-        form.save()
+        course = Course()
+        course.department = request.POST.get('department')
+        course.course_name = request.POST.get('course_name')
+        course.course_number = request.POST.get('course_number')
+        course.credit_hours = request.POST.get('credit_hours')
+        course.instructor = CustomUser.objects.get(pk=request.user.pk)
+        course.save()
         return redirect('users:courses')
     return render(request, 'users/courses-form.html', {'form': form})
 
