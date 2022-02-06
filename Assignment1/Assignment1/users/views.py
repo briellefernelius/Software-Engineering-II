@@ -86,7 +86,13 @@ def courses_add(request):
     form = CourseForm(request.POST or None)
 
     if form.is_valid():
-        form.save()
+        course = Course()
+        course.department = request.POST.get('department')
+        course.course_name = request.POST.get('course_name')
+        course.course_number = request.POST.get('course_number')
+        course.credit_hours = request.POST.get('credit_hours')
+        course.instructor = CustomUser.objects.get(pk=request.user.pk)
+        course.save()
         return redirect('users:courses')
     return render(request, 'users/courses-form.html', {'form': form})
 

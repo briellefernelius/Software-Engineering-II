@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import *
 
 
 class MyUserManager(BaseUserManager):
@@ -39,7 +40,7 @@ class CustomUser(AbstractUser):
     birthday = models.DateField(null=True, blank=True)
     is_instructor = models.BooleanField(default=False)
     image_profile = models.CharField(max_length=1000, default="", null=True)
-    phone_number = models.CharField(max_length=25, default="", null=True)
+    phone_number = models.CharField(max_length=13, default="", null=True,  validators=[MinLengthValidator(10)])
     addressLine1 = models.CharField(max_length=100, default="", null=True)
     addressLine2 = models.CharField(max_length=100, default="", null=True)
     city = models.CharField(max_length=100, default="", null=True)
@@ -54,7 +55,7 @@ class CustomUser(AbstractUser):
     objects = MyUserManager()
 
     def __str__(self):
-        return self.email
+        return "| " + self.email + " | " + self.first_name
 
 
 DEPARTMENT_CHOICES = (
@@ -69,7 +70,9 @@ DEPARTMENT_CHOICES = (
 class Course(models.Model):
     instructor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES, default='')
-    course_number = models.CharField(max_length=20)
+    course_number = models.CharField(max_length=8, validators=[MinLengthValidator(2)])
     course_name = models.CharField(max_length=50)
     credit_hours = models.IntegerField()
 
+    def __str__(self):
+        return self.department + "-" + self.course_number + " Taught by " + str(CustomUser.objects.get(pk=self.instructor.pk).get_full_name())
