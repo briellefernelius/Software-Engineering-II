@@ -9,6 +9,7 @@ from django.core.validators import *
 from django.utils import timezone
 import datetime
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 
 class MyUserManager(BaseUserManager):
@@ -91,14 +92,6 @@ DEPARTMENT_CHOICES = (
     ('Engineering', 'Engineering'),
 )
 
-DAY_OF_WEEK_CHOICES = (  (0, 'Monday'),
-    (1, 'Tuesday'),
-    (2, 'Wednesday'),
-    (3, 'Thursday'),
-    (4, 'Friday'),
-    (5, 'Saturday'),
-    (6, 'Sunday'),)
-
 
 class Course(models.Model):
     instructor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
@@ -107,13 +100,12 @@ class Course(models.Model):
     course_name = models.CharField(max_length=50)
     credit_hours = models.IntegerField()
 
-    meeting_time_days = models.CharField(max_length=1, choices=DAY_OF_WEEK_CHOICES, default='')
+    meeting_time_days = models.CharField(max_length=200, default='')
     start_time = models.TimeField(default=datetime.time)
     end_time = models.TimeField(default=datetime.time)
 
     def __str__(self):
-        return "PK: " + str(self.id) + " " + self.department + "-" + self.course_number + " Taught by " + str(
-            CustomUser.objects.get(pk=self.instructor.id).get_full_name())
+        return self.department + "-" + self.course_number
 
     def clean(self):
         if self.credit_hours < 0:

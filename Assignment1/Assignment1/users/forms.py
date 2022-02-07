@@ -7,6 +7,7 @@ from .models import *
 from django.db.models import Q, F
 
 
+
 class RegistrationForm(UserCreationForm):
     bool_choices = ((1, 'Instructor'), (0, 'Student'))
 
@@ -33,16 +34,16 @@ class ImageForm(forms.ModelForm):
         fields = ['image']
 
 
-choices = (('Monday', 'Monday'), ('Tuesday', 'Tuesday'), ('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'),
-           ('Friday', 'Friday'))
+
 
 
 class CourseForm(ModelForm):
-    #choice = forms.CharField(choices=choices, widget=forms.CheckboxSelectMultiple
+
+    choices = (('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('Th', 'Thursday'), ('F', 'Friday'))
+    meeting_time_days = forms.TypedMultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Course
-        widgets = {'meeting_time_days': forms.CheckboxSelectMultiple}
         fields = ['department', 'course_number', 'course_name',  'credit_hours', 'meeting_time_days', 'start_time', 'end_time']
 
 
