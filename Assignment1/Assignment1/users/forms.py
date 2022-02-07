@@ -38,12 +38,11 @@ choices = (('Monday', 'Monday'), ('Tuesday', 'Tuesday'), ('Wednesday', 'Wednesda
 
 
 class CourseForm(ModelForm):
-    #choice = forms.CharField(choices=choices, widget=forms.CheckboxSelectMultiple)
-    widgets = {'meeting_time_days': forms.CheckboxSelectMultiple}
+    #choice = forms.CharField(choices=choices, widget=forms.CheckboxSelectMultiple
 
     class Meta:
         model = Course
-
+        widgets = {'meeting_time_days': forms.CheckboxSelectMultiple}
         fields = ['department', 'course_number', 'course_name',  'credit_hours', 'meeting_time_days', 'start_time', 'end_time']
 
 
