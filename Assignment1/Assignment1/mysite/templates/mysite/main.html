@@ -24,48 +24,50 @@
         <h2>Users Name: {{ user.first_name }} {{ user.last_name }}</h2>
     </div>
 
+    {% for item in user.courses %}
     <div class="card-group">
         <div class="card" style="width: 18rem; margin: 1rem;">
             <img class="card-img-top" src="..." alt="Card image">
             <div class="card-body">
-                <h4 class="card-title">CS 3750</h4>
-                <h5 class="card-subtitle">Course_number: 33685</h5>
-                <p class="card-text">Wednesday: 11:30-1:20</p>
+                <h4 class="card-title">{{ item.course_name}}</h4>
+                <h5 class="card-subtitle">Course Number: {{ item.course_number }}</h5>
+                <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                 <a href="#" class="btn btn-primary">Enter</a>
             </div>
         </div>
+        {% endfor %}
 
-        <div class="card" style="width: 18rem; margin: 1rem;">
-            <img class="card-img-top" src="..." alt="Card image">
-            <div class="card-body">
-                <h4 class="card-title">Name</h4>
-                <h5 class="card-subtitle">Class #</h5>
-                <p class="card-text">Meeting time and location</p>
-                <a href="#" class="btn btn-primary">Enter</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-group">
-        <div class="card" style="width: 18rem; margin: 1rem;">
-            <img class="card-img-top" src="..." alt="Card image">
-            <div class="card-body">
-                <h4 class="card-title">CS 3750</h4>
-                <h5 class="card-subtitle">Course_number: 33685</h5>
-                <p class="card-text">Wednesday: 11:30-1:20</p>
-                <a href="#" class="btn btn-primary">Enter</a>
-            </div>
-        </div>
-
-        <div class="card" style="width: 18rem; margin: 1rem;">
-            <img class="card-img-top" src="..." alt="Card image">
-            <div class="card-body">
-                <h4 class="card-title">Name</h4>
-                <h5 class="card-subtitle">Class #</h5>
-                <p class="card-text">Meeting time and location</p>
-                <a href="#" class="btn btn-primary">Enter</a>
-            </div>
-        </div>
+{#        <div class="card" style="width: 18rem; margin: 1rem;">#}
+{#            <img class="card-img-top" src="..." alt="Card image">#}
+{#            <div class="card-body">#}
+{#                <h4 class="card-title">Name</h4>#}
+{#                <h5 class="card-subtitle">Class #</h5>#}
+{#                <p class="card-text">Meeting time and location</p>#}
+{#                <a href="#" class="btn btn-primary">Enter</a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="card-group">#}
+{#        <div class="card" style="width: 18rem; margin: 1rem;">#}
+{#            <img class="card-img-top" src="..." alt="Card image">#}
+{#            <div class="card-body">#}
+{#                <h4 class="card-title">CS 3750</h4>#}
+{#                <h5 class="card-subtitle">Course_number: 33685</h5>#}
+{#                <p class="card-text">Wednesday: 11:30-1:20</p>#}
+{#                <a href="#" class="btn btn-primary">Enter</a>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="card" style="width: 18rem; margin: 1rem;">#}
+{#            <img class="card-img-top" src="..." alt="Card image">#}
+{#            <div class="card-body">#}
+{#                <h4 class="card-title">Name</h4>#}
+{#                <h5 class="card-subtitle">Class #</h5>#}
+{#                <p class="card-text">Meeting time and location</p>#}
+{#                <a href="#" class="btn btn-primary">Enter</a>#}
+{#            </div>#}
+{#        </div>#}
     </div>
 
 
