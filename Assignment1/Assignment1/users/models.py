@@ -105,7 +105,8 @@ class Course(models.Model):
     end_time = models.TimeField(default=datetime.time)
 
     def __str__(self):
-        return self.department + "-" + self.course_number
+        return self.department + "-" + self.course_number + "-" + \
+               str( CustomUser.objects.get(pk=self.instructor.id).get_full_name())
 
     def clean(self):
         if self.credit_hours < 0:
