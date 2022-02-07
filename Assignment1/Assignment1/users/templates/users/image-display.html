@@ -1,0 +1,31 @@
+{% extends 'mysite/mainbase.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Image</title>
+</head>
+<body>
+
+{#    Work in progress. Was going to be for when the use clicked or went to the image url and #}
+{#    the image is all that would show up.#}
+
+{% block body %}
+        <div class="container">
+          <h2 class="my-4">Image</h2>
+          <div class="row">
+            {% if file_url %}
+            <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
+              <img src="{{ file_path }}" class="img-fluid">
+              <br>
+              <a class="btn btn-dark my-4" href="/">Return to Homepage</a>
+            {% else %}
+            <p>No image added.</p>
+            {% endif %}
+          </div>
+        </div>
+{%  endblock %}
+</body>
+</html>
+
