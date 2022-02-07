@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from datetime import date
 from django.forms import ModelForm, Select
 from .models import *
+from django.db.models import Q, F
 
 
 class RegistrationForm(UserCreationForm):
@@ -38,10 +39,12 @@ choices = (('Monday', 'Monday'), ('Tuesday', 'Tuesday'), ('Wednesday', 'Wednesda
 
 class CourseForm(ModelForm):
     #choice = forms.CharField(choices=choices, widget=forms.CheckboxSelectMultiple)
+    widgets = {'meeting_time_days': forms.CheckboxSelectMultiple}
+
     class Meta:
         model = Course
-        fields = ['department', 'course_number', 'course_name',  'credit_hours', 'start_time',
-                  'end_time']
+
+        fields = ['department', 'course_number', 'course_name',  'credit_hours', 'meeting_time_days', 'start_time', 'end_time']
 
 
 class AdminUserCreationForm(UserCreationForm):
@@ -59,9 +62,8 @@ class AdminUserChangeForm(UserChangeForm):
 class EditProfileForm(ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['image_profile', 'first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1',
-                  'addressLine2',
-                  'city', 'bio']
+        fields = ['first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1',
+                  'addressLine2', 'city', 'bio', 'link1', 'link2', 'link3']
 
 
 class StudentEnrollForm(ModelForm):

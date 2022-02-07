@@ -31,9 +31,9 @@
                             <h5 style="margin-left: auto; margin-right: auto;">Address Line1: {{ item.addressLine1 }}</h5>
                             <h5 style="margin-left: auto; margin-right: auto;">Address Line2: {{ item.addressLine2 }}</h5>
                             <h5 style="margin-left: auto; margin-right: auto;">City: {{ item.city }}</h5>
-                            <h5>Link 1: <a href="{{ item.link1  }}" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link1 }}</a></h5>
-                            <h5>Link 2: <a href="{{ item.link2 }}" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link2 }}</a></h5>
-                            <h5>Link 3: <a href="{{ item.link3 }}" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link3 }}</a></h5>
+                            <h5>Link 1: <a href="{{ item.link1 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link1 }}</a></h5>
+                            <h5>Link 2: <a href="{{ item.link2 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link2 }}</a></h5>
+                            <h5>Link 3: <a href="{{ item.link3 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link3 }}</a></h5>
                             <a href="{% url 'users:edit_profile' item.id %}" class="btn btn-warning">Edit</a>
                         </div>
                     </div>

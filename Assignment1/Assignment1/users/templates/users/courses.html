@@ -27,6 +27,8 @@
                             <h4 style="margin-left: auto; margin-right: auto;">Course Number: {{ item.course_number }}</h4>
                             <h4 style="margin-left: auto; margin-right: auto;">Course Name: {{ item.course_name }}</h4>
                             <h4 style="margin-left: auto; margin-right: auto;">Credit Hours: {{ item.credit_hours }}</h4>
+                            <h4 style="margin-left: auto; margin-right: auto;">Days of Week: {{ item.meeting_time_days }}</h4>
+                            <h4 style="margin-left: auto; margin-right: auto;">Class Time: {{ item.start_time }} - {{ item.end_time }}</h4>
                             <a href="{% url 'users:edit_courses' item.id %}" class="btn btn-warning">Edit</a>
                             <a href="{% url 'users:delete_courses' item.id %}" class="btn" style="background-color: red;
                         color: white">Delete</a>

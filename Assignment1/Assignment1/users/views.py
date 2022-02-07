@@ -11,6 +11,7 @@ from django.http import HttpResponse, Http404
 
 User = get_user_model()
 
+
 @login_required
 @vary_on_cookie
 def login(request):
@@ -25,16 +26,10 @@ def login(request):
 @login_required
 def profile(request):
     try:
-        # user_id = int(User.pk)
         item_list = User.objects.all()
         return render(request, 'users/profile.html', {'item_list': item_list})
     except User.DoesNotExist:
         return render(request, 'users/home.html')
-    # form = EditProfileForm(instance=User)
-    # if form.is_valid():
-    #     return render(request, 'users/profile.html', {'form': form})
-
-
 
 
 def profile_edit(request, id):
@@ -51,8 +46,10 @@ def profile_edit(request, id):
 def calendar(request):
     return render(request, 'users/calendar.html')
 
+
 def display_image(request, id):
-    return render(request, 'users/image-display.html', {'file_path':id})
+    return render(request, 'users/image-display.html', {'file_path': id})
+
 
 def image(request):
     print(request.FILES)
@@ -74,7 +71,7 @@ def image(request):
         print(obj.url)
         return render(request, 'users/image.html', {"form": form, "file_url": obj.url})
 
-    return render(request, 'users/image.html', {"form":form})
+    return render(request, 'users/image.html', {"form": form})
 
 
 def register(request):
@@ -113,11 +110,13 @@ def courses_add(request):
         course.course_name = request.POST.get('course_name')
         course.course_number = request.POST.get('course_number')
         course.credit_hours = request.POST.get('credit_hours')
+        course.start_time = request.POST.get('start_time')
+        course.end_time = request.POST.get('end_time')
         course.instructor = CustomUser.objects.get(pk=request.user.pk)
         course.save()
         # For attaching the course to the user
         CustomUser.objects.get(pk=request.user.pk).courses.append(course)
-
+        form.save()
         return redirect('users:courses')
     return render(request, 'users/courses-form.html', {'form': form})
 
@@ -146,5 +145,4 @@ def courses_enroll(request, id):
     CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
     return redirect('mysite:main')
 
-    #return render(request, 'users/courses-form.html', {'form': form, 'item': item})
-
+    # return render(request, 'users/courses-form.html', {'form': form, 'item': item})

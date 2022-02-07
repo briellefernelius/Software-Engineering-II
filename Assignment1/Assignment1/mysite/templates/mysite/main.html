@@ -31,7 +31,7 @@
             <div class="card-body">
                 <h4 class="card-title">{{ item.course_name}}</h4>
                 <h5 class="card-subtitle">Course Number: {{ item.course_number }}</h5>
-                <p class="card-text">Wednesday: 11:30-1:20</p>
+                <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                 <a href="#" class="btn btn-primary">Enter</a>
             </div>
         </div>

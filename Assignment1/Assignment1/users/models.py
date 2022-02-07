@@ -1,7 +1,6 @@
 import pathlib
 import time
 import uuid
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.base_user import BaseUserManager
@@ -9,6 +8,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import *
 from django.utils import timezone
 import datetime
+from django.core.exceptions import ValidationError
 
 
 class MyUserManager(BaseUserManager):
@@ -46,7 +46,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField('email address', unique=True)
     birthday = models.DateField(null=True, blank=True)
     is_instructor = models.BooleanField(default=False)
-    image_profile = models.ImageField(max_length=1000, default="", null=True)
+    image_profile = models.ImageField(max_length=1000, default="", null=False)
     phone_number = models.CharField(max_length=13, default="", null=True, validators=[MinLengthValidator(10)])
     addressLine1 = models.CharField(max_length=100, default="", null=True)
     addressLine2 = models.CharField(max_length=100, default="", null=True)
@@ -79,6 +79,9 @@ class UserImage(models.Model):
     image = models.ImageField(upload_to=user_image_upload_handler)
     url = models.CharField(max_length=1000, default="", null=True)
 
+    def __str__(self):
+        return str(self.user)
+
 
 DEPARTMENT_CHOICES = (
     ('Computer Science', 'Computer Science'),
@@ -88,8 +91,13 @@ DEPARTMENT_CHOICES = (
     ('Engineering', 'Engineering'),
 )
 
-DAY_OF_WEEK_CHOICES = (('Monday', 'Monday'), ('Tuesday', 'Tuesday'), ('Wednesday', 'Wednesday'),
-                       ('Thursday', 'Thursday'), ('Friday', 'Friday'))
+DAY_OF_WEEK_CHOICES = (  (0, 'Monday'),
+    (1, 'Tuesday'),
+    (2, 'Wednesday'),
+    (3, 'Thursday'),
+    (4, 'Friday'),
+    (5, 'Saturday'),
+    (6, 'Sunday'),)
 
 
 class Course(models.Model):
@@ -99,10 +107,20 @@ class Course(models.Model):
     course_name = models.CharField(max_length=50)
     credit_hours = models.IntegerField()
 
-    meeting_time_days = models.CharField(max_length=9, choices=DAY_OF_WEEK_CHOICES, default='')
+    meeting_time_days = models.CharField(max_length=1, choices=DAY_OF_WEEK_CHOICES, default='')
     start_time = models.TimeField(default=datetime.time)
     end_time = models.TimeField(default=datetime.time)
 
     def __str__(self):
         return "PK: " + str(self.id) + " " + self.department + "-" + self.course_number + " Taught by " + str(
-            CustomUser.objects.get(pk=self.instructor.pk).get_full_name())
+            CustomUser.objects.get(pk=self.instructor.id).get_full_name())
+
+    def clean(self):
+        if self.credit_hours < 0:
+            raise ValidationError('Credit hours should be greater than 0')
+
+        if self.start_time > self.end_time:
+            raise ValidationError('Start time should be before end time')
+        return super().clean()
+
+
