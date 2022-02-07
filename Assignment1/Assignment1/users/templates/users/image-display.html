@@ -4,27 +4,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Image</title>
+    <title>Profile Image</title>
 </head>
 <body>
 
+{#    Work in progress. Was going to be for when the use clicked or went to the image url and #}
+{#    the image is all that would show up.#}
+
 {% block body %}
         <div class="container">
-
-          <h2 class="my-4">Add an Image</h2>
-          <form action='.' method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-{#                <input type="file" id="imageFile" accept="image/*"> <br>#}
-              {{ form.as_p }}
-
-                <button class="btn btn-dark my-4" type="submit">Upload Image</button>
-          </form>
-
           <h2 class="my-4">Image</h2>
           <div class="row">
             {% if file_url %}
             <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
-              <img src="{% url file_url %}" class="img-fluid">
+              <img src="{{ file_path }}" class="img-fluid">
               <br>
               <a class="btn btn-dark my-4" href="/">Return to Homepage</a>
             {% else %}
@@ -32,9 +25,7 @@
             {% endif %}
           </div>
         </div>
-    </div>
 {%  endblock %}
-
 </body>
 </html>
 

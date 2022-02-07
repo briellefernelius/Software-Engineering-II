@@ -25,6 +25,13 @@ class RegistrationForm(UserCreationForm):
         fields = ['email', 'first_name', 'last_name', 'password1', 'password2', 'birthday', 'is_instructor']
 
 
+class ImageForm(forms.ModelForm):
+
+    class Meta:
+        model = UserImage
+        fields = ['image']
+
+
 choices = (('Monday', 'Monday'), ('Tuesday', 'Tuesday'), ('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'),
            ('Friday', 'Friday'))
 

@@ -31,5 +31,6 @@ urlpatterns = [
     path('calendar/', user_views.calendar, name="calendar"),
     path('courses/', user_views.courses, name="courses"),
     path('image/', user_views.image, name="image"),
+    path('media/profile_pics/<id>', user_views.display_image, name="display_image"),
 ]
 

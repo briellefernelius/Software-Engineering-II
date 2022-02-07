@@ -1,4 +1,6 @@
+import pathlib
 import time
+import uuid
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -7,6 +9,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import *
 from django.utils import timezone
 import datetime
+
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
@@ -61,6 +64,20 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return "User: " + str(self.id) + " " + self.email + " | " + self.first_name + " " + self.last_name
+
+
+def user_image_upload_handler(instance, filename):
+    print("instance:" + str(instance.user.pk))
+    fpath = pathlib.Path(filename)
+    new_fname = str(uuid.uuid1())  # uuid1 -> uuid + timestamps
+    instance.url = f"profile_pics/{instance.user.pk}/{new_fname}{fpath.suffix}"
+    return f"profile_pics/{instance.user.pk}/{new_fname}{fpath.suffix}"
+
+
+class UserImage(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=user_image_upload_handler)
+    url = models.CharField(max_length=1000, default="", null=True)
 
 
 DEPARTMENT_CHOICES = (
