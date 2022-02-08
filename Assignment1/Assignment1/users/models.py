@@ -84,6 +84,7 @@ class UserImage(models.Model):
         return str(self.user)
 
 
+
 DEPARTMENT_CHOICES = (
     ('Computer Science', 'Computer Science'),
     ('Physics', 'Physics'),
@@ -106,7 +107,7 @@ class Course(models.Model):
 
     def __str__(self):
         return self.department + "-" + self.course_number + "-" + \
-               str( CustomUser.objects.get(pk=self.instructor.id).get_full_name())
+               str(CustomUser.objects.get(pk=self.instructor.id).get_full_name())
 
     def clean(self):
         if self.credit_hours < 0:
@@ -115,5 +116,22 @@ class Course(models.Model):
         if self.start_time > self.end_time:
             raise ValidationError('Start time should be before end time')
         return super().clean()
+
+
+class Submission(models.Model):
+    file = models.FileField()
+
+
+class Assignment(models.Model):
+    title = models.CharField(max_length=50, default="", null=True)
+    description = models.CharField(max_length=1000, default="", null=True)
+    assignment_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
+    due_date = models.DateTimeField(default=datetime.time, null=True)
+    max_points = int
+    points_received = int
+    file_type = models.CharField(max_length=10)
+    is_graded = models.BooleanField(default=False)
+
+
 
 
