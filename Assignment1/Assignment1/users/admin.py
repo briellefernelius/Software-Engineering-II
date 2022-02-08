@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Course
+from .models import CustomUser, Course, UserImage
 from .forms import AdminUserCreationForm, AdminUserChangeForm
 
 
@@ -21,10 +21,12 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'password1', 'password2', 'is_staff', 'is_active')}
          ),
     )
+
     search_fields = ('email',)
     ordering = ('email',)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Course)
+admin.site.register(UserImage)
 

@@ -11,6 +11,8 @@
     <h2 style="text-align: center">Welcome to Courses</h2>
     <a href="{% url 'users:add_courses' %}" class="btn btn-primary" style="margin-left: 500px">Add Courses</a>
     {% for item in item_list %}
+{#        Only the instructor can view, edit, and delete the courses they made#}
+        {% if item.instructor == user or user.is_staff == True %}
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 offset-md-1">
@@ -25,6 +27,8 @@
                             <h4 style="margin-left: auto; margin-right: auto;">Course Number: {{ item.course_number }}</h4>
                             <h4 style="margin-left: auto; margin-right: auto;">Course Name: {{ item.course_name }}</h4>
                             <h4 style="margin-left: auto; margin-right: auto;">Credit Hours: {{ item.credit_hours }}</h4>
+                            <h4 style="margin-left: auto; margin-right: auto;">Days of Week: {{ item.meeting_time_days }}</h4>
+                            <h4 style="margin-left: auto; margin-right: auto;">Class Time: {{ item.start_time }} - {{ item.end_time }}</h4>
                             <a href="{% url 'users:edit_courses' item.id %}" class="btn btn-warning">Edit</a>
                             <a href="{% url 'users:delete_courses' item.id %}" class="btn" style="background-color: red;
                         color: white">Delete</a>
@@ -33,6 +37,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     {% endfor %}
 {%  endblock %}
 </body>

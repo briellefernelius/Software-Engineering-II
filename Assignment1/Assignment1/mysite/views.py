@@ -1,7 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
-from .models import Submission
+
+from users.models import Course
+from .models import *
+from django.conf import settings
+import users
 from django.contrib.auth import get_user_model
 from django.core.files.storage import FileSystemStorage
 
@@ -12,7 +16,11 @@ def home(request):
 
 @login_required
 def main(request):
-    return render(request, 'mysite/main.html')
+    item_list = Course.objects.all()
+    context = {
+        'item_list': item_list,
+    }
+    return render(request, 'mysite/main.html', context)
 
 
 def submission_all(request):
