@@ -84,7 +84,6 @@ class UserImage(models.Model):
         return str(self.user)
 
 
-
 DEPARTMENT_CHOICES = (
     ('Computer Science', 'Computer Science'),
     ('Physics', 'Physics'),
@@ -127,11 +126,16 @@ class Assignment(models.Model):
     description = models.CharField(max_length=1000, default="", null=True)
     assignment_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     due_date = models.DateTimeField(default=datetime.time, null=True)
-    max_points = int
-    points_received = int
+    max_points = 0
+    points_received = 0
     file_type = models.CharField(max_length=10)
     is_graded = models.BooleanField(default=False)
 
+    def clean(self):
+        if self.max_points < 0:
+            raise ValidationError("Maximum points should be 0 or greater!")
 
+        if self.points_received < 0 or self.points_received > self.max_points:
+            raise ValidationError("Points given should be greater than 0 and less than the maximum points!")
 
-
+        return super().clean()
