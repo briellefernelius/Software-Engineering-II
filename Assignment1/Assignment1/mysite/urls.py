@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^main/submission/(?P<submission_id>[0-9]+)/$', views.submission_with_id, name="submission_with_id"),
 
     url(r'^main/submission/(?P<submission_id>[0-9]+)/graded/$', views.submission_graded, name="submission_graded"),
+    path('registerClasses/', views.register_classes, name="registerClasses"),
+
 ]
 
 # INFO ON regular expressions

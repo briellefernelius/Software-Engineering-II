@@ -22,6 +22,13 @@ def main(request):
     }
     return render(request, 'mysite/main.html', context)
 
+@login_required
+def register_classes(request):
+    item_list = Course.objects.all()
+    context = {
+        'item_list': item_list,
+    }
+    return render(request, 'mysite/registerClasses.html', context)
 
 def submission_all(request):
     # use database calls

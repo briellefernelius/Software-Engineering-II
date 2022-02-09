@@ -8,6 +8,7 @@ from django.views.decorators.vary import vary_on_cookie
 from .forms import *
 from .models import *
 from django.http import HttpResponse, Http404
+from course.models import Course
 
 User = get_user_model()
 
@@ -46,9 +47,6 @@ def profile_edit(request, id):
 
 def calendar(request):
     return render(request, 'users/calendar.html')
-
-def register_classes(request):
-    return render(request, 'users/registerClasses.html')
 
 def display_image(request, id):
     return render(request, 'users/image-display.html', {'file_path': id})

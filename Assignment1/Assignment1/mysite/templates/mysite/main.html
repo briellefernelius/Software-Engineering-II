@@ -40,6 +40,22 @@
         {% endif %}
     {% endfor %}
 
+    {% for item in item_list %}
+        {% if registerButton == True and user.is_staff == False %}
+            <div class="card-group">
+                <div class="card" style="margin: 1rem;">
+                    <img class="card-img-top" src="..." alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ item.course_name}}</h4>
+                        <h5 class="card-subtitle">Course Number: {{ item.course_number }}</h5>
+                        <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
+                        <a href="#" class="btn btn-primary">Enter</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
 {#        <div class="card" style="width: 18rem; margin: 1rem;">#}
 {#            <img class="card-img-top" src="..." alt="Card image">#}
 {#            <div class="card-body">#}

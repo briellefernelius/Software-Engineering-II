@@ -55,7 +55,7 @@
             <a href="{% url 'course:courses' %}" class="nav-item nav-link">Courses</a>
         {% endif %}
         {% if user.is_instructor == False %}
-            <a href="{% url 'users:registerClasses' %}" class="nav-item nav-link">Register</a>
+            <a href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link">Register</a>
         {% endif %}
             <a href="{% url 'image' %}" class="nav-item nav-link">Image Trial</a>
             {% if user.is_authenticated %}
