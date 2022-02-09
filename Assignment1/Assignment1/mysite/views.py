@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 
-from users.models import Course
+from course.models import Course
 from .models import *
 from django.conf import settings
 import users
