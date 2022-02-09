@@ -32,7 +32,7 @@ urlpatterns = [
     path('courses/', include('course.urls')),
 
     #******For payment urls
-    #path('payment/', include('payment.urls')),
+    path('payment/', include('payment.urls')),
 
 
     path('image/', user_views.image, name="image"),

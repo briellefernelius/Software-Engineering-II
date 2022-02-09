@@ -1,0 +1,36 @@
+{% extends 'mysite/mainbase.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account</title>
+</head>
+<body>
+
+{% block body %}
+    <h2 style="text-align: center">Welcome to Account</h2>
+        <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="card">
+                    <div class="card-header" style="background-color: lightblue">
+                        <div class="card-title">
+                            Account
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" style="text-align: center">
+                            <h5>Tuition: </h5>
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value="Pay" style="background-color: lightblue; text: white">
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%  endblock %}
+</body>
+</html>
