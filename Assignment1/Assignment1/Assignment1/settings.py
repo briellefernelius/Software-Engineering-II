@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'users',
     'mysite',
     'course',
+    'payment',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
