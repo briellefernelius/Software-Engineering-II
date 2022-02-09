@@ -34,19 +34,6 @@ class ImageForm(forms.ModelForm):
         fields = ['image']
 
 
-
-
-
-class CourseForm(ModelForm):
-
-    choices = (('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('Th', 'Thursday'), ('F', 'Friday'))
-    meeting_time_days = forms.TypedMultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple)
-
-    class Meta:
-        model = Course
-        fields = ['department', 'course_number', 'course_name',  'credit_hours', 'meeting_time_days', 'start_time', 'end_time']
-
-
 class ProfileEditForm(ModelForm):
     class Meta:
         model = CustomUser
@@ -71,9 +58,3 @@ class EditProfileForm(ModelForm):
         model = CustomUser
         fields = ['first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1',
                   'addressLine2', 'city', 'bio', 'link1', 'link2', 'link3']
-
-
-class StudentEnrollForm(ModelForm):
-    class Meta:
-        model = Course
-        fields = ['department']

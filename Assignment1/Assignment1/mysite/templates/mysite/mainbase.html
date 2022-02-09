@@ -52,7 +52,7 @@
             <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
             <a href="{% url 'calendar' %}" class="nav-item nav-link">Calendar</a>
         {% if user.is_instructor == True %}
-            <a href="{% url 'courses' %}" class="nav-item nav-link">Courses</a>
+            <a href="{% url 'course:courses' %}" class="nav-item nav-link">Courses</a>
         {% endif %}
             <a href="{% url 'image' %}" class="nav-item nav-link">Image Trial</a>
             {% if user.is_authenticated %}

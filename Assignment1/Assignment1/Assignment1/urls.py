@@ -29,7 +29,7 @@ urlpatterns = [
     path('logout/', authentication_views.LogoutView.as_view(template_name='users/logout.html'), name="logout"),
     path('profile/', user_views.profile, name="profile"),
     path('calendar/', user_views.calendar, name="calendar"),
-    path('courses/', user_views.courses, name="courses"),
+    path('courses/', include('course.urls')),
     path('image/', user_views.image, name="image"),
     path('media/profile_pics/<id>', user_views.display_image, name="display_image"),
 ]
