@@ -10,6 +10,7 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ item.course_name}}</h4>
                         <h5 class="card-subtitle">Course Number: {{ item.course_number }}</h5>
+                        <h5 class="card-subtitle">Credit Hours: {{ item.credit_hours }}</h5>
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                         <a href="{% url 'mysite:main' %}">
