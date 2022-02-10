@@ -50,8 +50,8 @@ class Assignment(models.Model):
     description = models.CharField(max_length=1000, default="", null=True)
     assignment_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     due_date = models.DateTimeField(default=datetime.time, null=True)
-    max_points = 0
-    points_received = 0
+    max_points = models.IntegerField(default=0)
+    points_received = models.IntegerField()
     file_type = models.CharField(max_length=10)
     is_graded = models.BooleanField(default=False)
 

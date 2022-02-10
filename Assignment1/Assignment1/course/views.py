@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
-from course.forms import CourseForm
+from course.forms import CourseForm, AssignmentForm
 
 # Create your views here.
 from users.models import CustomUser
@@ -10,12 +10,29 @@ from course.models import Course
 User = get_user_model()
 
 
+def course_page(request, id):
+    course = Course.objects.get(pk=id)
+    context = {
+        'course': course
+    }
+    return render(request, 'course/course_page.html', context)
+
+
 def courses(request):
     item_list = Course.objects.all()
     context = {
         'item_list': item_list,
     }
     return render(request, 'course/courses.html', context)
+
+
+def assigment_add(request):
+
+    form = AssignmentForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('course:courses')
+    return render(request, 'course/assignment-form.html', {'form': form})
 
 
 def courses_add(request):
