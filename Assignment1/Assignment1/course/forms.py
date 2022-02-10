@@ -18,6 +18,7 @@ class StudentEnrollForm(ModelForm):
         model = Course
         fields = ['department']
 
+
 class AssignmentForm(ModelForm):
 
     class Meta:

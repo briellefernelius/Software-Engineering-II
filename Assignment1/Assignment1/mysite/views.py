@@ -9,6 +9,7 @@ import users
 from django.contrib.auth import get_user_model
 from django.core.files.storage import FileSystemStorage
 
+
 @login_required
 def home(request):
     return render(request, 'mysite/home.html')
@@ -22,6 +23,7 @@ def main(request):
     }
     return render(request, 'mysite/main.html', context)
 
+
 @login_required
 def register_classes(request):
     item_list = Course.objects.all()
@@ -29,6 +31,7 @@ def register_classes(request):
         'item_list': item_list,
     }
     return render(request, 'mysite/registerClasses.html', context)
+
 
 def submission_all(request):
     # use database calls

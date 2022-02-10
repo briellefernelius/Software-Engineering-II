@@ -8,7 +8,6 @@ from .models import *
 
 def account(request):
     form = AccountForm(request.POST or None)
-
     if form.is_valid():
         form.save()
 
