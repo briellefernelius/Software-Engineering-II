@@ -19,5 +19,5 @@ class Migration(migrations.Migration):
             model_name='assignment',
             name='points_received',
             field=models.IntegerField(default='', null=True),
-        ),
+        )
     ]
