@@ -13,7 +13,7 @@
                         <form method="POST" style="text-align: center">
                           {% csrf_token %}
                             {{ form.as_p }}
-                            <input type="submit" value="Save Course" style="background-color: lightblue; text: white">
+                            <input type="submit" value="Save" style="background-color: lightblue; text: white">
                             <a href="{% url 'course:courses' %}">
                                 <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
                             </a>

@@ -11,7 +11,7 @@
 <body>
 {% block body %}
     <h2 style="text-align: center">Welcome to {{ course.department }}{{ course.course_number }}</h2>
-    <a href="{% url 'course: ' %}" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
+    <a href="{% url 'course:add_assignment' %}" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
 
 {%  endblock %}
 </body>
