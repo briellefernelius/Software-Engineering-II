@@ -1,19 +1,9 @@
 {% extends 'mysite/mainbase.html' %}
 
-<script>
-    var count = 1;
-    function setColor(btn, color) {
-        var property = document.getElementById(btn);
-        if (count == 0) {
-            property.style.backgroundColor = "#FF0000"
-            count = 1;
-        }
-        else {
-            property.style.backgroundColor = "#FF0000"
-            count = 0;
-        }
-    }
-</script>
+$('.toggle').click(function(){
+  $(this).toggleClass('green');
+
+});
 
 {% block body %}
         <h1>Register for Classes</h1>
@@ -28,7 +18,23 @@
                         <h5 class="card-subtitle">Credit Hours: {{ item.credit_hours }}</h5>
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
-                        <input type="button" value="Register" onmousedown="this.style.background='red', value = 'Drop'" class="btn btn-primary"/>
+                        <input type="button" value="Register" id="btn" class="btn btn-primary"/>
+                        <script>
+                            const btn = document.getElementById('btn');
+                            let index = 1;
+                            let index2 = 0;
+                            const colors = ['blue', 'red'];
+                            const text = ['Drop', 'Register']
+
+                            btn.addEventListener('click', function onClick()
+                            {
+                                btn.style.backgroundColor = colors[index];
+                                btn.style.color = 'white';
+                                btn.value = text[index2];
+                                index = index >= colors.length - 1 ? 0 : index + 1;
+                                index2 = index2 >= text.length - 1 ? 0 : index2 + 1;
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
