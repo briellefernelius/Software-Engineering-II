@@ -10,7 +10,8 @@ class CourseForm(ModelForm):
 
     class Meta:
         model = Course
-        fields = ['department', 'course_number', 'course_name',  'credit_hours', 'meeting_time_days', 'start_time', 'end_time']
+        fields = ['department', 'course_number', 'course_name',  'credit_hours', 'meeting_time_days', 'start_time',
+                  'end_time']
 
 
 class StudentEnrollForm(ModelForm):

@@ -46,6 +46,7 @@ class Submission(models.Model):
 
 
 class Assignment(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=50, default="", null=True)
     description = models.CharField(max_length=1000, default="", null=True)
     assignment_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
