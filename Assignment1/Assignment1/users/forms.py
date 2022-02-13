@@ -33,9 +33,21 @@ class ImageForm(forms.ModelForm):
 
 
 class ProfileEditForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image_profile'].required = False
+        self.fields['phone_number'].required = False
+        self.fields['addressLine1'].required = False
+        self.fields['addressLine2'].required = False
+        self.fields['city'].required = False
+        self.fields['bio'].required = False
+        self.fields['link1'].required = False
+        self.fields['link2'].required = False
+        self.fields['link3'].required = False
+
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'phone_number', 'birthday', 'addressLine1', 'addressLine2', 'city', 'bio',
+        fields = ['image_profile', 'first_name', 'last_name', 'phone_number', 'birthday', 'addressLine1', 'addressLine2', 'city', 'bio',
                   'link1', 'link2', 'link3']
 
 
@@ -46,13 +58,37 @@ class AdminUserCreationForm(UserCreationForm):
 
 
 class AdminUserChangeForm(UserChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image_profile'].required = False
+        self.fields['phone_number'].required = False
+        self.fields['addressLine1'].required = False
+        self.fields['addressLine2'].required = False
+        self.fields['city'].required = False
+        self.fields['bio'].required = False
+        self.fields['link1'].required = False
+        self.fields['link2'].required = False
+        self.fields['link3'].required = False
+
     class Meta:
         model = CustomUser
         fields = ('email',)
 
 
 class EditProfileForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image_profile'].required = False
+        self.fields['phone_number'].required = False
+        self.fields['addressLine1'].required = False
+        self.fields['addressLine2'].required = False
+        self.fields['city'].required = False
+        self.fields['bio'].required = False
+        self.fields['link1'].required = False
+        self.fields['link2'].required = False
+        self.fields['link3'].required = False
+
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1',
+        fields = ['image_profile', 'first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1',
                   'addressLine2', 'city', 'bio', 'link1', 'link2', 'link3']

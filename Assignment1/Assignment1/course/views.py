@@ -9,6 +9,7 @@ from course.models import Course
 
 User = get_user_model()
 
+global user_selected_courses
 
 def course_page(request, id):
     course = Course.objects.get(pk=id)
@@ -48,11 +49,10 @@ def courses_add(request):
         course.start_time = form.cleaned_data.get('start_time')
         course.end_time = form.cleaned_data.get('end_time')
         course.meeting_time_days = form.cleaned_data.get('meeting_time_days')
-        course.instructor = User.objects.get(pk=request.user.pk)
+        course.instructor = CustomUser.objects.get(pk=request.user.pk)
         course.save()
         # For attaching the course to the user
-        User.objects.get(pk=request.user.pk).courses.append(course)
-        #form.save()
+        CustomUser.objects.get(pk=request.user.pk).courses.append(course)
         return redirect('course:courses')
     return render(request, 'course/courses-form.html', {'form': form})
 
@@ -79,4 +79,6 @@ def courses_edit(request, id):
 
 def courses_enroll(request, id):
     CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
+    print(f"users courses: {CustomUser.objects.get(pk=request.user.pk).courses}")
     return redirect('mysite:main')
+

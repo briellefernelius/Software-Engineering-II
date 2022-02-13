@@ -32,12 +32,38 @@ class Course(models.Model):
         return self.department + "-" + self.course_number + "-" + \
                str(CustomUser.objects.get(pk=self.instructor.id).get_full_name())
 
+    def ConvertDaysToInts(self) -> list[int]:
+        # returns a list of integers that represent the days as a list of ints
+        array = self.meeting_time_days
+        print(array)
+        array = array.replace("'", "")
+        array = array.replace("[", "")
+        array = array.replace("]", "")
+        array = array.replace(",", "")
+        print(array)
+        array = array.replace('M', "1")
+        array = array.replace('T', "2")
+        array = array.replace('W', "3")
+        array = array.replace('H', "4")
+        array = array.replace('F', "5")
+
+        array = array.replace('h', '')
+        array = array.replace(' ', '')
+
+        intarray = [int(i) for i in array]
+        print(f"Array: {intarray}")
+        return intarray
+
     def clean(self):
         if self.credit_hours < 0:
             raise ValidationError('Credit hours should be greater than 0')
 
         if self.start_time > self.end_time:
             raise ValidationError('Start time should be before end time')
+
+        if self.credit_hours != 0 and self.meeting_time_days is None:
+            raise ValidationError('Must choose meeting days')
+
         return super().clean()
 
 
@@ -49,7 +75,7 @@ class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=50, default="", null=True)
     description = models.CharField(max_length=1000, default="", null=True)
-    assignment_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
+    submission_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     due_date = models.DateTimeField(default=datetime.time, null=True)
     max_points = models.IntegerField(default=0)
     points_received = models.IntegerField(default=0, null=True)
@@ -64,3 +90,4 @@ class Assignment(models.Model):
             raise ValidationError("Points given should be greater than 0 and less than the maximum points!")
 
         return super().clean()
+

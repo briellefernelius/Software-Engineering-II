@@ -10,9 +10,21 @@
 </head>
 <body>
 {% block body %}
-    <h2 style="text-align: center">Welcome to {{ course.department }}{{ course.course_number }}</h2>
-    <a href="{% url 'course:add_assignment' %}" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
+    <h2 style="text-align: center">Welcome to {{ course.department }} {{ course.course_number }}</h2>
+    {% if user.is_instructor %}
+        <a href="{% url 'course:add_assignment' %}" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
+    {% endif %}
 
+    <div class="assignment-container">
+        <div class="assignment-subcontainer">1</div>
+        <div class="assignment-subcontainer">2</div>
+        <div class="assignment-subcontainer">3</div>
+        <div class="assignment-subcontainer">4</div>
+        <div class="assignment-subcontainer">5</div>
+        <div class="assignment-subcontainer">6</div>
+
+
+    </div>
 {%  endblock %}
 </body>
 </html>

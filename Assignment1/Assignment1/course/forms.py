@@ -4,9 +4,13 @@ from course.models import Course, Assignment
 
 
 class CourseForm(ModelForm):
-
-    choices = (('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('Th', 'Thursday'), ('F', 'Friday'))
+    choices = (('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('H', 'Thursday'), ('F', 'Friday'))
     meeting_time_days = forms.TypedMultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple)
+
+    # for making the variable field 'meeting_time_days' not required
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['meeting_time_days'].required = False
 
     class Meta:
         model = Course
@@ -21,6 +25,9 @@ class StudentEnrollForm(ModelForm):
 
 
 class AssignmentForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['due_date'].required = False
 
     class Meta:
         model = Assignment

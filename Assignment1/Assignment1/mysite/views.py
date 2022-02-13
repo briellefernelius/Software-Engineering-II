@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 
 from course.models import Course
+from users.models import CustomUser
 from .models import *
 from django.conf import settings
 import users
@@ -21,7 +22,8 @@ def main(request):
     context = {
         'item_list': item_list,
     }
-    return render(request, 'mysite/main.html', context)
+    print(f"Users Courses: {CustomUser.objects.get(pk=request.user.pk).courses}")
+    return render(request, 'mysite/main.html', {'item_list': CustomUser.objects.get(pk=request.user.pk).courses})
 
 
 @login_required
