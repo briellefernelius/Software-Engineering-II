@@ -8,7 +8,7 @@ from django.views.decorators.vary import vary_on_cookie
 from .forms import *
 from .models import *
 from django.http import HttpResponse, Http404
-from course.models import Course
+from course.models import Course, CourseUser
 
 User = get_user_model()
 
@@ -18,10 +18,21 @@ User = get_user_model()
 def login(request):
     form = AuthenticationForm(data=request.POST or None)
     if form.is_valid():
+        # get the CourseUser object associated with the user's pk.
+        courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
+        user = CustomUser.objects.get(pk=request.user.pk)
+        # make a list, then add each course to that list from the CourseUser's course_id field
+        for obj in courseuser:
+            try:
+                # try and remove the course from their course list
+                user.courses.remove(obj)
+            except ValueError:
+                # if the course is not already in their course list, then add it
+                user.courses.append(obj.course_id)
+
+        print(f"Users Courses: {user.courses}")
         return redirect('mysite:main')
-    return render(request, 'users/login.html', {
-        'form': form
-    })
+    return render(request, 'users/login.html', { 'form': form })
 
 
 @login_required

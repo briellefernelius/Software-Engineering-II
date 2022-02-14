@@ -5,16 +5,16 @@ from course.forms import CourseForm, AssignmentForm
 
 # Create your views here.
 from users.models import CustomUser
-from course.models import Course
+from course.models import Course, CourseUser, Assignment
 
 User = get_user_model()
 
-global user_selected_courses
 
 def course_page(request, id):
     course = Course.objects.get(pk=id)
+    assignments = Assignment.objects.all().filter(course=id)
     context = {
-        'course': course
+        'course': course, 'assignments': assignments
     }
     return render(request, 'course/course_page.html', context)
 
@@ -27,12 +27,20 @@ def courses(request):
     return render(request, 'course/courses.html', context)
 
 
-def assigment_add(request):
+def assigment_add(request, id):
 
     form = AssignmentForm(request.POST)
     if form.is_valid():
-        form.save()
-        return redirect('course:courses')
+        assignment = Assignment()
+        assignment.title = form.cleaned_data.get('title')
+        assignment.description = form.cleaned_data.get('description')
+        assignment.due_date = form.cleaned_data.get('due_date')
+        assignment.max_points = form.cleaned_data.get('max_points')
+        assignment.submission_type = form.cleaned_data.get('submission_type')
+        assignment.course = Course.objects.get(pk=id)
+
+        assignment.save()
+        return redirect('course:course_page', id)
     return render(request, 'course/assignment-form.html', {'form': form})
 
 
@@ -53,8 +61,34 @@ def courses_add(request):
         course.save()
         # For attaching the course to the user
         CustomUser.objects.get(pk=request.user.pk).courses.append(course)
+
+        courseuser = CourseUser()
+        courseuser.course_id = Course.objects.get(pk=course.pk)
+        courseuser.user_id = CustomUser.objects.get(pk=request.user.pk)
+        courseuser.save()
+        print(f"New CourseUser created: {courseuser}")
+
         return redirect('course:courses')
     return render(request, 'course/courses-form.html', {'form': form})
+
+
+def course_drop(request, id):
+    # delete the course from the CourseUser database
+    # then remove it from the users.courses list
+    user = CustomUser.objects.get(pk=request.user.pk)
+    courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
+    courseuser.filter(course_id=id)
+    print(f"-----CourseUser Objects: {courseuser}")
+    for course in courseuser:
+        course.delete()
+        try:
+            # try and remove the course from their course list
+            user.courses.remove(course)
+        except ValueError:
+            # if the course is not already in their course list, then add it
+            print("The course was not found in user.courses --Called From course/views.py:course_drop.")
+    print(f"-----CourseUser Objects: {CourseUser.objects.all()}")
+    return render(request, 'mysite/main.html')
 
 
 def courses_delete(request, id):
@@ -79,6 +113,13 @@ def courses_edit(request, id):
 
 def courses_enroll(request, id):
     CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
-    print(f"users courses: {CustomUser.objects.get(pk=request.user.pk).courses}")
+
+    courseuser = CourseUser()
+    courseuser.course_id = Course.objects.get(pk=id)
+    courseuser.user_id = CustomUser.objects.get(pk=request.user.pk)
+    courseuser.save()
+    print(f"New CourseUser created: {courseuser}")
+
+    #print(f"users courses: {CustomUser.objects.get(pk=request.user.pk).courses}")
     return redirect('mysite:main')
 

@@ -31,4 +31,4 @@ class AssignmentForm(ModelForm):
 
     class Meta:
         model = Assignment
-        fields = ['title', 'description', 'due_date', 'max_points']
+        fields = ['title', 'description', 'due_date', 'max_points', 'submission_type']

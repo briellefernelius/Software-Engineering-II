@@ -30,13 +30,17 @@
         <div class="float-child1">
         {% for item in item_list %}
                 <div class="card-group">
-                    <div class="card" style="margin: 1rem;">
+
+                   <div class="card" style="margin: 1rem;">
+                        <div style="color: red; position: relative; left: 370px; top: 1px;
+                                 border: none; font-size: 1cm; caret-color: transparent;">
+                          <a class="closeButton" type="button" href="/courses/drop/{{item.pk}}" style="color: red;" >&times;</a></div>
                         <img class="card-img-top" src="..." alt="Card image">
                         <div class="card-body">
-                            <h4 class="card-title" style="margin: 5px;">{{ item.course_name}}</h4>
-                            <h5 class="card-subtitle" style="margin: 5px;">Course Number: {{ item.course_number }}</h5>
-                            <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
-                            <a href="{% url 'course:course_page' item.id %}" class="btn btn-primary">Enter</a>
+                            <h4 class="card-title" style="margin: 5px; text-align: center">{{ item.course_name}}</h4>
+                            <h5 class="card-subtitle" style="margin: 5px; text-align: center">Course Number: {{ item.course_number }}</h5>
+                            <p class="card-text" style="text-align: center">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
+                            <a href="{% url 'course:course_page' item.id %}" class="btn btn-primary" style="font-size: 20px; width: 100%">Enter</a>
                         </div>
                     </div>
                 </div>

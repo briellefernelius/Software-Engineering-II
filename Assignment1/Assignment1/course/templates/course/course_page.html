@@ -12,16 +12,21 @@
 {% block body %}
     <h2 style="text-align: center">Welcome to {{ course.department }} {{ course.course_number }}</h2>
     {% if user.is_instructor %}
-        <a href="{% url 'course:add_assignment' %}" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
+        <a href=" {{ request.path }}/addassignment" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
     {% endif %}
 
     <div class="assignment-container">
-        <div class="assignment-subcontainer">1</div>
-        <div class="assignment-subcontainer">2</div>
-        <div class="assignment-subcontainer">3</div>
-        <div class="assignment-subcontainer">4</div>
-        <div class="assignment-subcontainer">5</div>
-        <div class="assignment-subcontainer">6</div>
+    {% for assignment in assignments %}
+         <div class="assignment-subcontainer">
+             <h1>{{assignment.title}}</h1>
+             <h2>{{ assignment.description }}</h2>
+             <h2>Due Date: {{ assignment.due_date }}</h2>
+             <h2>Maximum Points: {{ assignment.max_points }}</h2>
+             <h2>Your Points: {{ assignment.points_received }}</h2>
+             <h2>Submit using: {{ assignment.submission_type }}</h2>
+             <h2>Graded: {{ assignment.is_graded }}</h2>
+         </div>
+    {% endfor %}
 
 
     </div>

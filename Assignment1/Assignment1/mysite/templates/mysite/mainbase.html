@@ -59,8 +59,16 @@
         }
         .card-group
         {
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
             width: 450px;
             height: 300px;
+        }
+        .card
+        {
+            display: flex;
         }
         .float-child2
         {
@@ -78,15 +86,25 @@
         }
         .assignment-subcontainer
         {
-            width: 50%;
+
+            width: 80%;
             height: 500px;
-            margin: 10px;
+            margin: 30px;
+            margin-left: 10%;
+            row-gap: 30px;
+            border: gray;
+            background-color: white;
             align-content: center;
             justify-items: center;
             justify-content: center;
             align-items: center;
         }
 
+        .closeButton:link
+        {
+            z-index: 1000;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>

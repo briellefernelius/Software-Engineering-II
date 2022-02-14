@@ -4,7 +4,6 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
-
 # Create your models here.
 from users.models import CustomUser
 
@@ -29,7 +28,8 @@ class Course(models.Model):
     end_time = models.TimeField(default=datetime.time)
 
     def __str__(self):
-        return self.department + "-" + self.course_number + "-" + \
+        from users.models import CustomUser
+        return str(self.pk) + " " + self.department + "-" + self.course_number + "-" + \
                str(CustomUser.objects.get(pk=self.instructor.id).get_full_name())
 
     def ConvertDaysToInts(self) -> list[int]:
@@ -71,6 +71,9 @@ class Submission(models.Model):
     file = models.FileField()
 
 
+SUBMISSION_CHOICES = (('.file', 'File'), ('text', "Text"))
+
+
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=50, default="", null=True)
@@ -79,7 +82,7 @@ class Assignment(models.Model):
     due_date = models.DateTimeField(default=datetime.time, null=True)
     max_points = models.IntegerField(default=0)
     points_received = models.IntegerField(default=0, null=True)
-    file_type = models.CharField(max_length=10)
+    submission_type = models.CharField(max_length=10, choices=SUBMISSION_CHOICES, null=True)
     is_graded = models.BooleanField(default=False)
 
     def clean(self):
@@ -91,3 +94,11 @@ class Assignment(models.Model):
 
         return super().clean()
 
+
+# This class is needed so a user can have multiple courses they are signed up for :)
+class CourseUser(models.Model):
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return str(self.pk) + " " + self.user_id.first_name + " - " + self.course_id.course_name

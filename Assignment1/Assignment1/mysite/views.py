@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 
-from course.models import Course
+from course.models import Course, CourseUser
 from users.models import CustomUser
 from .models import *
 from django.conf import settings
@@ -18,12 +18,14 @@ def home(request):
 
 @login_required
 def main(request):
-    item_list = Course.objects.all()
-    context = {
-        'item_list': item_list,
-    }
-    print(f"Users Courses: {CustomUser.objects.get(pk=request.user.pk).courses}")
-    return render(request, 'mysite/main.html', {'item_list': CustomUser.objects.get(pk=request.user.pk).courses})
+
+    # item_list = CustomUser.objects.get(pk=request.user.pk).courses
+    courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
+    item_list = list()
+    for course in courseuser:
+        item_list.append(course.course_id)
+    print(f"CustomUser.courses =  {item_list}")
+    return render(request, 'mysite/main.html', {'item_list': item_list})
 
 
 @login_required
