@@ -23,8 +23,9 @@ $('.toggle').click(function(){
                         <h5 class="card-subtitle">Credit Hours: {{ item.credit_hours }}</h5>
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
-                        <a href="/courses/courses/enroll/{{item.pk}}" type="button" id="btn" class="btn btn-primary">Register</a>
-                        {#<input type="button" value="Register" id="btn" class="btn btn-primary"/>#}
+                        <a href="/courses/courses/enroll/{{item.pk}}">
+                            <input type="button" value="Register" id="btn" class="btn btn-primary"/>
+                        </a>
                         <script>
                             const btn = document.getElementById('btn');
                             let index = 1;

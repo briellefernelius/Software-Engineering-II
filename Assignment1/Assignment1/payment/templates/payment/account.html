@@ -20,8 +20,10 @@
                     </div>
                     <div class="card-body">
                         <form method="POST" style="text-align: center">
-                            <h5>Tuition: </h5>
                             {% csrf_token %}
+                            {% for item in item_list %}
+                                <h5>Tuition: ${{ item.credit_hours }}</h5>
+                            {% endfor %}
                             {{ form.as_p }}
                             <input type="submit" value="Pay" style="background-color: lightblue; text: white">
                             <br>

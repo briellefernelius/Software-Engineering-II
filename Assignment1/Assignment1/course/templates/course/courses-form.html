@@ -12,6 +12,7 @@
                     <div class="card-body">
                         <form method="POST" style="text-align: center">
                           {% csrf_token %}
+                            <h5>Format start time and end time as Hours:Minutes AM or PM</h5>
                             {{ form.as_p }}
                             <input type="submit" value="Save Course" style="background-color: lightblue; text: white">
                             <a href="{% url 'course:courses' %}">

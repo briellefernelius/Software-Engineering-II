@@ -3,9 +3,17 @@ from django.forms import ModelForm
 from course.models import Course, Assignment
 
 
+class CustomTimeField(forms.TimeField):
+  def __init__(self, *args, **kwargs):
+    kwargs.setdefault('input_formats', ('%I:%M %p',))
+    super(CustomTimeField, self).__init__(*args, **kwargs)
+
+
 class CourseForm(ModelForm):
     choices = (('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('H', 'Thursday'), ('F', 'Friday'))
     meeting_time_days = forms.TypedMultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple)
+    start_time = CustomTimeField()
+    end_time = CustomTimeField()
 
     # for making the variable field 'meeting_time_days' not required
     def __init__(self, *args, **kwargs):
