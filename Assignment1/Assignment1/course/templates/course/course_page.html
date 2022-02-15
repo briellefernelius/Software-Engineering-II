@@ -16,19 +16,34 @@
     {% endif %}
 
     <div class="assignment-container">
-    {% for assignment in assignments %}
-         <div class="assignment-subcontainer">
-             <h1>{{assignment.title}}</h1>
-             <h2>{{ assignment.description }}</h2>
-             <h2>Due Date: {{ assignment.due_date }}</h2>
-             <h2>Maximum Points: {{ assignment.max_points }}</h2>
-             <h2>Your Points: {{ assignment.points_received }}</h2>
-             <h2>Submit using: {{ assignment.submission_type }}</h2>
-             <h2>Graded: {{ assignment.is_graded }}</h2>
+        {% for assignment in assignments %}
+         <div class="assignment">
+             <div class="container">
+                 <div class="row">
+                    <div class="col-lg-10 offset-md-1">
+                        <div class="card">
+                            <div class="card-header" style="background-color: lightblue">
+                                <div class="card-title">
+                                    Assignment
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h1>{{assignment.title}}</h1>
+                                <h2>{{ assignment.description }}</h2>
+                                <h2>Due Date: {{ assignment.due_date }}</h2>
+                                <h2>Maximum Points: {{ assignment.max_points }}</h2>
+                                <h2>Your Points: {{ assignment.points_received }}</h2>
+                                <h2>Submit using: {{ assignment.submission_type }}</h2>
+                                <h2>Graded: {{ assignment.is_graded }}</h2>
+                                <a href="{% url 'course:edit_assignment' assignment.id %}" class="btn btn-warning">Edit</a>
+                                <a href="{% url 'course:delete_assignment' assignment.id %}" class="btn" style="background-color: red; color: white">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
          </div>
-    {% endfor %}
-
-
+        {% endfor %}
     </div>
 {%  endblock %}
 </body>

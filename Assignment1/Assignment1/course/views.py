@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from course.forms import CourseForm, AssignmentForm
-
 # Create your views here.
 from users.models import CustomUser
 from course.models import Course, CourseUser, Assignment
@@ -42,6 +41,27 @@ def assigment_add(request, id):
         assignment.save()
         return redirect('course:course_page', id)
     return render(request, 'course/assignment-form.html', {'form': form})
+
+
+def assignment_delete(request, id):
+    assignments = Assignment.objects.get(id=id)
+
+    if request.method == 'POST':
+        assignments.delete()
+        return redirect('mysite:main')
+    return render(request, 'course/assignment-delete.html', {'assignments': assignments})
+
+
+def assignment_edit(request, id):
+    assignments = Assignment.objects.get(id=id)
+
+    form = AssignmentForm(request.POST or None, instance=assignments)
+
+    if form.is_valid():
+        form.save()
+        return redirect('mysite:main')
+
+    return render(request, 'course/assignment-form.html', {'form': form, 'assignments': assignments})
 
 
 def courses_add(request):
