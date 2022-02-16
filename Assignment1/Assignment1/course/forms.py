@@ -1,4 +1,5 @@
 from django import forms
+from django.conf.global_settings import DATE_INPUT_FORMATS
 from django.forms import ModelForm
 from course.models import Course, Assignment
 
@@ -40,3 +41,5 @@ class AssignmentForm(ModelForm):
     class Meta:
         model = Assignment
         fields = ['title', 'description', 'due_date', 'max_points', 'submission_type']
+
+
