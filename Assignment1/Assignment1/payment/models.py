@@ -9,7 +9,7 @@ class Account(models.Model):
     card_number = models.IntegerField()
     expiration_date = models.DateField()
     cvc_number = models.IntegerField()
-    amount = models.IntegerField(default=1, blank=True, null=True)
+    amount = models.IntegerField(default="", blank=True, null=True)
 
     def __str__(self):
         return self.cardholder_name
