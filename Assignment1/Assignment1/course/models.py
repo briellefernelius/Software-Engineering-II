@@ -26,6 +26,8 @@ class Course(models.Model):
     meeting_time_days = models.CharField(max_length=200, default='')
     start_time = models.TimeField(default=datetime.time)
     end_time = models.TimeField(default=datetime.time)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
 
     def __str__(self):
         from users.models import CustomUser

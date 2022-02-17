@@ -75,6 +75,8 @@ def courses_add(request):
         course.course_number = request.POST.get('course_number')
         course.credit_hours = request.POST.get('credit_hours')
         course.start_time = form.cleaned_data.get('start_time')
+        course.start_date = form.cleaned_data.get('start_date')
+        course.end_date = form.cleaned_data.get('end_date')
         course.end_time = form.cleaned_data.get('end_time')
         course.meeting_time_days = form.cleaned_data.get('meeting_time_days')
         course.instructor = CustomUser.objects.get(pk=request.user.pk)

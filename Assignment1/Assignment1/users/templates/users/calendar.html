@@ -36,12 +36,19 @@
                 {
 
                     title: "{{i.course_name}}",
-                    startTime: "{{i.start_time}}",
-                    startRecur: "{{i.start_date}}",
-                    endRecur: "{{i.end_date}}",
+                    startTime: "{{i.start_time|escapejs}}",
+                    displayEventTime: true,
+                    startRecur: "{{i.start_date|escapejs}}",
+                    endRecur: "{{i.end_date|escapejs}}",
                     daysOfWeek: {{i.ConvertDaysToInts}},
-                    endTime: "{{i.end_time}}",
-                    display: 'background'
+                    endTime: "{{i.end_time|escapejs}}",
+                    display: 'auto',
+
+                  eventTimeFormat: {
+                      hour: "numeric",
+                      minute: "2-digit",
+                      merdiem: "short",
+                },
 
                 },
             {% endfor %}
