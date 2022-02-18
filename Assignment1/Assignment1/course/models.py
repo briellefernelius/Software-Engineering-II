@@ -69,8 +69,7 @@ class Course(models.Model):
         return super().clean()
 
 
-class Submission(models.Model):
-    file = models.FileField()
+
 
 
 SUBMISSION_CHOICES = (('.file', 'File'), ('text', "Text"))
@@ -80,7 +79,7 @@ class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=50, default="", null=True)
     description = models.CharField(max_length=1000, default="", null=True)
-    submission_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
+    #submission_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     due_date = models.DateTimeField(default=datetime.time, null=True)
     max_points = models.IntegerField(default=0)
     points_received = models.IntegerField(default=0, null=True)
@@ -95,6 +94,13 @@ class Assignment(models.Model):
             raise ValidationError("Points given should be greater than 0 and less than the maximum points!")
 
         return super().clean()
+
+
+class Submission(models.Model):
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    textbox = models.TextField(null=True)
+    file = models.FileField()
 
 
 # This class is needed so a user can have multiple courses they are signed up for :)

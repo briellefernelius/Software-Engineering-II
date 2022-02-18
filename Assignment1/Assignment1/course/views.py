@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
-from course.forms import CourseForm, AssignmentForm
+from course.forms import CourseForm, AssignmentForm, SubmissionForm
 # Create your views here.
 from users.models import CustomUser
-from course.models import Course, CourseUser, Assignment
+from course.models import Course, CourseUser, Assignment, Submission
 
 User = get_user_model()
 
@@ -62,6 +62,20 @@ def assignment_edit(request, id):
         return redirect('mysite:main')
 
     return render(request, 'course/assignment-form.html', {'form': form, 'assignments': assignments})
+
+
+def submit_assignment(request, id):
+    form = SubmissionForm(request.POST or None)
+
+    if form.is_valid():
+        submission = Submission()
+        submission.user = CustomUser.objects.get(pk=request.user.pk)
+        submission.assignment = Assignment.objects.get(pk=id)
+        submission.textbox = form.cleaned_data.get('textbox')
+        submission.save()
+        return redirect('course:course_page')
+
+    return render(request, 'course/submit_assignment.html', {'form': form}, {})
 
 
 def courses_add(request):
