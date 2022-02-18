@@ -31,12 +31,13 @@ def main(request):
 
     # get all assignments for the courses our user is enrolled in; order by due date
     assignment_list = Assignment.objects.all().filter(course__in=item_list).order_by('due_date')
+    assignment_list.exclude(due_date__lt=timezone.now())
     # compare and sort assignments; grab the next five that are due.
     # make sure that they are in chronological order
-    for assignment in assignment_list:
+    #for assignment in assignment_list:
         # remove old assignments from the assignment list; only grab current/future
-        if assignment.due_date < timezone.now():
-            assignment_list.remove(assignment)
+    #    if assignment.due_date >= timezone.now():
+    #        current_assignment_list.append(assignment)
     # get first 5 item
     assignment_list_first_5 = assignment_list[:5]
 
