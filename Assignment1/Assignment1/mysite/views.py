@@ -1,8 +1,12 @@
+import operator
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
+import datetime
+from django.utils import timezone
 
-from course.models import Course, CourseUser
+from course.models import Course, CourseUser, Assignment
 from users.models import CustomUser
 from .models import *
 from django.conf import settings
@@ -24,8 +28,20 @@ def main(request):
     item_list = list()
     for course in courseuser:
         item_list.append(course.course_id)
+
+    # get all assignments for the courses our user is enrolled in; order by due date
+    assignment_list = Assignment.objects.all().filter(course__in=item_list).order_by('due_date')
+    # compare and sort assignments; grab the next five that are due.
+    # make sure that they are in chronological order
+    for assignment in assignment_list:
+        # remove old assignments from the assignment list; only grab current/future
+        if assignment.due_date < timezone.now():
+            assignment_list.remove(assignment)
+    # get first 5 item
+    assignment_list_first_5 = assignment_list[:5]
+
     print(f"CustomUser.courses =  {item_list}")
-    return render(request, 'mysite/main.html', {'item_list': item_list})
+    return render(request, 'mysite/main.html', {'item_list': item_list, 'assignment_list': assignment_list_first_5})
 
 
 @login_required
