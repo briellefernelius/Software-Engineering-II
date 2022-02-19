@@ -64,18 +64,19 @@ def assignment_edit(request, id):
     return render(request, 'course/assignment-form.html', {'form': form, 'assignments': assignments})
 
 
-def submit_assignment(request, id):
+def submit_assignment(request, course_id, assignment_id):
     form = SubmissionForm(request.POST or None)
+    current_course = Course.objects.get(pk=course_id)
 
     if form.is_valid():
         submission = Submission()
         submission.user = CustomUser.objects.get(pk=request.user.pk)
-        submission.assignment = Assignment.objects.get(pk=id)
+        submission.assignment = Assignment.objects.get(pk=assignment_id)
         submission.textbox = form.cleaned_data.get('textbox')
         submission.save()
-        return redirect('course:course_page')
+        return redirect('course:course_page', course_id)
 
-    return render(request, 'course/submit_assignment.html', {'form': form}, {})
+    return render(request, 'course/submit_assignment.html', {'form': form, 'course': current_course})
 
 
 def courses_add(request):
