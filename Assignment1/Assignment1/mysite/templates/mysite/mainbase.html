@@ -153,6 +153,7 @@
             <a href="{% url 'calendar' %}" class="nav-item nav-link">Calendar</a>
         {% if user.is_instructor == True %}
             <a href="{% url 'course:courses' %}" class="nav-item nav-link">Courses</a>
+            <a href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link">Register</a>
         {% endif %}
         {% if user.is_instructor == False %}
             <a href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link">Register</a>

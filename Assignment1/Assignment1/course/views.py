@@ -145,12 +145,26 @@ def courses_edit(request, id):
 def courses_enroll(request, id):
     CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
 
-    courseuser = CourseUser()
-    courseuser.course_id = Course.objects.get(pk=id)
-    courseuser.user_id = CustomUser.objects.get(pk=request.user.pk)
-    courseuser.save()
-    print(f"New CourseUser created: {courseuser}")
+    # since this function will be called by register and drop buttons
+    # check to see if they are already registered to that course,
+    # if they are, then drop that class
+    # if they aren't, then add that class
+
+    usercourses = CourseUser.objects.all().filter(user_id=request.user.pk)
+    courseFound = False
+
+    for course in usercourses.course_id:
+        if course.id == id:
+            courseFound = True
+
+    # Then add it to the user's courses
+    if courseFound is not True:
+        courseuser = CourseUser()
+        courseuser.course_id = Course.objects.get(pk=id)
+        courseuser.user_id = CustomUser.objects.get(pk=request.user.pk)
+        courseuser.save()
+        print(f"New CourseUser created: {courseuser}")
 
     #print(f"users courses: {CustomUser.objects.get(pk=request.user.pk).courses}")
-    return redirect('mysite:main')
+    return render(request, 'mysite/registerClasses.html', {'users_courses': usercourses})
 

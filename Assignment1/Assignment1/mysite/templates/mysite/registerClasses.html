@@ -24,10 +24,13 @@ $('.toggle').click(function(){
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                         <a href="/courses/courses/enroll/{{item.pk}}">
+{#                            We make 2 different buttons, and if the user is registered to the course,#}
+{#                             then the drop button will display.#}
+{#                            If they aren't registered to that class, then the register button will display.#}
                             <input type="button" value="Register" id="btn" class="btn btn-primary"/>
                         </a>
                         <script>
-                            const btn = document.getElementById('btn');
+                            btn = document.getElementById('btn');
                             let index = 1;
                             let index2 = 0;
                             const colors = ['blue', 'red'];

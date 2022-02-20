@@ -33,7 +33,6 @@ def main(request):
     assignment_list = Assignment.objects.all().filter(course__in=item_list).order_by('due_date').exclude(course__assignment__due_date__lte=datetime.datetime.utcnow())
     # get first 5 item
     todolist = assignment_list[:5]
-
     return render(request, 'mysite/main.html', {'item_list': item_list, 'todolist': todolist})
 
 
