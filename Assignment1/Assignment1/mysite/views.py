@@ -30,19 +30,11 @@ def main(request):
         item_list.append(course.course_id)
 
     # get all assignments for the courses our user is enrolled in; order by due date
-    assignment_list = Assignment.objects.all().filter(course__in=item_list).order_by('due_date')
-    assignment_list.exclude(due_date__lt=timezone.now())
-    # compare and sort assignments; grab the next five that are due.
-    # make sure that they are in chronological order
-    #for assignment in assignment_list:
-        # remove old assignments from the assignment list; only grab current/future
-    #    if assignment.due_date >= timezone.now():
-    #        current_assignment_list.append(assignment)
+    assignment_list = Assignment.objects.all().filter(course__in=item_list).order_by('due_date').exclude(course__assignment__due_date__lte=datetime.datetime.utcnow())
     # get first 5 item
-    assignment_list_first_5 = assignment_list[:5]
+    todolist = assignment_list[:5]
 
-    print(f"CustomUser.courses =  {item_list}")
-    return render(request, 'mysite/main.html', {'item_list': item_list, 'assignment_list': assignment_list_first_5})
+    return render(request, 'mysite/main.html', {'item_list': item_list, 'todolist': todolist})
 
 
 @login_required

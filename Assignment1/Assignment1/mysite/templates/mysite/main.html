@@ -23,81 +23,54 @@
         <h2>Users Username: {{ user.email }}</h2>
         <h2>Users Name: {{ user.first_name }} {{ user.last_name }}</h2>
     </div>
-    <div class="row">
 
-        <div class="column" style="width: 49%">
+    <div class="float-container">
 
-            <div class="float-container">
+        {#The Users cards div#}
+        <div class="float-child1">
+        {% for item in item_list %}
+                <div class="card-group">
 
-                {#The Users cards div#}
-                <div class="float-child1">
-                    {% for item in item_list %}
-                        <div class="card-group">
-
-                            <div class="card" style="margin: 1rem;">
-                                <div style="color: red; position: relative; left: 370px; top: 1px;
+                   <div class="card" style="margin: 1rem;">
+                        <div style="color: red; position: relative; left: 370px; top: 1px;
                                  border: none; font-size: 1cm; caret-color: transparent;">
-                                    <a class="closeButton" type="button" href="/courses/drop/{{ item.pk }}"
-                                       style="color: red;">&times;</a></div>
-                                <div class="card-body">
-                                    <h4 class="card-title"
-                                        style="margin: 5px; text-align: center">{{ item.course_name }}</h4>
-                                    <h5 class="card-subtitle" style="margin: 5px; text-align: center">Course
-                                        Number: {{ item.course_number }}</h5>
-                                    <h5 class="card-subtitle" style="margin: 5px; text-align: center">Credit
-                                        Hours: {{ item.credit_hours }}</h5>
-                                    <p class="card-text"
-                                       style="text-align: center">{{ item.meeting_time_days }}: {{ item.start_time }}
-                                        - {{ item.end_time }}</p>
-                                    <a href="{% url 'course:course_page' item.id %}" class="btn btn-primary"
-                                       style="font-size: 20px; width: 100%">Enter</a>
-                                </div>
-                            </div>
+                          <a class="closeButton" type="button" href="/courses/drop/{{item.pk}}" style="color: red;" >&times;</a></div>
+                        <div class="card-body">
+                            <h4 class="card-title" style="margin: 5px; text-align: center">{{ item.course_name}}</h4>
+                            <h5 class="card-subtitle" style="margin: 5px; text-align: center">Course Number: {{ item.course_number }}</h5>
+                            <h5 class="card-subtitle" style="margin: 5px; text-align: center">Credit Hours: {{ item.credit_hours }}</h5>
+                            <p class="card-text" style="text-align: center">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
+                            <a href="{% url 'course:course_page' item.id %}" class="btn btn-primary" style="font-size: 20px; width: 100%">Enter</a>
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
-
-
-                {# For use when we have the todo/message list #}
-                <div class="float-child2">
-
-
-                </div>
-                {##}
-                {#    {% for item in item_list %}#}
-                {#        {% if registerButton == True and user.is_staff == False %}#}
-                {#            <div class="card-group">#}
-                {#                <div class="card" style="margin: 1rem;">#}
-                {#                    <img class="card-img-top" src="..." alt="Card image">#}
-                {#                    <div class="card-body">#}
-                {#                        <h4 class="card-title">{{ item.course_name}}</h4>#}
-                {#                        <h5 class="card-subtitle">Course Number: {{ item.course_number }}</h5>#}
-                {#                        <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>#}
-                {#                        <a href="#" class="btn btn-primary">Enter</a>#}
-                {#                    </div>#}
-                {#                </div>#}
-                {#            </div>#}
-                {#        {% endif %}#}
-                {#    {% endfor %}#}
-
-
-            </div>
-        </div>
-        <div class="column" style="width: 49%">
-        <ul>
-              {% for item in assignment_list %}
-                  <!-- TO DO: redirection to assignment submission. will need
-                   to pass assignment id, user id(?), and course id(?) -->
-                <li><a href="">{{ item.title }} {{ item.due_date }} </a> </li>
-
-              {% endfor %}
-
-        </ul>
-
+        {% endfor %}
         </div>
 
+    {# For use when we have the todo/message list #}
+        <div class="float-child2">
+        <h1>To-Do List:</h1>
+            {% for item in todolist %}
+          <div class="todo-group">
+               <a class="todo_click" href="{%url 'course:submit_assignment' item.course.id item.id%}">
+                <div class="card" style="min-width: 440px; min-height: 220px;">
+                   <h1 style="font-size:34px; text-align: center; margin: 5px;">{{item.course.department}} {{item.course.course_number }}</h1>
+                   <h2 style="font-size:28px; text-align: center; margin-top: 20px;">{{item.title}}</h2>
+                   <h3 style="font-size:26px; text-align: center; margin-top: 30px;">{{item.due_date}}</h3>
+                </div>
+               </a>
+          </div>
+            {% endfor %}
+        {% if not todolist %}
+        <div class="todo-group">
+                <div class="card" style="min-width: 440px; min-height: 220px;">
+                   <h1 style="font-size:38px; text-align: center; margin: 5px;">Nothing to do</h1>
+                   <h2 style="font-size:28px; text-align: center; margin-top: 20px;">Maybe go play games or something ;)</h2>
+                </div>
+          </div>
+        {% endif %}
+        </div>
     </div>
-
 {% endblock %}
 </body>
 </html>

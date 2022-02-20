@@ -45,6 +45,7 @@ class AssignmentForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['due_date'].required = False
+        self.fields['description'].widget.attrs = {'class': 'assignment-description',}
 
     class Meta:
         model = Assignment
@@ -52,6 +53,9 @@ class AssignmentForm(ModelForm):
 
 
 class SubmissionForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['textbox'].widget.attrs = {'class': 'submission-textbox'}
 
     class Meta:
         model = Submission

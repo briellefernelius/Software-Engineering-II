@@ -9,13 +9,20 @@
                             Submit Assignment
                         </div>
                     </div>
+
                     <div class="card-body">
+                        <h1>{{assignment.title}}</h1>
+                        <h2>Due Date: {{ assignment.due_date }}</h2>
+                        <h2>Maximum Points: {{ assignment.max_points }}</h2>
+                        <br>
+                        <h2>Description:   {{ assignment.description }}</h2>
+                        <br><br>
                         <form method="POST" style="text-align: center">
                           {% csrf_token %}
                             {{ form.as_p }}
-
                                 <input type="submit" value="Submit Assignment" style="background-color: lightblue; text: white">
-                            <a href="{% url 'mysite:main' %}">
+
+                            <a href="{% url 'course:course_page' course.id %}">
                                 <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
                             </a>
                         </form>

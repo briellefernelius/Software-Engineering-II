@@ -43,28 +43,28 @@ def assigment_add(request, id):
     return render(request, 'course/assignment-form.html', {'form': form})
 
 
-def assignment_delete(request, id):
-    assignments = Assignment.objects.get(id=id)
+def assignment_delete(request, courseid, assignmentid):
+    assignments = Assignment.objects.get(id=assignmentid)
 
     if request.method == 'POST':
         assignments.delete()
-        return redirect('mysite:main')
+        return course_page(request, courseid)
     return render(request, 'course/assignment-delete.html', {'assignments': assignments})
 
 
-def assignment_edit(request, id):
-    assignments = Assignment.objects.get(id=id)
-
+def assignment_edit(request, courseid, assignmentid):
+    assignments = Assignment.objects.get(id=assignmentid)
     form = AssignmentForm(request.POST or None, instance=assignments)
 
     if form.is_valid():
         form.save()
-        return redirect('mysite:main')
+        return course_page(request, courseid)
 
     return render(request, 'course/assignment-form.html', {'form': form, 'assignments': assignments})
 
 
 def submit_assignment(request, course_id, assignment_id):
+    assignment = Assignment.objects.get(id=assignment_id)
     form = SubmissionForm(request.POST or None)
     current_course = Course.objects.get(pk=course_id)
 
@@ -76,7 +76,7 @@ def submit_assignment(request, course_id, assignment_id):
         submission.save()
         return redirect('course:course_page', course_id)
 
-    return render(request, 'course/submit_assignment.html', {'form': form, 'course': current_course})
+    return render(request, 'course/submit_assignment.html', {'form': form, 'course': current_course, 'assignment': assignment})
 
 
 def courses_add(request):
@@ -113,19 +113,13 @@ def course_drop(request, id):
     # delete the course from the CourseUser database
     # then remove it from the users.courses list
     user = CustomUser.objects.get(pk=request.user.pk)
-    courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
-    courseuser.filter(course_id=id)
+    courseuser = CourseUser.objects.all().filter(user_id=request.user.pk, course_id=id)
+
     print(f"-----CourseUser Objects: {courseuser}")
     for course in courseuser:
+        print(f"...Deleting course: {course} from user")
         course.delete()
-        try:
-            # try and remove the course from their course list
-            user.courses.remove(course)
-        except ValueError:
-            # if the course is not already in their course list, then add it
-            print("The course was not found in user.courses --Called From course/views.py:course_drop.")
-    print(f"-----CourseUser Objects: {CourseUser.objects.all()}")
-    return render(request, 'mysite/main.html')
+    return redirect('mysite:main')
 
 
 def courses_delete(request, id):

@@ -94,7 +94,8 @@ class Assignment(models.Model):
             raise ValidationError("Points given should be greater than 0 and less than the maximum points!")
 
         return super().clean()
-
+    def __str__(self):
+        return str(self.id) + " " + self.title + " " + str(self.due_date)
 
 class Submission(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)
