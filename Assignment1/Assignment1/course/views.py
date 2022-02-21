@@ -27,7 +27,6 @@ def courses(request):
 
 
 def assigment_add(request, id):
-
     form = AssignmentForm(request.POST)
     if form.is_valid():
         assignment = Assignment()
@@ -39,8 +38,13 @@ def assigment_add(request, id):
         assignment.course = Course.objects.get(pk=id)
 
         assignment.save()
-        return redirect('course:course_page', id)
-    return render(request, 'course/assignment-form.html', {'form': form})
+        course = Course.objects.get(pk=id)
+        assignments = Assignment.objects.all().filter(course=id)
+        context = {
+            'course': course, 'assignments': assignments
+        }
+        return render(request, 'course/course_page.html', context)
+    return render(request, 'course/assignment-form.html', {'form': form, 'course': id})
 
 
 def assignment_delete(request, courseid, assignmentid):
@@ -48,7 +52,7 @@ def assignment_delete(request, courseid, assignmentid):
 
     if request.method == 'POST':
         assignments.delete()
-        return course_page(request, courseid)
+        return redirect('course:course_page', courseid)
     return render(request, 'course/assignment-delete.html', {'assignments': assignments})
 
 
@@ -58,7 +62,12 @@ def assignment_edit(request, courseid, assignmentid):
 
     if form.is_valid():
         form.save()
-        return course_page(request, courseid)
+        course = Course.objects.get(pk=courseid)
+        assignments = Assignment.objects.all().filter(course=courseid)
+        context = {
+            'course': course, 'assignments': assignments
+        }
+        return render(request, 'course/course_page.html', context)
 
     return render(request, 'course/assignment-form.html', {'form': form, 'assignments': assignments})
 
@@ -76,7 +85,8 @@ def submit_assignment(request, course_id, assignment_id):
         submission.save()
         return redirect('course:course_page', course_id)
 
-    return render(request, 'course/submit_assignment.html', {'form': form, 'course': current_course, 'assignment': assignment})
+    return render(request, 'course/submit_assignment.html',
+                  {'form': form, 'course': current_course, 'assignment': assignment})
 
 
 def courses_add(request):
@@ -142,6 +152,8 @@ def courses_edit(request, id):
     return render(request, 'course/courses-form.html', {'form': form, 'item': item})
 
 
+# This function will either enroll or drop the course with the id that is passed in.
+# If the user is already registered to that course, then it will be dropped.
 def courses_enroll(request, id):
     CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
 
@@ -152,19 +164,23 @@ def courses_enroll(request, id):
 
     usercourses = CourseUser.objects.all().filter(user_id=request.user.pk)
     courseFound = False
-
-    for course in usercourses.course_id:
-        if course.id == id:
+    for course in usercourses:
+        print(f'Course: {course.course_id}\n')
+        if course.course_id.id == id:
             courseFound = True
 
     # Then add it to the user's courses
-    if courseFound is not True:
+    if courseFound is False:
         courseuser = CourseUser()
         courseuser.course_id = Course.objects.get(pk=id)
         courseuser.user_id = CustomUser.objects.get(pk=request.user.pk)
         courseuser.save()
         print(f"New CourseUser created: {courseuser}")
+    else:
+        print("!!You are already registered to that course!!")
+        course_drop(request, id)
 
-    #print(f"users courses: {CustomUser.objects.get(pk=request.user.pk).courses}")
-    return render(request, 'mysite/registerClasses.html', {'users_courses': usercourses})
+    context = {'item_list': Course.objects.all(), 'usercourses': usercourses, 'user': CustomUser.objects.get(id=request.user.pk)}
 
+    #return redirect('mysite:registerClasses')
+    return render(request, 'mysite/registerClasses.html', context)

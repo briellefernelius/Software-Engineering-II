@@ -110,4 +110,5 @@ class CourseUser(models.Model):
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return str(self.pk) + " " + self.user_id.first_name + " - " + self.course_id.course_name
+        return str(self.pk) + " " + self.user_id.first_name + " - " + str(self.course_id)
+

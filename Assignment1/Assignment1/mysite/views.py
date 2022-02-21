@@ -38,10 +38,9 @@ def main(request):
 
 @login_required
 def register_classes(request):
-    item_list = Course.objects.all()
-    context = {
-        'item_list': item_list,
-    }
+    usercourses = CourseUser.objects.all().filter(user_id=request.user.pk)
+    context = {'item_list': Course.objects.all(),
+                'usercourses': usercourses}
     return render(request, 'mysite/registerClasses.html', context)
 
 

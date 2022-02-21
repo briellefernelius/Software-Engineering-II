@@ -12,7 +12,7 @@
 {% block body %}
     <h2 style="text-align: center">Welcome to {{ course.department }} {{ course.course_number }}</h2>
     {% if user.is_instructor %}
-        <a href=" {{ request.path }}/addassignment" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
+        <a href="{% url 'course:add_assignment' course.id %}" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
     {% endif %}
 
     <div class="assignment-container">
@@ -36,8 +36,8 @@
                                 <h2>Submit using: {{ assignment.submission_type }}</h2>
                                 <h2>Graded: {{ assignment.is_graded }}</h2>
                                 {% if user.is_instructor %}
-                                   <a href="{{request.path}}/assignment/edit/{{assignment.id}}" class="btn btn-warning">Edit</a>
-                                <a href="{{request.path}}/assignment/delete/{{assignment.id}}" class="btn" style="background-color: red; color: white">Delete</a>
+                                    <a href="{% url 'course:edit_assignment' assignment.course.id assignment.id %}" class="btn btn-warning">Edit</a>
+                                    <a href="{% url 'course:delete_assignment' assignment.course.id assignment.id %}" class="btn" style="background-color: red; color: white">Delete</a>
                                 {% endif %}
                                 {% if not user.is_instructor %}
                                     <a href="{% url 'course:submit_assignment' assignment.course.id assignment.id %}" class="btn btn-primary">Submit</a>

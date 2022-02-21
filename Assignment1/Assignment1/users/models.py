@@ -66,6 +66,19 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return "User: " + str(self.id) + " " + self.email + " | " + self.first_name + " " + self.last_name
 
+    # Takes a courseuser list of objects as courseuser_list, and the id of the course to compare against
+    def isRegisteredTo(self, courseuser_list, course_id) -> bool:
+        try:
+            is_registered = False
+            for course in courseuser_list:
+                if course_id == course.id:
+                    is_registered = True
+            return is_registered
+
+        except Exception:
+            print("There was an error in the isRegisteredTo function of the CustomUser class in users/models.py")
+            return False
+
 
 def user_image_upload_handler(instance, filename):
     print("instance:" + str(instance.user.pk))

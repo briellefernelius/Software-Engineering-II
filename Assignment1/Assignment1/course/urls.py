@@ -14,7 +14,7 @@ urlpatterns = [
     path('courses/enroll/<int:id>', views.courses_enroll, name="enroll_courses"),
     path('courses/delete/<int:id>', views.courses_delete, name="delete_courses"),
     path('courses/edit/<int:id>', views.courses_edit, name="edit_courses"),
-    path('<int:courseid>/assignment/delete/<int:assignmentid>', views.assignment_delete, name="delete_assignment"),
-    path('<int:courseid>/assignment/edit/<int:assignmentid>', views.assignment_edit, name="edit_assignment"),
+    path('<int:courseid>/<int:assignmentid>/assignment/delete', views.assignment_delete, name="delete_assignment"),
+    path('<int:courseid>/<int:assignmentid>/assignment/edit', views.assignment_edit, name="edit_assignment"),
 
 ]
