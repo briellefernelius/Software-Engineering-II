@@ -38,8 +38,8 @@
                     title: "{{i.course_name}}",
                     startTime: "{{i.start_time|escapejs}}",
                     displayEventTime: true,
-                    startRecur: "{{i.start_date|escapejs}}",
-                    endRecur: "{{i.end_date|escapejs}}",
+                    startRecur: "{{i.start_date|date:'y-m-d'}}",
+                    endRecur: "{{i.end_date|date:'y-m-d'}}",
                     daysOfWeek: {{i.ConvertDaysToInts}},
                     endTime: "{{i.end_time|escapejs}}",
                     display: 'auto',
@@ -52,6 +52,7 @@
 
                 },
             {% endfor %}
+
         ],
         });
         calendar.render();

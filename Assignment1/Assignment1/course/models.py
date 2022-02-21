@@ -1,11 +1,11 @@
 import datetime
-
+from users.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
 # Create your models here.
-from users.models import CustomUser
+
 
 DEPARTMENT_CHOICES = (
     ('Computer Science', 'Computer Science'),
@@ -19,7 +19,7 @@ DEPARTMENT_CHOICES = (
 class Course(models.Model):
     instructor = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES, default='')
-    course_number = models.CharField(max_length=8, validators=[MinLengthValidator(2)])
+    course_number = models.CharField(max_length=10, validators=[MinLengthValidator(2)])
     course_name = models.CharField(max_length=50)
     credit_hours = models.IntegerField()
 
@@ -69,9 +69,6 @@ class Course(models.Model):
         return super().clean()
 
 
-
-
-
 SUBMISSION_CHOICES = (('.file', 'File'), ('text', "Text"))
 
 
@@ -94,8 +91,10 @@ class Assignment(models.Model):
             raise ValidationError("Points given should be greater than 0 and less than the maximum points!")
 
         return super().clean()
+
     def __str__(self):
         return str(self.id) + " " + self.title + " " + str(self.due_date)
+
 
 class Submission(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)

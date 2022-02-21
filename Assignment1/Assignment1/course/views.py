@@ -68,7 +68,6 @@ def assignment_edit(request, courseid, assignmentid):
             'course': course, 'assignments': assignments
         }
         return render(request, 'course/course_page.html', context)
-
     return render(request, 'course/assignment-form.html', {'form': form, 'assignments': assignments})
 
 
@@ -84,7 +83,6 @@ def submit_assignment(request, course_id, assignment_id):
         submission.textbox = form.cleaned_data.get('textbox')
         submission.save()
         return redirect('course:course_page', course_id)
-
     return render(request, 'course/submit_assignment.html',
                   {'form': form, 'course': current_course, 'assignment': assignment})
 
@@ -148,7 +146,6 @@ def courses_edit(request, id):
     if form.is_valid():
         form.save()
         return redirect('course:courses')
-
     return render(request, 'course/courses-form.html', {'form': form, 'item': item})
 
 
@@ -156,12 +153,10 @@ def courses_edit(request, id):
 # If the user is already registered to that course, then it will be dropped.
 def courses_enroll(request, id):
     CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
-
     # since this function will be called by register and drop buttons
     # check to see if they are already registered to that course,
     # if they are, then drop that class
     # if they aren't, then add that class
-
     usercourses = CourseUser.objects.all().filter(user_id=request.user.pk)
     courseFound = False
     for course in usercourses:
@@ -181,6 +176,5 @@ def courses_enroll(request, id):
         course_drop(request, id)
 
     context = {'item_list': Course.objects.all(), 'usercourses': usercourses, 'user': CustomUser.objects.get(id=request.user.pk)}
-
     #return redirect('mysite:registerClasses')
     return render(request, 'mysite/registerClasses.html', context)

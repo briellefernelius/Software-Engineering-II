@@ -1,5 +1,6 @@
+import os
 from django.contrib.auth.decorators import login_required
-from django.core.files.storage import FileSystemStorage
+from django.core.files.storage import FileSystemStorage, default_storage
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -29,7 +30,6 @@ def login(request):
             except ValueError:
                 # if the course is not already in their course list, then add it
                 user.courses.append(obj.course_id)
-
         print(f"Users Courses: {user.courses}")
         return redirect('mysite:main')
     return render(request, 'users/login.html', { 'form': form })
@@ -38,22 +38,29 @@ def login(request):
 @login_required
 def profile(request):
     try:
-        item_list = User.objects.all()
+        item_list = CustomUser.objects.all()
         return render(request, 'users/profile.html', {'item_list': item_list})
-    except User.DoesNotExist:
+    except CustomUser.DoesNotExist:
         return render(request, 'users/home.html')
 
 
 def profile_edit(request, id):
-    item = User.objects.get(id=id)
-
-    form = EditProfileForm(request.POST or None, instance=item)
-
-    if form.is_valid():
-        form.save()
-        return redirect('users:profile')
-
-    return render(request, 'users/profile-form.html', {'form': form, 'item': item})
+    item = CustomUser.objects.get(id=id)
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST or None, instance=request.user)
+        if form.is_valid():
+            form.save()
+            if request.FILES.get('image_profile', None) != None:
+                try:
+                    os.remove(request.user.image_profile.url)
+                except Exception as e:
+                    print('Exception in removing old profile image: ', e)
+                request.user.image_profile = request.FILES['image_profile']
+                request.user.save()
+            return redirect('users:profile')
+    else:
+        form = EditProfileForm(instance=request.user)
+        return render(request, 'users/profile-form.html', {'form': form, 'item': item})
 
 
 # @login_required
@@ -64,7 +71,6 @@ def calendar(request):
     context = {
         "Courses": UserResult,
     }
-
     return render(request, 'users/calendar.html', context)
 
 
@@ -91,7 +97,6 @@ def image(request):
         obj.url = substring
         print(obj.url)
         return render(request, 'users/image.html', {"form": form, "file_url": obj.url})
-
     return render(request, 'users/image.html', {"form": form})
 
 
@@ -107,9 +112,7 @@ def register(request):
 
             messages.success(request, f'Registration Successful {firstname} {lastname}!')
             return redirect('login')
-
     else:
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
 
-    # return render(request, 'users/courses-form.html', {'form': form, 'item': item})

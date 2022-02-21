@@ -10,8 +10,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" style="text-align: center">
-                          {% csrf_token %}
+                        <form method="post" enctype="multipart/form-data" style="text-align: center">
+                            {% csrf_token %}
                             {{ form.as_p }}
                             <input type="submit" value="Save Changes" style="background-color: lightblue; text: white">
                             <a href="{% url 'profile' %}">

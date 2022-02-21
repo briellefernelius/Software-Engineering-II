@@ -4,7 +4,8 @@ from users.models import CustomUser
 from django.shortcuts import render, redirect
 from .forms import *
 from .models import *
-
+from django.views import View
+import stripe
 # Create your views here.
 
 
@@ -19,4 +20,6 @@ def account(request):
         tuition += course.course_id.credit_hours * 100
     print(f"CustomUser.courses = {item_list}")
     return render(request, 'payment/account.html', {'item_list': item_list, 'form': form, 'tuition': tuition})
+
+
 
