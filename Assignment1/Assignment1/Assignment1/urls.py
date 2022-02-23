@@ -37,8 +37,6 @@ urlpatterns = [
     path('payment/', include('payment.urls')),
 
 
-    path('image/', user_views.image, name="image"),
-    re_path(r'^/media/profile_pics/?P<path>.*$', user_views.display_image, name="display_image"),
     #path('', (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),)
 ]
 

@@ -18,9 +18,6 @@
 <body>
 {% block body %}
     <h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
-    {% if user.is_instructor == True %}
-            <a href="{% url 'users:pieChart' %}" class="nav-item nav-link">Pie Chart</a>
-    {% endif %}
     <div class="containerMain">
         <h2>Users Username: {{ user.email }}</h2>
         <h2>Users Name: {{ user.first_name }} {{ user.last_name }}</h2>

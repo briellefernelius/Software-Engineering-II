@@ -161,7 +161,7 @@
             <a href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link">Register</a>
             <a href="{% url 'payment:account' %}" class="nav-item nav-link">Account</a>
         {% endif %}
-            <a href="{% url 'image' %}" class="nav-item nav-link">Image Trial</a>
+            <a href="{% url 'users:pieChart' %}" class="nav-item nav-link">Pie Chart</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
             {% endif %}
