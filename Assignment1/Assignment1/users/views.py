@@ -116,3 +116,5 @@ def register(request):
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
 
+def pieChart(request):
+    return render(request, 'users/pieChart.html')

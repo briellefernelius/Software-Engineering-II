@@ -17,7 +17,6 @@ from django.core.files.storage import FileSystemStorage
 def home(request):
     return render(request, 'mysite/home.html')
 
-
 @login_required
 def main(request):
 
