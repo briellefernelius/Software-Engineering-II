@@ -60,3 +60,13 @@ class SubmissionForm(ModelForm):
     class Meta:
         model = Submission
         fields = ['textbox']
+
+
+class SubmissionForm_file(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['file'].widget.attrs = {'class': 'submission-file'}
+
+    class Meta:
+        model = Submission
+        fields = ['file']

@@ -44,7 +44,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField('email address', unique=True)
     birthday = models.DateField(null=True, blank=True)
     is_instructor = models.BooleanField(default=False)
-    image_profile = models.ImageField(max_length=1000, default="", blank=True)
+    image_profile = models.ImageField(max_length=1000, default="", upload_to='profile_pics/', blank=True)
     phone_number = models.CharField(max_length=13, default="", null=True, validators=[MinLengthValidator(10)])
     addressLine1 = models.CharField(max_length=100, default="", null=True)
     addressLine2 = models.CharField(max_length=100, default="", null=True)

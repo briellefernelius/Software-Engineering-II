@@ -99,8 +99,8 @@ class Assignment(models.Model):
 class Submission(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
-    textbox = models.TextField(null=True)
-    file = models.FileField()
+    textbox = models.TextField(null=True, blank=True)
+    file = models.FileField(upload_to='file_submissions/', blank=True)
 
 
 # This class is needed so a user can have multiple courses they are signed up for :)

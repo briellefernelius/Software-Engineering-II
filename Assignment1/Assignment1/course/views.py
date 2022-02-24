@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
-from course.forms import CourseForm, AssignmentForm, SubmissionForm
+from course.forms import CourseForm, AssignmentForm, SubmissionForm, SubmissionForm_file
 # Create your views here.
 from users.models import CustomUser
 from course.models import Course, CourseUser, Assignment, Submission
@@ -73,14 +73,17 @@ def assignment_edit(request, courseid, assignmentid):
 
 def submit_assignment(request, course_id, assignment_id):
     assignment = Assignment.objects.get(id=assignment_id)
-    form = SubmissionForm(request.POST or None)
     current_course = Course.objects.get(pk=course_id)
+    type = assignment.submission_type
+    if type == '.file':
+        form = SubmissionForm_file(request.POST or None)
+    else:
+        form = SubmissionForm(request.POST or None)
 
     if form.is_valid():
-        submission = Submission()
+        submission = form.save(commit=False)
         submission.user = CustomUser.objects.get(pk=request.user.pk)
         submission.assignment = Assignment.objects.get(pk=assignment_id)
-        submission.textbox = form.cleaned_data.get('textbox')
         submission.save()
         return redirect('course:course_page', course_id)
     return render(request, 'course/submit_assignment.html',
