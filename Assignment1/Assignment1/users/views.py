@@ -9,7 +9,7 @@ from django.views.decorators.vary import vary_on_cookie
 from .forms import *
 from .models import *
 from django.http import HttpResponse, Http404
-from course.models import Course, CourseUser
+from course.models import Course, CourseUser, Assignment
 
 User = get_user_model()
 
@@ -30,9 +30,9 @@ def login(request):
             except ValueError:
                 # if the course is not already in their course list, then add it
                 user.courses.append(obj.course_id)
-        print(f"Users Courses: {user.courses}")
+        # print(f"Users Courses: {user.courses}")
         return redirect('mysite:main')
-    return render(request, 'users/login.html', { 'form': form })
+    return render(request, 'users/login.html', {'form': form})
 
 
 @login_required
@@ -64,17 +64,43 @@ def profile_edit(request, id):
 
 
 # @login_required
-def calendar(request):
+def calendar(request, ):
     UserID = request.user.id
     item = Course.objects.all()
-    UserResult = item.filter(instructor=UserID)
+    LoggedUser = User.objects.get(id=UserID)
+    Assignment_list = []
+    if LoggedUser.is_instructor: # is instructor
+        UserResult = item.filter(instructor_id=UserID) # get instructor courses
+    else: # is student; get student courses
+        course_list = Course.objects.all()
+        registered_list = []
+        # Loop through all courses. If the user is registered in that course append to list of register courses.
+        for course in list(course_list):
+            if (LoggedUser.isRegisteredTo(LoggedUser.courses, course.id) == True):
+                registered_list.append(course)
+        UserResult = registered_list
+        # get all the assignment for the user (student)
+        #Assignment_list = Assignment.objects.all().filter(course=registered_list)
+        #temp = list(LoggedUser.courses)
+        #print("temp:",temp)
+        #Assignments = Assignment.objects.filter(id__in=temp)
+        #for a in Assignment.objects.all():
+        #    if (a in LoggedUser.courses):
+        #       Assignment_list.append(a)
+        for crs in LoggedUser.courses:
+            Assignment_list.append(Assignment.objects.filter(course=crs))
+        #for assignment in list(Assignments):
+            #for reg_course in registered_list:
+        #        if assignment.course.pk in registered_list:
+        #            Assignment_list.append(assignment)
+        #Assignment_list = list(Assignments)
+
+    #print(Assignment_list)
     context = {
         "Courses": UserResult,
+        "Assignment": Assignment_list,
     }
     return render(request, 'users/calendar.html', context)
-
-
-
 
 
 def register(request):
@@ -92,6 +118,7 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'users/register.html', {'form': form})
+
 
 def pieChart(request):
     return render(request, 'users/pieChart.html')

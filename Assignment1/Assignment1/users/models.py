@@ -76,6 +76,14 @@ class CustomUser(AbstractUser):
             print("There was an error in the isRegisteredTo function of the CustomUser class in users/models.py")
             return False
 
+    #def RegisteredCourses(self, registered_list=None):
+        #course_list = Course.objects.all()
+        #for course in course_list:
+            #if(self.isRegisteredTo(self.courses, course)):
+                #registered_list.append(course)
+        #return registered_list
+
+
 
 def user_image_upload_handler(instance, filename):
     print("instance:" + str(instance.user.pk))

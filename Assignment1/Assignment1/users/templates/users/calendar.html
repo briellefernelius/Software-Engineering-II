@@ -31,15 +31,15 @@
 
     },
           events: [
-       {% for i in Courses %}
+            {% for i in Courses %}
 
                 {
 
-                    title: "{{i.course_name}}",
+                    title: "{{i.course_number}}",
                     startTime: "{{i.start_time|escapejs}}",
                     displayEventTime: true,
-                    startRecur: "{{i.start_date|date:'y-m-d'}}",
-                    endRecur: "{{i.end_date|date:'y-m-d'}}",
+                    startRecur: "{{i.start_date|escapejs}}",
+                    endRecur: "{{i.end_date|escapejs}}",
                     daysOfWeek: {{i.ConvertDaysToInts}},
                     endTime: "{{i.end_time|escapejs}}",
                     display: 'auto',
@@ -50,6 +50,21 @@
                       merdiem: "short",
                 },
 
+                },
+            {% endfor %}
+
+            {% for b in Assignment %}
+              {
+                    title: "{{b.course_number|escapejs}}",
+                    displayEventTime: true,
+                    start:"{{b.due_date|escapejs}}",
+                    end: "{{b.due_date|escapejs}}",
+                    display: 'auto',
+                    eventTimeFormat: {
+                      hour: "numeric",
+                      minute: "2-digit",
+                      merdiem: "short",
+                    },
                 },
             {% endfor %}
 
