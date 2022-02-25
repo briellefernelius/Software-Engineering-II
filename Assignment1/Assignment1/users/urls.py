@@ -13,7 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mysite.urls')),
     path('calendar/', views.calendar, name="calendar"),
-    path('studentCalendar/', views.Studentcalendar, name="student_calendar"),
+    #path('studentCalendar/', views.Studentcalendar, name="student_calendar"),
     path('profile/', views.profile, name="profile"),
     path('profile/edit/<int:id>', views.profile_edit, name="edit_profile"),
     path('pieChart/', views.pieChart, name="pieChart"),

@@ -67,16 +67,6 @@ def profile_edit(request, id):
 def calendar(request):
     UserID = request.user.id
     item = Course.objects.all()
-    UserResult = item.filter(instructor=UserID)
-    context = {
-        "Courses": UserResult,
-    }
-    return render(request, 'users/calendar.html', context)
-
-
-def Studentcalendar(request, ):
-    UserID = request.user.id
-    item = Course.objects.all()
     LoggedUser = User.objects.get(id=UserID)
     Assignment_list = []
     if LoggedUser.is_instructor: # is instructor
@@ -90,27 +80,20 @@ def Studentcalendar(request, ):
                 registered_list.append(course)
         UserResult = registered_list
         # get all the assignment for the user (student)
-        #Assignment_list = Assignment.objects.all().filter(course=registered_list)
-        #temp = list(LoggedUser.courses)
-        #print("temp:",temp)
-        #Assignments = Assignment.objects.filter(id__in=temp)
-        #for a in Assignment.objects.all():
-        #    if (a in LoggedUser.courses):
-        #       Assignment_list.append(a)
-        for crs in LoggedUser.courses:
-            Assignment_list.append(Assignment.objects.filter(course=crs))
-        #for assignment in list(Assignments):
-            #for reg_course in registered_list:
-        #        if assignment.course.pk in registered_list:
-        #            Assignment_list.append(assignment)
-        #Assignment_list = list(Assignments)
-
-    #print(Assignment_list)
+        c_list = LoggedUser.courses
+        asn_list = Assignment.objects.all()
+        a_list = []
+        for asn in asn_list:
+            if asn.course in c_list:
+                a_list.append(asn)
+        Assignment_list = a_list
+    print('AL:\t',Assignment_list)
+    print('UR\t',UserResult)
     context = {
         "Courses": UserResult,
         "Assignment": Assignment_list,
     }
-    return render(request, 'users/StudentCalendar.html', context)
+    return render(request, 'users/calendar.html', context)
 
 
 def register(request):

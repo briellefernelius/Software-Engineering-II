@@ -160,7 +160,7 @@
         {% if user.is_instructor == False %}
             <a href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link">Register</a>
             <a href="{% url 'payment:account' %}" class="nav-item nav-link">Account</a>
-            <a href="{% url 'users:student_calendar' %}" class="nav-item nav-link">Calendar</a>
+            <a href="{% url 'users:calendar' %}" class="nav-item nav-link">Calendar</a>
         {% endif %}
             <a href="{% url 'users:pieChart' %}" class="nav-item nav-link">Pie Chart</a>
             {% if user.is_authenticated %}
