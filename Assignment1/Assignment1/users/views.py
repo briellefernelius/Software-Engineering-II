@@ -64,7 +64,17 @@ def profile_edit(request, id):
 
 
 # @login_required
-def calendar(request, ):
+def calendar(request):
+    UserID = request.user.id
+    item = Course.objects.all()
+    UserResult = item.filter(instructor=UserID)
+    context = {
+        "Courses": UserResult,
+    }
+    return render(request, 'users/calendar.html', context)
+
+
+def Studentcalendar(request, ):
     UserID = request.user.id
     item = Course.objects.all()
     LoggedUser = User.objects.get(id=UserID)
@@ -100,7 +110,7 @@ def calendar(request, ):
         "Courses": UserResult,
         "Assignment": Assignment_list,
     }
-    return render(request, 'users/calendar.html', context)
+    return render(request, 'users/StudentCalendar.html', context)
 
 
 def register(request):
