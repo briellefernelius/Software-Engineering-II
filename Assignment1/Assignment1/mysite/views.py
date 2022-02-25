@@ -36,8 +36,16 @@ def main(request):
 @login_required
 def register_classes(request):
     usercourses = CourseUser.objects.all().filter(user_id=request.user.pk)
-    context = {'item_list': Course.objects.all(),
-                'usercourses': usercourses}
+    item_list = Course.objects.all()
+    title_name = request.GET.get('title_name')
+    department = request.GET.get('department')
+    if title_name != '' and title_name is not None:
+        item_list = item_list.filter(course_name__icontains=title_name)
+    if department != '' and department is not None:
+        item_list = item_list.filter(department__icontains=department)
+    context = {'item_list': item_list,
+               'usercourses': usercourses,
+               }
     return render(request, 'mysite/registerClasses.html', context)
 
 

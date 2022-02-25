@@ -10,15 +10,42 @@ $('.toggle').click(function(){
 {% block body %}
 
     <h1>Register for Classes</h1>
+     <hr></hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header" style="background-color: lightblue">
+                        <div class="card-title">
+                            Search
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="GET">
+                            <select name="department">
+                                <option selected disabled hidden>Select Department</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Math">Math</option>
+                                <option value="English">English</option>
+                                <option value="Engineering">Engineering</option>
+                            </select>
+                            <input type="search" name="title_name" placeholder="Enter Course Name"/>
+                            <button type="submit" style="background-color: lightblue; text: white">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="float-container">
-
-
-
      <div class="float-child1">
     {% for item in item_list %}
             <div class="card-group">
                 <div class="card" style="margin: 1rem;">
-                    <img class="card-img-top" src="..." alt="Card image">
+{#                    <img class="card-img-top" src="..." alt="Card image">#}
+                    <h4 class="card-text" style="font-size: 10px">{{ item.department }}</h4>
                     <div class="card-body">
                         <h4 class="card-title">{{ item.course_name}}</h4>
                         <h5 class="card-subtitle">Course Number: {{ item.course_number }}</h5>
