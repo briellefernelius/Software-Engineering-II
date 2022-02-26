@@ -103,7 +103,7 @@ class Submission(models.Model):
     file = models.FileField(upload_to='file_submissions/', blank=True)
 
     def __str__(self):
-        return str(self.pk) + ": " + str(self.assignment.course.course_number) + "-" + str(self.assignment.title) + " , " + str(self.user)
+        return str(self.pk) + ": " + str(self.assignment.course.course_number) + "-" + str(self.assignment.title) + ", " + str(self.user)
 
 
 # This class is needed so a user can have multiple courses they are signed up for :)
