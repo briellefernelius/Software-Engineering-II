@@ -87,8 +87,9 @@ def calendar(request):
             if asn.course in c_list:
                 a_list.append(asn)
         Assignment_list = a_list
-    print('AL:\t',Assignment_list)
-    print('UR\t',UserResult)
+        # DO NOT remove for DEBUG purposes.
+    #print('AL:\t',Assignment_list)
+    #print('UR\t',UserResult)
     context = {
         "Courses": UserResult,
         "Assignment": Assignment_list,
