@@ -1,4 +1,6 @@
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 from course import views
 
@@ -17,4 +19,4 @@ urlpatterns = [
     path('<int:courseid>/<int:assignmentid>/assignment/delete', views.assignment_delete, name="delete_assignment"),
     path('<int:courseid>/<int:assignmentid>/assignment/edit', views.assignment_edit, name="edit_assignment"),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

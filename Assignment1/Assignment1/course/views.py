@@ -76,7 +76,7 @@ def submit_assignment(request, course_id, assignment_id):
     current_course = Course.objects.get(pk=course_id)
     type = assignment.submission_type
     if type == '.file':
-        form = SubmissionForm_file(request.POST or None)
+        form = SubmissionForm_file(request.POST or None, request.FILES or None)
     else:
         form = SubmissionForm(request.POST or None)
 
@@ -88,6 +88,7 @@ def submit_assignment(request, course_id, assignment_id):
         return redirect('course:course_page', course_id)
     return render(request, 'course/submit_assignment.html',
                   {'form': form, 'course': current_course, 'assignment': assignment})
+
 
 
 def courses_add(request):

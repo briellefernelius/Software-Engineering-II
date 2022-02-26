@@ -17,7 +17,7 @@
                         <br>
                         <h2>Description:   {{ assignment.description }}</h2>
                         <br><br>
-                        <form method="POST" style="text-align: center">
+                        <form method="POST" enctype="multipart/form-data" style="text-align: center">
                           {% csrf_token %}
                             {{ form.as_p }}
                                 <input type="submit" value="Submit Assignment" style="background-color: lightblue; text: white">
