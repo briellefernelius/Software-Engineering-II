@@ -1,41 +1,62 @@
 import operator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404
+from django.http import Http404, HttpResponse
 import datetime
 from django.utils import timezone
 from course.models import Course, CourseUser, Assignment
 from users.models import CustomUser
 from .models import *
+from users.models import UserMessages
 from django.conf import settings
 import users
 from django.contrib.auth import get_user_model
 from django.core.files.storage import FileSystemStorage
+from users.forms import CreateMessageForm
 
 
 @login_required
 def home(request):
-    return render(request, 'mysite/home.html')
+    return render(request, 'mysite/main.html')
 
 @login_required
 def main(request):
 
     # item_list = CustomUser.objects.get(pk=request.user.pk).courses
-    courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
-    item_list = list()
-    for course in courseuser:
-        item_list.append(course.course_id)
+    item_list = request.session.get('courses')
+    courses_list = list()
+    for course_id in item_list:
+        courses_list.append(Course.objects.get(id=course_id))
+    #
+    # courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
+    # item_list = list()
+    # for course in courseuser:
+    #     item_list.append(course.course_id)
+
 
     # get all assignments for the courses our user is enrolled in; order by due date
     assignment_list = Assignment.objects.all().filter(course__in=item_list).order_by('due_date').exclude(course__assignment__due_date__lte=datetime.datetime.utcnow())
     # get first 5 item
     todolist = assignment_list[:5]
-    return render(request, 'mysite/main.html', {'item_list': item_list, 'todolist': todolist})
+
+    # notifications list
+    messages = UserMessages.objects.all().filter(user_id=request.user.pk)
+
+    print(f' UserMessages: {messages.exclude(ignored=False).count()}')
+    print(f'!UserCourses: {courses_list}')
+
+    context = {'item_list': courses_list, 'todolist': todolist, 'messages': messages, 'message_count': messages.exclude(ignored=True).count()}
+    return render(request, 'mysite/main.html', context)
 
 
 @login_required
 def register_classes(request):
-    usercourses = CourseUser.objects.all().filter(user_id=request.user.pk)
+    course_ids = request.session.get('courses')
+
+    courses_list = list()  # Will be a list of course objects that the user is registered for
+    for course_id in course_ids:
+        courses_list.append(Course.objects.get(id=course_id))
+
     item_list = Course.objects.all()
     title_name = request.GET.get('title_name')
     department = request.GET.get('department')
@@ -43,9 +64,10 @@ def register_classes(request):
         item_list = item_list.filter(course_name__icontains=title_name)
     if department != '' and department is not None:
         item_list = item_list.filter(department__icontains=department)
-    context = {'item_list': item_list,
-               'usercourses': usercourses,
-               }
+
+
+    context = {'item_list':  item_list.exclude(pk__in=course_ids), 'usercourses': courses_list}
+    print(f'REgistered classes: {courses_list}')
     return render(request, 'mysite/registerClasses.html', context)
 
 
@@ -82,3 +104,51 @@ def submission_graded(request, submission_id):
         selected_submission.is_graded = True
         selected_submission.save()
         return render(request, 'mysite/submission_details.html', {'submission': submission})
+
+@login_required
+def create_message(request):
+    form = CreateMessageForm(request.POST)
+    if form.is_valid():
+        message = UserMessages()
+        message.user_id = CustomUser.objects.get(pk=request.user.pk)
+        message.message_description = form.cleaned_data.get('message_description')
+        message.save()
+        return redirect('mysite:main')
+    return render(request, 'users/message-form.html', {'form': form})
+
+# This is for test purposes, can message every user.
+# @login_required
+# def create_message(request):
+#     form = CreateMessageForm(request.POST)
+#     if form.is_valid():
+#         userss = CustomUser.objects.all()
+#         for user in userss:
+#             message = UserMessages()
+#             message.user_id = CustomUser.objects.get(pk=user.pk)
+#             message.message_description = form.cleaned_data.get('message_description')
+#             message.save()
+#         return redirect('mysite:main')
+#     return render(request, 'users/message-form.html', {'form': form})
+
+
+def delete_message(request, message_id):
+    message = UserMessages.objects.get(id=message_id)
+    if message is not None:
+        message.delete()
+
+    return redirect('mysite:main')
+
+def ignore_message(request, message_id):
+    message = UserMessages.objects.get(id=message_id)
+    if message is not None:
+
+        if message.ignored is True:
+            message.ignored = False
+
+        elif message.ignored is False:
+            message.ignored = True
+
+        message.save()
+    print(f'Message Ignored: {message.ignored}')
+    return redirect('mysite:main')
+

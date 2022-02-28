@@ -2,10 +2,6 @@
 {% load set_var %}
 {% load define %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-$('.toggle').click(function(){
-  $(this).toggleClass('green');
-
-});
 
 {% block body %}
 
@@ -44,7 +40,6 @@ $('.toggle').click(function(){
     {% for item in item_list %}
             <div class="card-group">
                 <div class="card" style="margin: 1rem;">
-{#                    <img class="card-img-top" src="..." alt="Card image">#}
                     <h4 class="card-text" style="font-size: 10px">{{ item.department }}</h4>
                     <div class="card-body">
                         <h4 class="card-title">{{ item.course_name}}</h4>
@@ -52,59 +47,11 @@ $('.toggle').click(function(){
                         <h5 class="card-subtitle">Credit Hours: {{ item.credit_hours }}</h5>
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
-{#                        <a href="/courses/courses/enroll/{{item.pk}}">#}
-{#                            We make 2 different buttons, and if the user is registered to the course,#}
-{#                             then the drop button will display.#}
-{#                            If they aren't registered to that class, then the register button will display.#}
-{#                            {% set value = "Register" as value%}#}
-{#                            {% set color = "blue" as color%}#}
-                        {% set var = "Register" as Var%}
-{#                        {% if user.isRegisteredTo is True%}#}
-
-{#                    {% endif %}#}
-                        {% set register = "Register" as Reg%}
-                            {% for course in usercourses %}
-                                {% if course.course_id.id == item.id %}
-                                        {% set Var = "Drop"%}
-{#                                       {% define 'red' as Color%}#}
-                                {% endif %}
-                            {% endfor %}
-                             <a href="/courses/courses/enroll/{{item.pk}}">
-                                <input type="button" value="{{ var }}" id="btn" class="btn btn-primary"
+                        <a href="/courses/courses/enroll/{{item.pk}}">
+                                <input type="button" value="Register" id="btn" class="btn btn-primary"
                                        style="background-color:blue"/>
-                            </a>
+                        </a>
 
-
-
-
-
-{#                                {% elif course.course_id.id != item.id and forloop.last is True %}#}
-{#                                    <a href="/courses/courses/enroll/{{item.pk}}">#}
-{#                                    <input type="button" value="Register" id="btn" class="btn btn-primary"#}
-{#                                       style="background-color: blue;"/>#}
-{#                                    </a>#}
-
-
-
-{#                            <input type="button" value="Register" id="btn" class="btn btn-primary"/>#}
-{#                        </a>#}
-{#                        <script>#}
-{#                            btn = document.getElementById('btn');#}
-{#                            let index = 1;#}
-{#                            let index2 = 0;#}
-{#                            const colors = ['blue', 'red'];#}
-{#                            const text = ['Drop', 'Register']#}
-{##}
-{#                            btn.addEventListener('click', function onClick()#}
-{#                            {#}
-{#                                btn.style.backgroundColor = colors[index];#}
-{#                                btn.style.color = 'white';#}
-{#                                btn.value = text[index2];#}
-{#                                index = index >= colors.length - 1 ? 0 : index + 1;#}
-{#                                index2 = index2 >= text.length - 1 ? 0 : index2 + 1;#}
-{##}
-{#                            });#}
-{#                        </script>#}
                     </div>
                 </div>
             </div>
@@ -114,8 +61,37 @@ $('.toggle').click(function(){
 
     <div class="float-child2">
 
-    <h3>Messages... You registered for...</h3>
-        <input type="button" value="Submit" id="btn" class="btn btn-primary" style="font-size:20px; margin:20px"/>
+    <h3>You are registered for </h3>
+
+        {% if not usercourses  %}
+            <div class="card-group">
+                <div class="card" style="margin: 1rem;">
+                    <div class="card-body">
+                        <br><br>
+                        <h4 class="card-title">You have not registered for any courses</h4>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% for item in usercourses %}
+            <div class="card-group">
+                <div class="card" style="margin: 1rem;">
+                    <h4 class="card-text" style="font-size: 10px">{{ item.department }}</h4>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ item.course_name}}</h4>
+                        <h5 class="card-subtitle">Course Number: {{ item.course_number }}</h5>
+                        <h5 class="card-subtitle">Credit Hours: {{ item.credit_hours }}</h5>
+                        <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
+                        <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
+                        <a href="/courses/courses/enroll/{{item.pk}}">
+                                <input type="button" value="Drop" id="btn" class="btn btn-primary"
+                                       style="background-color:red"/>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
     </div>
 
 

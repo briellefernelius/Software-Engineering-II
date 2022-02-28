@@ -100,3 +100,12 @@ class UserImage(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class UserMessages(models.Model):
+    user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    message_description = models.CharField(max_length=1000)
+    ignored = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.message_description

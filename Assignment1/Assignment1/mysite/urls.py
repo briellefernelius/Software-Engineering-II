@@ -19,7 +19,9 @@ urlpatterns = [
 
     re_path(r'^main/submission/(?P<submission_id>[0-9]+)/graded/$', views.submission_graded, name="submission_graded"),
     path('registerClasses/', views.register_classes, name="registerClasses"),
-
+    path('createMessage/', views.create_message, name="create_message"),
+    path('deleteMessage/<int:message_id>', views.delete_message, name="delete_message"),
+    path('ignoreMessage/<int:message_id>', views.ignore_message, name="ignore_message"),
 ]
 
 # INFO ON regular expressions

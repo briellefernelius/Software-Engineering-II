@@ -39,7 +39,7 @@
             display: inline-block;
             color: white;
             background-color: lightblue;
-            background-opacity: 0.8;
+            {#background-opacity: 0.8;#}
             text-shadow: 1px 1px 2px lightgray, 0 0 25px blue, 0 0 5px aqua;
         }
 
@@ -144,11 +144,105 @@
         img {
             border-radius: 50%;
         }
+        .notifications .badge
+        {
+            position: absolute;
+            top: 23px;
+            right: 25px;
+            padding: 3px 6px;
+            border-radius: 100%;
+            background: red;
+            color: lightblue;
+            text-shadow: none;
+        }
+        .notifications-dropdown
+        {
+            visibility: hidden;
+            display: grid;
+            grid-template-columns: auto;
+            overflow: visible;
+            position: fixed;
+            right: 1%;
+            background-color: #f9f9f9;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            margin-right: 30px;
+            width: 430px;
+
+        }
+        .notifications:hover .notifications-dropdown
+        {
+            visibility: visible;
+        }
+        .notifications a
+        {
+            {#float: none;#}
+            color: black;
+            margin: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 20px;
+        }
+        .notifications-elements
+        {
+            {#float: right;#}
+            color: black;
+            text-decoration: none;
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            grid-template-rows: auto auto;
+            row-gap: 0px;
+            font-size: 24px;
+            padding: 10px;
+            height: 200px;
+        }
+        .messages .closeButton
+        {
+            position: relative;
+            font-size: 46px;
+            top: -60px;
+            left: 320px;
+            color: red;
+            height: 50px;
+            width: 30px;
+
+            {#display: grid;#}
+            {#grid-column: 4;#}
+        }
+        .messages .closeButton:hover
+        {
+            background-color: transparent;
+        }
+        .messages
+        {
+            {#float: left;#}
+            display: grid;
+            grid-column: 1 / 2;
+            text-align: left;
+            width: 390px;
+            justify-items: left;
+            overflow-wrap: break-word;
+            margin-left: 5px;
+            padding: 5px 20px 5px 20px;
+            max-height: 200px;
+        }
+        .messages:hover
+        {
+            background-color: gray;
+            border-radius: 35px 15px 15px 35px;
+            -webkit-transition: all 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
+        }
+        .messageClick
+        {
+            visibility: hidden;
+        }
 
     </style>
 </head>
 <body>
-    <nav class="navbar" style="background-color: gray">
+    <nav class="navbar" style="background-color: gray; padding-left: 10px; padding-right: 10px;">
         <a href="#" class="navbar-brand" style="color: white"></a>
         <div class="navbar">
             <a href="{% url 'mysite:main' %}" class="nav-item nav-link">Dashboard</a>
@@ -166,17 +260,33 @@
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
             {% endif %}
+
+        {# Bell Notifications #}
+
+            <div class="notifications">
+                <a href="#" class="notifications nav-item nav-link">
+                    <img src="/media/bell_icon.png">
+                    <span class="badge">{% if message_count != 0 %}{{message_count}}{% endif %}</span>
+                </a>
+
+                <div class="notifications-dropdown">
+                <a href="/mysite/createMessage" style="float: none; color: black; margin: 12px 16px; text-decoration: none;
+                      display: block; text-align: center; font-size: 20px;" >Create a Message</a>
+                    {% for message in messages %}
+                        <div onclick="location.href='{% url 'mysite:ignore_message' message.id %}';" class="notifications-elements">
+
+                            <div class="messages"><label>{{message.message_description}}</label>
+                                <a class="closeButton" type="button" href="{% url 'mysite:delete_message' message.id %}">&times;</a>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
         </div>
     </nav>
 
-
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
 
     {% block body %}
 

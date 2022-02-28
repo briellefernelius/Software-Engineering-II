@@ -92,3 +92,9 @@ class EditProfileForm(ModelForm):
         model = CustomUser
         fields = ['image_profile', 'first_name', 'last_name', 'birthday', 'phone_number', 'addressLine1',
                   'addressLine2', 'city', 'bio', 'link1', 'link2', 'link3']
+
+
+class CreateMessageForm(ModelForm):
+    class Meta:
+        model = UserMessages
+        fields = ['message_description']

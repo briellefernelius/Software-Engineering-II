@@ -159,19 +159,21 @@ def courses_edit(request, id):
 # This function will either enroll or drop the course with the id that is passed in.
 # If the user is already registered to that course, then it will be dropped.
 def courses_enroll(request, id):
-    CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
+    # CustomUser.objects.get(pk=request.user.pk).courses.append(Course.objects.get(id=id))
     # since this function will be called by register and drop buttons
     # check to see if they are already registered to that course,
     # if they are, then drop that class
     # if they aren't, then add that class
     usercourses = CourseUser.objects.all().filter(user_id=request.user.pk)
     item_list = Course.objects.all()
+
     title_name = request.GET.get('title_name')
     department = request.GET.get('department')
     if title_name != '' and title_name is not None:
         item_list = item_list.filter(course_name__icontains=title_name)
     if department != '' and department is not None:
         item_list = item_list.filter(department__icontains=department)
+
     courseFound = False
     for course in usercourses:
         print(f'Course: {course.course_id}\n')
@@ -189,6 +191,12 @@ def courses_enroll(request, id):
         print("!!You are already registered to that course!!")
         course_drop(request, id)
 
-    context = {'item_list': item_list, 'usercourses': usercourses, 'user': CustomUser.objects.get(id=request.user.pk)}
-    #return redirect('mysite:registerClasses')
-    return render(request, 'mysite/registerClasses.html', context)
+
+    course_list = list()
+    temp = CourseUser.objects.all().filter(user_id=request.user.pk)
+    for course in temp:
+        course_list.append(course.course_id.pk)
+    request.session['courses'] = course_list
+    print(f'REGISTER cookie courses set: {course_list}')
+
+    return redirect('mysite:registerClasses')

@@ -1,0 +1,27 @@
+{% extends 'mysite/mainbase.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div class="card">
+                    <div class="card-header" style="background-color: lightblue">
+                        <div class="card-title">
+                            Add a Custom Message
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" style="text-align: center">
+                          {% csrf_token %}
+                            <div class="" style="display: flex; flex-wrap: wrap; row-gap: 20px; flex-direction:
+                                column; margin-top: 5px; margin-left: 40px">{{ form.as_p }}</div>
+                            <input type="submit" value="Save" style="background-color: lightblue; text: white">
+                          <a href="{% url 'mysite:main' %}">
+                              <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
+                          </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ {%  endblock %}

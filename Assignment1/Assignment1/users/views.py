@@ -21,17 +21,15 @@ def login(request):
     if form.is_valid():
         # get the CourseUser object associated with the user's pk.
         courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
-        user = CustomUser.objects.get(pk=request.user.pk)
-        # make a list, then add each course to that list from the CourseUser's course_id field
-        for obj in courseuser:
-            try:
-                # try and remove the course from their course list
-                user.courses.remove(obj)
-            except ValueError:
-                # if the course is not already in their course list, then add it
-                user.courses.append(obj.course_id)
-        # print(f"Users Courses: {user.courses}")
+        course_list = list()
+        for course in courseuser:
+            course_list.append(course.course_id.pk)
+
+        request.session['courses'] = course_list
+        v = request.session.get('courses')
+        print(f'cookies: {v}')
         return redirect('mysite:main')
+
     return render(request, 'users/login.html', {'form': form})
 
 
