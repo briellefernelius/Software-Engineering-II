@@ -70,12 +70,14 @@ def calendar(request):
     if LoggedUser.is_instructor: # is instructor
         UserResult = item.filter(instructor_id=UserID) # get instructor courses
     else: # is student; get student courses
-        course_list = Course.objects.all()
         registered_list = []
-        # Loop through all courses. If the user is registered in that course append to list of register courses.
-        for course in list(course_list):
-            if (LoggedUser.isRegisteredTo(LoggedUser.courses, course.id) == True):
-                registered_list.append(course)
+
+        # loop through the stored courses cookie
+        course_list = request.session.get('courses')
+        courses_list = list()
+        for course_id in courses_list:
+            registered_list.append(Course.objects.get(id=course_id))
+
         UserResult = registered_list
         # get all the assignment for the user (student)
         c_list = LoggedUser.courses
@@ -86,8 +88,7 @@ def calendar(request):
                 a_list.append(asn)
         Assignment_list = a_list
         # DO NOT remove for DEBUG purposes.
-    #print('AL:\t',Assignment_list)
-    #print('UR\t',UserResult)
+    print('AL:\t',Assignment_list)
     context = {
         "Courses": UserResult,
         "Assignment": Assignment_list,
