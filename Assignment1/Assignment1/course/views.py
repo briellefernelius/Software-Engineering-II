@@ -72,8 +72,17 @@ def assignment_edit(request, courseid, assignmentid):
 
 
 def submit_assignment(request, course_id, assignment_id):
+
+    user = CustomUser.objects.get(pk=request.user.pk)
     assignment = Assignment.objects.get(id=assignment_id)
     current_course = Course.objects.get(pk=course_id)
+
+    # Check if already a submission
+    submit = Submission.objects.all().filter(user=user, assignment=assignment)
+    if submit is not None:
+        #messages.warning(request, "Already submitted this assignment")
+        return redirect('course:assignment_submission', assignment_id)
+
     type = assignment.submission_type
     if type == '.file':
         form = SubmissionForm_file(request.POST or None, request.FILES or None)
@@ -85,7 +94,7 @@ def submit_assignment(request, course_id, assignment_id):
         submission.user = CustomUser.objects.get(pk=request.user.pk)
         submission.assignment = Assignment.objects.get(pk=assignment_id)
         submission.save()
-        return redirect('course:course_page', course_id)
+
     return render(request, 'course/submit_assignment.html',
                   {'form': form, 'course': current_course, 'assignment': assignment})
 
