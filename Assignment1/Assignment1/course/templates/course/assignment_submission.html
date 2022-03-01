@@ -13,7 +13,11 @@
                     <div class="card-body">
                         {% for submit in list %}
                             <h3>{{ submit.assignment.title }}</h3>
-                            <a href="/media/{{ submit.file }}">View Submission</a>
+                            {% if submit.assignment.submission_type == '.file' %}
+                                <a href="/media/{{ submit.file }}">View Submission</a>
+                            {% else %}
+                                {{ submit.textbox }}
+                            {% endif %}
                             <hr/>
                         {% endfor %}
                     </div>
