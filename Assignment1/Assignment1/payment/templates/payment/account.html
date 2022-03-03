@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" style="text-align: center">
+                        <form method="post" style="text-align: center">
                             {% csrf_token %}
                             <h3>Tuition: ${{ tuition }}</h3>
                             {{ form.as_p }}
