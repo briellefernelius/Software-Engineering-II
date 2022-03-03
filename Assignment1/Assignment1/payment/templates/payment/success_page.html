@@ -6,6 +6,7 @@
     <title>Account</title>
 </head>
 <body>
+
 {% block body %}
     <h2 style="text-align: center">Welcome to Account</h2>
         <div class="container">
@@ -14,16 +15,12 @@
                 <div class="card">
                     <div class="card-header" style="background-color: lightblue">
                         <div class="card-title">
-                            Account
+                            Payment Processing
                         </div>
                     </div>
                     <div class="card-body">
                         <form method="POST" style="text-align: center">
-                            {% csrf_token %}
-                            <h3>Tuition: ${{ tuition }}</h3>
-                            {{ form.as_p }}
-                            <input type="submit" value="Pay" style="background-color: lightblue; text: white">
-                            <br>
+                            <h1>Payment Succeeded</h1>
                         </form>
                     </div>
                 </div>
@@ -33,4 +30,3 @@
 {%  endblock %}
 </body>
 </html>
-
