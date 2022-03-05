@@ -65,9 +65,8 @@ def register_classes(request):
     if department != '' and department is not None:
         item_list = item_list.filter(department__icontains=department)
 
-
     context = {'item_list':  item_list.exclude(pk__in=course_ids), 'usercourses': courses_list}
-    print(f'REgistered classes: {courses_list}')
+    print(f'Registered classes: {courses_list}')
     return render(request, 'mysite/registerClasses.html', context)
 
 
@@ -137,6 +136,7 @@ def delete_message(request, message_id):
         message.delete()
 
     return redirect('mysite:main')
+
 
 def ignore_message(request, message_id):
     message = UserMessages.objects.get(id=message_id)

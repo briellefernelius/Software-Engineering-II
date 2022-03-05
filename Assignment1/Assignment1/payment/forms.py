@@ -126,9 +126,8 @@ class VerificationValueField(forms.CharField):
 
 
 class AccountForm(ModelForm):
-    expiration_date = ExpiryDateField()
     cvc_number = VerificationValueField()
 
     class Meta:
         model = Account
-        fields = ['cardholder_name', 'card_number', 'expiration_date', 'cvc_number', 'amount']
+        fields = ['cardholder_name', 'card_number', 'expiration_month', 'expiration_year', 'cvc_number', 'amount']

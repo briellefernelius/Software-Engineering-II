@@ -8,6 +8,7 @@
 <body>
 {% block body %}
     <h2 style="text-align: center">Welcome to Account</h2>
+    <hr></hr>
         <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
@@ -22,8 +23,7 @@
                             {% csrf_token %}
                             <h3>Tuition: ${{ tuition }}</h3>
                             {{ form.as_p }}
-                            <input type="submit" value="Pay" style="background-color: lightblue; text: white">
-                            <br>
+                            <input type="submit" value="Pay Tuition" style="background-color: lightblue; text: white; margin-left: 10px"/>
                         </form>
                     </div>
                 </div>

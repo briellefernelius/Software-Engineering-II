@@ -103,6 +103,7 @@ def assignment_submission(request, assignment_id):
     submission_list = Submission.objects.all().filter(assignment=assignment_id, user=request.user.pk)
     return render(request, 'course/assignment_submission.html', {'list': submission_list})
 
+
 def courses_add(request):
     form = CourseForm(request.POST or None)
 
