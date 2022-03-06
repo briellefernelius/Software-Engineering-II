@@ -37,23 +37,19 @@ class Course(models.Model):
     def ConvertDaysToInts(self) -> list[int]:
         # returns a list of integers that represent the days as a list of ints
         array = self.meeting_time_days
-        print(array)
         array = array.replace("'", "")
         array = array.replace("[", "")
         array = array.replace("]", "")
         array = array.replace(",", "")
-        print(array)
         array = array.replace('M', "1")
         array = array.replace('T', "2")
         array = array.replace('W', "3")
         array = array.replace('H', "4")
         array = array.replace('F', "5")
-
         array = array.replace('h', '')
         array = array.replace(' ', '')
 
         intarray = [int(i) for i in array]
-        print(f"Array: {intarray}")
         return intarray
 
     def clean(self):

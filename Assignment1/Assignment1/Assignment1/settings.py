@@ -134,7 +134,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = 'mysite:main'
+LOGIN_REDIRECT_URL = 'mysite:first_login'
+# LOGOUT_REDIRECT_URL = '/'  # this will go straight to the login page
 LOGIN_URL = 'login'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

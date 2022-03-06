@@ -9,19 +9,20 @@ app_name = 'mysite'
 urlpatterns = [
     # /
     path('', views.home, name="home"),
-
-    # /main/
     path('main/', views.main, name="main"),
+    path('first_login/', views.first_login, name="first_login"),
+    path('registerClasses/', views.register_classes, name="registerClasses"),
+    path('createMessage/', views.create_message, name="create_message"),
+    path('deleteMessage/<int:message_id>', views.delete_message, name="delete_message"),
+    path('ignoreMessage/<int:message_id>', views.ignore_message, name="ignore_message"),
+
     # main/submission/
     re_path(r'^main/submission/$', views.submission_all, name="submission_all"),
     # main/submission/456/ = (site)/(submission_id)/
     re_path(r'^main/submission/(?P<submission_id>[0-9]+)/$', views.submission_with_id, name="submission_with_id"),
 
     re_path(r'^main/submission/(?P<submission_id>[0-9]+)/graded/$', views.submission_graded, name="submission_graded"),
-    path('registerClasses/', views.register_classes, name="registerClasses"),
-    path('createMessage/', views.create_message, name="create_message"),
-    path('deleteMessage/<int:message_id>', views.delete_message, name="delete_message"),
-    path('ignoreMessage/<int:message_id>', views.ignore_message, name="ignore_message"),
+
 ]
 
 # INFO ON regular expressions

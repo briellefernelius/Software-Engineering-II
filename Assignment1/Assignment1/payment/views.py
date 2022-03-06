@@ -12,7 +12,14 @@ stripe.api_key = "sk_test_51KUIyfJVOaFYMiYoXv92CzSa1vIinDxC9OcaZBQY61oQOkxC3ZAuB
 
 
 def account(request):
-    courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
+    #courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
+    # Use cookies to get user's courses
+    item_list = request.session.get('courseuser')
+    courseuser = list()
+    print(f'courseuser: {item_list}')
+    for course_id in item_list:
+        courseuser.append(CourseUser.objects.get(id=course_id))
+
     tuition = 0
     form = AccountForm(request.POST or None)
     if request.method == 'POST':
@@ -47,5 +54,5 @@ def account(request):
             form.save()
     for course in courseuser:
         tuition += course.course_id.credit_hours * 100
-
+        # tuition should probably be saved to the user's account, after it fully works
     return render(request, 'payment/account.html', {'form': form, 'tuition': tuition})

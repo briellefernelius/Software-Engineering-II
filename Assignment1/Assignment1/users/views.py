@@ -4,34 +4,32 @@ from django.core.files.storage import FileSystemStorage, default_storage
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.views.decorators.vary import vary_on_cookie
 from .forms import *
 from .models import *
 from django.http import HttpResponse, Http404
 from course.models import Course, CourseUser, Assignment
-
+from Assignment1 import settings
 User = get_user_model()
 
-
-@login_required
-@vary_on_cookie
-def login(request):
-    form = AuthenticationForm(data=request.POST or None)
-    if form.is_valid():
-        # get the CourseUser object associated with the user's pk.
-        courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
-        course_list = list()
-        for course in courseuser:
-            course_list.append(course.course_id.pk)
-
-        request.session['courses'] = course_list
-        v = request.session.get('courses')
-        print(f'cookies: {v}')
-        return redirect('mysite:main')
-
-    return render(request, 'users/login.html', {'form': form})
-
+# def login(request):
+#     form = AuthenticationForm(data=request.POST or None)
+#     if form.is_valid():
+#     # get the CourseUser object associated with the user's pk.
+#         courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
+#         course_list = list()
+#         for course in courseuser:
+#             course_list.append(course.course_id.pk)
+#
+#         request.session['courses'] = course_list
+#         v = request.session.get('courses')
+#         print(f'cookies: {v}')
+#         return redirect('mysite:main')
+#
+#     return render(request, 'users/login.html', {'form': form})
 
 @login_required
 def profile(request):
@@ -74,8 +72,7 @@ def calendar(request):
 
         # loop through the stored courses cookie
         course_list = request.session.get('courses')
-        courses_list = list()
-        for course_id in courses_list:
+        for course_id in course_list:
             registered_list.append(Course.objects.get(id=course_id))
 
         UserResult = registered_list

@@ -8,10 +8,6 @@ from course.models import Course, CourseUser, Assignment
 from users.models import CustomUser
 from .models import *
 from users.models import UserMessages
-from django.conf import settings
-import users
-from django.contrib.auth import get_user_model
-from django.core.files.storage import FileSystemStorage
 from users.forms import CreateMessageForm
 
 
@@ -22,17 +18,10 @@ def home(request):
 @login_required
 def main(request):
 
-    # item_list = CustomUser.objects.get(pk=request.user.pk).courses
     item_list = request.session.get('courses')
     courses_list = list()
     for course_id in item_list:
         courses_list.append(Course.objects.get(id=course_id))
-    #
-    # courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
-    # item_list = list()
-    # for course in courseuser:
-    #     item_list.append(course.course_id)
-
 
     # get all assignments for the courses our user is enrolled in; order by due date
     assignment_list = Assignment.objects.all().filter(course__in=item_list).order_by('due_date').exclude(course__assignment__due_date__lte=datetime.datetime.utcnow())
@@ -42,11 +31,29 @@ def main(request):
     # notifications list
     messages = UserMessages.objects.all().filter(user_id=request.user.pk)
 
-    print(f' UserMessages: {messages.exclude(ignored=False).count()}')
-    print(f'!UserCourses: {courses_list}')
+    #print(f'!UserCourses: {courses_list}') #debug only
 
     context = {'item_list': courses_list, 'todolist': todolist, 'messages': messages, 'message_count': messages.exclude(ignored=True).count()}
     return render(request, 'mysite/main.html', context)
+
+
+# this function will get called right after the user presses the login button
+@login_required
+def first_login(request):
+    courseuser = CourseUser.objects.all().filter(user_id=request.user.pk)
+    course_list = list()
+    usercourse = list()
+    for course in courseuser:
+        course_list.append(course.course_id.pk)
+        usercourse.append(course.id)
+
+    request.session['courses'] = course_list
+    request.session['courseuser'] = usercourse
+    # v = request.session.get('courses')
+    v = request.session.get('courseuser')
+    print(f'cookies courseuser: {v}') # debug only
+    return redirect('mysite:main')
+
 
 
 @login_required
@@ -66,7 +73,7 @@ def register_classes(request):
         item_list = item_list.filter(department__icontains=department)
 
     context = {'item_list':  item_list.exclude(pk__in=course_ids), 'usercourses': courses_list}
-    print(f'Registered classes: {courses_list}')
+    #print(f'Registered classes: {courses_list}') #debug only
     return render(request, 'mysite/registerClasses.html', context)
 
 
