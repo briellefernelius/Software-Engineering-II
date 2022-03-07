@@ -2,27 +2,27 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from course.forms import CourseForm, AssignmentForm, SubmissionForm, SubmissionForm_file
-# Create your views here.
 from users.models import CustomUser
 from course.models import Course, CourseUser, Assignment, Submission
-
+from mysite.views import Get_Messages
 User = get_user_model()
 
 
 def course_page(request, id):
     course = Course.objects.get(pk=id)
     assignments = Assignment.objects.all().filter(course=id)
-    context = {
-        'course': course, 'assignments': assignments
-    }
+    context = {'course': course, 'assignments': assignments}
+    messages = Get_Messages(request)
+    context.update(messages)
+
     return render(request, 'course/course_page.html', context)
 
 
 def courses(request):
     item_list = Course.objects.all()
-    context = {
-        'item_list': item_list,
-    }
+    context = {'item_list': item_list}
+    messages = Get_Messages(request)
+    context.update(messages)
     return render(request, 'course/courses.html', context)
 
 
@@ -43,6 +43,8 @@ def assigment_add(request, id):
         context = {
             'course': course, 'assignments': assignments
         }
+        messages = Get_Messages(request)
+        context.update(messages)  # merging the context dictionary with the messages dictionary
         return render(request, 'course/course_page.html', context)
     return render(request, 'course/assignment-form.html', {'form': form, 'course': id})
 
@@ -64,11 +66,15 @@ def assignment_edit(request, courseid, assignmentid):
         form.save()
         course = Course.objects.get(pk=courseid)
         assignments = Assignment.objects.all().filter(course=courseid)
-        context = {
-            'course': course, 'assignments': assignments
-        }
+        context = {'course': course, 'assignments': assignments}
+        messages = Get_Messages(request)
+        context.update(messages)  # merging the context dictionary with the messages dictionary
+
         return render(request, 'course/course_page.html', context)
-    return render(request, 'course/assignment-form.html', {'form': form, 'assignments': assignments})
+    context = {'form': form, 'assignments': assignments, 'previous_page': request.META.get('HTTP_REFERER')}
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
+    return render(request, 'course/assignment-form.html', context)
 
 
 def submit_assignment(request, course_id, assignment_id):
@@ -94,14 +100,18 @@ def submit_assignment(request, course_id, assignment_id):
         submission.user = CustomUser.objects.get(pk=request.user.pk)
         submission.assignment = Assignment.objects.get(pk=assignment_id)
         submission.save()
-
-    return render(request, 'course/submit_assignment.html',
-                  {'form': form, 'course': current_course, 'assignment': assignment})
+    context = {'form': form, 'course': current_course, 'assignment': assignment}
+    messages = Get_Messages(request)
+    context.update(messages)
+    return render(request, 'course/submit_assignment.html', context)
 
 
 def assignment_submission(request, assignment_id):
     submission_list = Submission.objects.all().filter(assignment=assignment_id, user=request.user.pk)
-    return render(request, 'course/assignment_submission.html', {'list': submission_list})
+    context = {'list': submission_list}
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
+    return render(request, 'course/assignment_submission.html', context)
 
 
 def courses_add(request):
@@ -130,6 +140,17 @@ def courses_add(request):
         courseuser.save()
         print(f"New CourseUser created: {courseuser}")
 
+        ### Cookies ###
+        cookie_courses = request.session.get('courses')
+        cookie_courseuser = request.session.get('courseuser')
+        # add new data to them
+        cookie_courses.append(course.pk)
+        cookie_courseuser.append(courseuser.pk)
+        # save these cookies
+        request.session['course'] = cookie_courses
+        request.session['courseuser'] = cookie_courseuser
+        ###############
+
         return redirect('course:courses')
     return render(request, 'course/courses-form.html', {'form': form})
 
@@ -140,9 +161,8 @@ def course_drop(request, id):
     user = CustomUser.objects.get(pk=request.user.pk)
     courseuser = CourseUser.objects.all().filter(user_id=request.user.pk, course_id=id)
 
-    print(f"-----CourseUser Objects: {courseuser}")
     for course in courseuser:
-        print(f"...Deleting course: {course} from user")
+        #print(f"...Deleting course: {course} from user")
         course.delete()
     return redirect('mysite:main')
 
@@ -163,7 +183,10 @@ def courses_edit(request, id):
     if form.is_valid():
         form.save()
         return redirect('course:courses')
-    return render(request, 'course/courses-form.html', {'form': form, 'item': item})
+    context = {'form': form, 'item': item}
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
+    return render(request, 'course/courses-form.html', context)
 
 
 # This function will either enroll or drop the course with the id that is passed in.
@@ -203,10 +226,13 @@ def courses_enroll(request, id):
 
 
     course_list = list()
+    coursuser_list = list()
     temp = CourseUser.objects.all().filter(user_id=request.user.pk)
     for course in temp:
         course_list.append(course.course_id.pk)
+        coursuser_list.append(course.pk)
     request.session['courses'] = course_list
-    print(f'REGISTER cookie courses set: {course_list}')
+    request.session['courseuser'] = coursuser_list
+    # print(f'REGISTER cookie courses set: {course_list}')
 
     return redirect('mysite:registerClasses')

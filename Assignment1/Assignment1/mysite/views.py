@@ -1,7 +1,7 @@
 import operator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 import datetime
 from django.utils import timezone
 from course.models import Course, CourseUser, Assignment
@@ -29,11 +29,10 @@ def main(request):
     todolist = assignment_list[:5]
 
     # notifications list
-    messages = UserMessages.objects.all().filter(user_id=request.user.pk)
+    context = {'item_list': courses_list, 'todolist': todolist}
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
 
-    #print(f'!UserCourses: {courses_list}') #debug only
-
-    context = {'item_list': courses_list, 'todolist': todolist, 'messages': messages, 'message_count': messages.exclude(ignored=True).count()}
     return render(request, 'mysite/main.html', context)
 
 
@@ -50,8 +49,8 @@ def first_login(request):
     request.session['courses'] = course_list
     request.session['courseuser'] = usercourse
     # v = request.session.get('courses')
-    v = request.session.get('courseuser')
-    print(f'cookies courseuser: {v}') # debug only
+    #v = request.session.get('courseuser')
+    #print(f'cookies courseuser: {v}') # debug only
     return redirect('mysite:main')
 
 
@@ -73,6 +72,8 @@ def register_classes(request):
         item_list = item_list.filter(department__icontains=department)
 
     context = {'item_list':  item_list.exclude(pk__in=course_ids), 'usercourses': courses_list}
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
     #print(f'Registered classes: {courses_list}') #debug only
     return render(request, 'mysite/registerClasses.html', context)
 
@@ -82,6 +83,8 @@ def submission_all(request):
     all_submissions = Submission.objects.all()
     # dictionary
     context = {'all_submissions': all_submissions}
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
     # html = '<br><br><br>'
     # for submission in all_submissions:
     #     url = 'main/submission/' + str(submission.id) + '/'
@@ -95,7 +98,10 @@ def submission_with_id(request, submission_id):
         submission = Submission.objects.get(pk=submission_id)
     except Submission.DoesNotExist:
         raise Http404("Submission id does not exist")
-    return render(request, 'mysite/submission_details.html', {'submission' : submission})
+    context = {'submission' : submission}
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
+    return render(request, 'mysite/submission_details.html', context)
     # return HttpResponse("<h2>Successful: " + str(submission_id) + "</h2>")
 
 
@@ -136,15 +142,15 @@ def create_message(request):
 #         return redirect('mysite:main')
 #     return render(request, 'users/message-form.html', {'form': form})
 
-
+@login_required
 def delete_message(request, message_id):
     message = UserMessages.objects.get(id=message_id)
     if message is not None:
         message.delete()
+    # return to the webpage the user was at before messages
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    return redirect('mysite:main')
-
-
+@login_required
 def ignore_message(request, message_id):
     message = UserMessages.objects.get(id=message_id)
     if message is not None:
@@ -157,5 +163,16 @@ def ignore_message(request, message_id):
 
         message.save()
     print(f'Message Ignored: {message.ignored}')
-    return redirect('mysite:main')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+# This is a helper function. It will return a dictionary of all the current users messages.
+# The idea is that this method can be called from anywhere and reduce duplicate code.
+@login_required
+def Get_Messages(request) -> dict:
+    messages = UserMessages.objects.all().filter(user_id=request.user.pk)
+    message_count = messages.exclude(ignored=True).count()
+    context = {'messages': messages, 'message_count': message_count}
+    return context
+
 

@@ -13,6 +13,8 @@ from .models import *
 from django.http import HttpResponse, Http404
 from course.models import Course, CourseUser, Assignment
 from Assignment1 import settings
+from mysite.views import Get_Messages
+
 User = get_user_model()
 
 # def login(request):
@@ -35,7 +37,10 @@ User = get_user_model()
 def profile(request):
     try:
         item_list = CustomUser.objects.all()
-        return render(request, 'users/profile.html', {'item_list': item_list})
+        context = {'item_list': item_list}
+        messages = Get_Messages(request)
+        context.update(messages)  # merging the context dictionary with the messages dictionary
+        return render(request, 'users/profile.html', context)
     except CustomUser.DoesNotExist:
         return render(request, 'users/home.html')
 
@@ -56,10 +61,13 @@ def profile_edit(request, id):
             return redirect('users:profile')
     else:
         form = EditProfileForm(instance=request.user)
-        return render(request, 'users/profile-form.html', {'form': form, 'item': item})
+        context = {'form': form, 'item': item}
+        messages = Get_Messages(request)
+        context.update(messages)  # merging the context dictionary with the messages dictionary
+        return render(request, 'users/profile-form.html', context)
 
 
-# @login_required
+@login_required
 def calendar(request):
     UserID = request.user.id
     item = Course.objects.all()
@@ -90,6 +98,8 @@ def calendar(request):
         "Courses": UserResult,
         "Assignment": Assignment_list,
     }
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
     return render(request, 'users/calendar.html', context)
 
 

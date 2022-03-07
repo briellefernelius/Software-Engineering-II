@@ -6,6 +6,7 @@ from .forms import *
 from .models import Account
 import stripe
 from django.views.generic import View
+from mysite.views import Get_Messages
 # Create your views here.
 
 stripe.api_key = "sk_test_51KUIyfJVOaFYMiYoXv92CzSa1vIinDxC9OcaZBQY61oQOkxC3ZAuBMSKD58vbsOAMy6ANXI5zVMyL2OSasKjoo8X00SDET2xJG"
@@ -55,4 +56,7 @@ def account(request):
     for course in courseuser:
         tuition += course.course_id.credit_hours * 100
         # tuition should probably be saved to the user's account, after it fully works
-    return render(request, 'payment/account.html', {'form': form, 'tuition': tuition})
+    context = {'form': form, 'tuition': tuition}
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
+    return render(request, 'payment/account.html', context)
