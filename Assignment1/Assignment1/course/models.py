@@ -75,9 +75,7 @@ class Assignment(models.Model):
     #submission_id = models.ForeignKey(Submission, on_delete=models.CASCADE, null=True)
     due_date = models.DateTimeField(default=datetime.time, null=True)
     max_points = models.IntegerField(default=0)
-    points_received = models.IntegerField(default=0, null=True)
     submission_type = models.CharField(max_length=10, choices=SUBMISSION_CHOICES, null=True)
-    is_graded = models.BooleanField(default=False)
 
     def clean(self):
         if self.max_points < 0:
@@ -97,6 +95,8 @@ class Submission(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     textbox = models.TextField(null=True, blank=True)
     file = models.FileField(upload_to='file_submissions/', blank=True)
+    is_graded = models.BooleanField(default=False)
+    points_received = models.IntegerField(default=0, null=True)
 
     def __str__(self):
         return str(self.pk) + ": " + str(self.assignment.course.course_number) + "-" + str(self.assignment.title) + ", " + str(self.user)

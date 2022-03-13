@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
-from course.forms import CourseForm, AssignmentForm, SubmissionForm, SubmissionForm_file
+from course.forms import CourseForm, AssignmentForm, SubmissionForm, SubmissionForm_file, GradingForm
 from users.models import CustomUser
 from course.models import Course, CourseUser, Assignment, Submission
 from mysite.views import Get_Messages
@@ -84,10 +84,10 @@ def submit_assignment(request, course_id, assignment_id):
     current_course = Course.objects.get(pk=course_id)
 
     # Check if already a submission
-    submit = Submission.objects.all().filter(user=user, assignment=assignment)
-    if submit is not None:
+    #submit = Submission.objects.all().filter(user=user, assignment=assignment)
+    #if submit is not None:
         #messages.warning(request, "Already submitted this assignment")
-        return redirect('course:assignment_submission', assignment_id)
+        #return redirect('course:assignment_submission', assignment_id)
 
     type = assignment.submission_type
     if type == '.file':
@@ -100,6 +100,7 @@ def submit_assignment(request, course_id, assignment_id):
         submission.user = CustomUser.objects.get(pk=request.user.pk)
         submission.assignment = Assignment.objects.get(pk=assignment_id)
         submission.save()
+        return redirect('course:course_page', current_course.id)
     context = {'form': form, 'course': current_course, 'assignment': assignment}
     messages = Get_Messages(request)
     context.update(messages)
@@ -107,11 +108,36 @@ def submit_assignment(request, course_id, assignment_id):
 
 
 def assignment_submission(request, assignment_id):
-    submission_list = Submission.objects.all().filter(assignment=assignment_id, user=request.user.pk)
-    context = {'list': submission_list}
+    submission_list = Submission.objects.all().filter(assignment=assignment_id)
+    course = Course.objects.get(assignment=assignment_id)
+    context = {
+        'list': submission_list,
+        'course': course
+    }
     messages = Get_Messages(request)
     context.update(messages)  # merging the context dictionary with the messages dictionary
     return render(request, 'course/assignment_submission.html', context)
+
+
+def gradebook(request, submitid):
+    submission = Submission.objects.get(pk=submitid)
+    form = GradingForm(request.POST or None, instance=submission)
+    assignment = submission.assignment
+
+    context = {
+        'form': form,
+        'submission': submission,
+        'assignment': assignment
+    }
+    messages = Get_Messages(request)
+    context.update(messages)  # merging the context dictionary with the messages dictionary
+
+    if form.is_valid():
+        submission = form.save(commit=False)
+        submission.is_graded = True
+        submission.save()
+        return redirect('course:assignment_submission', assignment.id)
+    return render(request, 'course/gradebook.html', context)
 
 
 def courses_add(request):

@@ -1,0 +1,35 @@
+{% extends 'mysite/mainbase.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div class="card">
+                    <div class="card-header" style="background-color: lightblue">
+                        <div class="card-title">
+                            Grade Submission
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h1>{{assignment.title}}</h1>
+                        <h2>Due Date: {{ assignment.due_date }}</h2>
+                        <h2>Maximum Points: {{ assignment.max_points }}</h2>
+                        <br>
+                        <h2>Description:   {{ assignment.description }}</h2>
+                        <br><br>
+                        <form method="POST" enctype="multipart/form-data" style="text-align: center">
+                          {% csrf_token %}
+                            {{ form.as_p }}
+
+                                <input type="submit" value="Grade Assignment" style="background-color: lightblue; text: white">
+                            <a href="{% url 'course:assignment_submission' assignment.id %}">
+                                <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
+                            </a>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ {%  endblock %}

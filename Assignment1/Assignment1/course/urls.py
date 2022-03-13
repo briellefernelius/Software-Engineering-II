@@ -19,5 +19,6 @@ urlpatterns = [
     path('courses/edit/<int:id>', views.courses_edit, name="edit_courses"),
     path('<int:courseid>/<int:assignmentid>/assignment/delete', views.assignment_delete, name="delete_assignment"),
     path('<int:courseid>/<int:assignmentid>/assignment/edit', views.assignment_edit, name="edit_assignment"),
+    path('<int:submitid>/gradebook', views.gradebook, name="gradebook"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

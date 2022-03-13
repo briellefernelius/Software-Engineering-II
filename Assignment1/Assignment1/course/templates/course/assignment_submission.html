@@ -1,6 +1,6 @@
 {% extends 'mysite/mainbase.html' %}
 {% block body %}
-    <div class="container">
+    <div class="container" style="margin-top: 12px">
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="card">
@@ -9,17 +9,46 @@
                             Submissions
                         </div>
                     </div>
-
+                    <div class="card-subtitle mb-2 text-muted">
+                        <h5 style="margin: 2%">{{ course.department }} {{ course.course_number }}, {{ course.course_name }}</h5>
+                    </div>
                     <div class="card-body">
-                        {% for submit in list %}
-                            <h3>{{ submit.assignment.title }}</h3>
-                            {% if submit.assignment.submission_type == '.file' %}
-                                <a href="/media/{{ submit.file }}">View Submission</a>
-                            {% else %}
-                                {{ submit.textbox }}
-                            {% endif %}
-                            <hr/>
-                        {% endfor %}
+                        <div class="table-responsive">
+                        <table class="table table-bordered" style="margin: 0 auto; width: 80%;">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Assignment</th>
+                                <th>Student</th>
+                                <th>Grade</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                                <!-- if and for loop -->
+                                {% if list %}
+                                    {% for submit in list %}
+                                        <tr>
+                                            <th scope="row">{{ forloop.counter }}</th>
+                                            <td>{{ submit.assignment.title }}</td>
+                                            <td>{{ submit.user.first_name }} {{ submit.user.last_name }}</td>
+                                            <td>
+                                                {% if submit.is_graded %}
+                                                    {{ submit.points_received }} of {{ submit.assignment.max_points }}
+                                                    <a href="{% url 'course:gradebook' submit.id %}" class="btn btn-outline-secondary btn-sm" style="margin-left: 8px">Update</a>
+                                                {% else %}
+                                                     -- of {{ submit.assignment.max_points }}
+                                                    <a href="{% url 'course:gradebook' submit.id %}" class="btn btn-outline-secondary btn-sm" style="margin-left: 8px">Grade</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+
+
+                              </tbody>
+                            </table>
                     </div>
                 </div>
             </div>

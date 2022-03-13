@@ -70,3 +70,12 @@ class SubmissionForm_file(ModelForm):
     class Meta:
         model = Submission
         fields = ['file']
+
+
+class GradingForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    class Meta:
+        model = Submission
+        fields = ['points_received']
