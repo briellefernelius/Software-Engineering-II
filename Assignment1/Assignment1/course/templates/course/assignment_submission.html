@@ -20,6 +20,7 @@
                                 <th>No</th>
                                 <th>Assignment</th>
                                 <th>Student</th>
+                                <th>Date Submitted</th>
                                 <th>Grade</th>
 
                             </tr>
@@ -33,6 +34,7 @@
                                             <th scope="row">{{ forloop.counter }}</th>
                                             <td>{{ submit.assignment.title }}</td>
                                             <td>{{ submit.user.first_name }} {{ submit.user.last_name }}</td>
+                                            <td>{{ submit.submit_datetime }}</td>
                                             <td>
                                                 {% if submit.is_graded %}
                                                     {{ submit.points_received }} of {{ submit.assignment.max_points }}

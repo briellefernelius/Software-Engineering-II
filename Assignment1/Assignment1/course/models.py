@@ -1,4 +1,6 @@
 import datetime
+import os
+
 from users.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
@@ -98,11 +100,15 @@ class Submission(models.Model):
     is_graded = models.BooleanField(default=False)
     max_points = models.IntegerField(default=0)
     points_received = models.IntegerField(default=0, null=True)
+    submit_datetime = models.DateTimeField(auto_now_add=True)
 
     def clean(self):
 
         if self.points_received < 0 or self.points_received > self.max_points:
             raise ValidationError("Points given should not be greater than the maximum points!")
+
+    def filename(self):
+        return os.path.basename(self.file.name)
 
     def __str__(self):
         return str(self.pk) + ": " + str(self.assignment.course.course_number) + "-" + str(self.assignment.title) + ", " + str(self.user)

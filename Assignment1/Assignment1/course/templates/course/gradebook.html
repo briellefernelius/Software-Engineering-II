@@ -18,6 +18,7 @@
                         <h2>Submission Type: {{ assignment.submission_type }}</h2>
                         <br>
                         {% if assignment.submission_type == '.file' %}
+                            <h5>{{ submission.filename }}</h5>
                             <h3>
                                 <a href="{{ submission.file.url }}" download class="btn btn-outline-primary">
                                     Download File
