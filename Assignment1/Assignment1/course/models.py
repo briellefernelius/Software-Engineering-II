@@ -81,8 +81,8 @@ class Assignment(models.Model):
         if self.max_points < 0:
             raise ValidationError("Maximum points should be 0 or greater!")
 
-        if self.points_received < 0 or self.points_received > self.max_points:
-            raise ValidationError("Points given should be greater than 0 and less than the maximum points!")
+        #if self.points_received < 0 or self.points_received > self.max_points:
+            #raise ValidationError("Points given should be greater than 0 and less than the maximum points!")
 
         return super().clean()
 

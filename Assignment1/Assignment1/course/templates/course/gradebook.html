@@ -14,14 +14,33 @@
                         <h1>{{assignment.title}}</h1>
                         <h2>Due Date: {{ assignment.due_date }}</h2>
                         <h2>Maximum Points: {{ assignment.max_points }}</h2>
-                        <br>
                         <h2>Description:   {{ assignment.description }}</h2>
+                        <br>
+                        {% if assignment.submission_type == '.file' %}
+                            <h3>
+                                <a href="{{ submission.file.url }}" download class="btn btn-outline-primary">
+                                    Download File
+                                </a>
+                            </h3>
+                        {% else %}
+                            <div class="card">
+                                <div class="card-header" style="background-color: lightgray">
+                                    <div class="card-title">
+                                        Textbox Submission
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    {{ submission.textbox }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <h3></h3>
                         <br><br>
                         <form method="POST" enctype="multipart/form-data" style="text-align: center">
                           {% csrf_token %}
                             {{ form.as_p }}
 
-                                <input type="submit" value="Grade Assignment" style="background-color: lightblue; text: white">
+                                <input type="submit" value="Submit Grade" style="background-color: lightblue; text: white">
                             <a href="{% url 'course:assignment_submission' assignment.id %}">
                                 <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
                             </a>
