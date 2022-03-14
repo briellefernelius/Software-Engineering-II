@@ -169,7 +169,7 @@ def courses_add(request):
         courseuser.course_id = Course.objects.get(pk=course.pk)
         courseuser.user_id = CustomUser.objects.get(pk=request.user.pk)
         courseuser.save()
-        print(f"New CourseUser created: {courseuser}")
+        print(f"New CourseUser created: {courseuser}") #For unit test
 
         ### Cookies ###
         cookie_courses = request.session.get('courses')
@@ -181,7 +181,6 @@ def courses_add(request):
         request.session['course'] = cookie_courses
         request.session['courseuser'] = cookie_courseuser
         ###############
-
         return redirect('course:courses')
     return render(request, 'course/courses-form.html', {'form': form})
 
