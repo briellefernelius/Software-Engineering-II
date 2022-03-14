@@ -202,6 +202,8 @@ def courses_delete(request, id):
 
     if request.method == 'POST':
         item.delete()
+        print(f"Deleting course: {item} from user") #For unit test
+
         return redirect('course:courses')
     return render(request, 'course/courses-delete.html', {'item': item})
 
