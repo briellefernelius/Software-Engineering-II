@@ -19,6 +19,12 @@ def home(request):
 def main(request):
 
     item_list = request.session.get('courses')
+    # if cookies don't load properly; re-makify them
+    if item_list == None:
+        return redirect(request, 'mysite/main.html')
+    # Debug: cookie test
+    print('courses cookie; item_list; main page: \t', item_list)
+
     courses_list = list()
     for course_id in item_list:
         courses_list.append(Course.objects.get(id=course_id))

@@ -72,31 +72,31 @@ def calendar(request):
     UserID = request.user.id
     item = Course.objects.all()
     LoggedUser = User.objects.get(id=UserID)
-    Assignment_list = []
+    assignment_list = []
+    v = request.session.get('courses')
+    print(f'courses cookie: calendar view\t: {v}')
+    UserResult = []
     if LoggedUser.is_instructor: # is instructor
         UserResult = item.filter(instructor_id=UserID) # get instructor courses
     else: # is student; get student courses
-        registered_list = []
 
         # loop through the stored courses cookie
         course_list = request.session.get('courses')
-        for course_id in course_list:
-            registered_list.append(Course.objects.get(id=course_id))
 
-        UserResult = registered_list
+        for course_id in course_list:
+            UserResult.append(Course.objects.get(id=course_id))
+
         # get all the assignment for the user (student)
-        c_list = LoggedUser.courses
         asn_list = Assignment.objects.all()
-        a_list = []
         for asn in asn_list:
-            if asn.course in c_list:
-                a_list.append(asn)
-        Assignment_list = a_list
+            for ur_course in UserResult:
+                if asn.course == ur_course:
+                    assignment_list.append(asn)
         # DO NOT remove for DEBUG purposes.
-    print('AL:\t',Assignment_list)
+    #print('AL:\t',Assignment_list)
     context = {
         "Courses": UserResult,
-        "Assignment": Assignment_list,
+        "Assignment": assignment_list,
     }
     messages = Get_Messages(request)
     context.update(messages)  # merging the context dictionary with the messages dictionary

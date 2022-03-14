@@ -264,5 +264,6 @@ def courses_enroll(request, id):
     request.session['courses'] = course_list
     request.session['courseuser'] = coursuser_list
     # print(f'REGISTER cookie courses set: {course_list}')
+    print(f'courses cookie data:\t', request.session['courses'])
 
     return redirect('mysite:registerClasses')
