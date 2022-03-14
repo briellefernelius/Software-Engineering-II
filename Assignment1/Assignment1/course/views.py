@@ -169,7 +169,7 @@ def courses_add(request):
         courseuser.course_id = Course.objects.get(pk=course.pk)
         courseuser.user_id = CustomUser.objects.get(pk=request.user.pk)
         courseuser.save()
-        print(f"New CourseUser created: {courseuser}") #For unit test
+        print(f"New Course created: {courseuser}") #For unit test
 
         ### Cookies ###
         cookie_courses = request.session.get('courses')
