@@ -53,6 +53,7 @@ class CustomUser(AbstractUser):
     link1 = models.CharField(max_length=1000, default="", null=True)
     link2 = models.CharField(max_length=1000, default="", null=True)
     link3 = models.CharField(max_length=1000, default="", null=True)
+    tuition = models.IntegerField(default=0)
     courses = list()
 
     USERNAME_FIELD = 'email'

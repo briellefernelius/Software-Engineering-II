@@ -54,14 +54,20 @@ def first_login(request):
     return redirect('mysite:main')
 
 
-
 @login_required
 def register_classes(request):
     course_ids = request.session.get('courses')
-
+    user = CustomUser.objects.get(pk=request.user.pk)
+    user.tuition = request.POST.get('tuition')
+    tuition = 0
     courses_list = list()  # Will be a list of course objects that the user is registered for
     for course_id in course_ids:
         courses_list.append(Course.objects.get(id=course_id))
+
+    for course in courses_list:
+        tuition += course.credit_hours * 100
+    user.tuition = tuition
+    user.save()
 
     item_list = Course.objects.all()
     title_name = request.GET.get('title_name')
@@ -71,10 +77,10 @@ def register_classes(request):
     if department != '' and department is not None:
         item_list = item_list.filter(department__icontains=department)
 
-    context = {'item_list':  item_list.exclude(pk__in=course_ids), 'usercourses': courses_list}
+    context = {'item_list': item_list.exclude(pk__in=course_ids), 'usercourses': courses_list}
     messages = Get_Messages(request)
     context.update(messages)  # merging the context dictionary with the messages dictionary
-    #print(f'Registered classes: {courses_list}') #debug only
+    print(f'{user}, Registered classes: {courses_list}')  # For Unit Test
     return render(request, 'mysite/registerClasses.html', context)
 
 

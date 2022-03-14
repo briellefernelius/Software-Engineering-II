@@ -1,0 +1,22 @@
+{% extends 'mysite/loginbase.html' %}
+ {% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header" style="background-color: lightblue">
+                        <div class="card-title">
+                            Card Declined!
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" style="text-align: center">
+                            <h5>Card Declined! Please try again.</h5>
+                            <a href="{% url 'payment:account' %}" class="nav-item2 nav-link">Retry making payment?</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ {%  endblock %}
