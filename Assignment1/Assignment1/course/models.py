@@ -96,7 +96,13 @@ class Submission(models.Model):
     textbox = models.TextField(null=True, blank=True)
     file = models.FileField(upload_to='file_submissions/', blank=True)
     is_graded = models.BooleanField(default=False)
+    max_points = models.IntegerField(default=0)
     points_received = models.IntegerField(default=0, null=True)
+
+    def clean(self):
+
+        if self.points_received < 0 or self.points_received > self.max_points:
+            raise ValidationError("Points given should not be greater than the maximum points!")
 
     def __str__(self):
         return str(self.pk) + ": " + str(self.assignment.course.course_number) + "-" + str(self.assignment.title) + ", " + str(self.user)

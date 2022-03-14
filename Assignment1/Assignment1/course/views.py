@@ -84,10 +84,14 @@ def submit_assignment(request, course_id, assignment_id):
     current_course = Course.objects.get(pk=course_id)
 
     # Check if already a submission
-    #submit = Submission.objects.all().filter(user=user, assignment=assignment)
-    #if submit is not None:
+    try:
+        submit = Submission.objects.get(user=user, assignment=assignment)
+    except Submission.DoesNotExist:
+        submit = None
+
+    if submit is not None:
         #messages.warning(request, "Already submitted this assignment")
-        #return redirect('course:assignment_submission', assignment_id)
+        return redirect('course:course_page', course_id)
 
     type = assignment.submission_type
     if type == '.file':
@@ -99,6 +103,7 @@ def submit_assignment(request, course_id, assignment_id):
         submission = form.save(commit=False)
         submission.user = CustomUser.objects.get(pk=request.user.pk)
         submission.assignment = Assignment.objects.get(pk=assignment_id)
+        submission.max_points = assignment.max_points
         submission.save()
         return redirect('course:course_page', current_course.id)
     context = {'form': form, 'course': current_course, 'assignment': assignment}
