@@ -10,14 +10,12 @@
             crossorigin="anonymous"></script>
     <style>
         body {
-            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2gOp_o0HxgwsnD2iyj3XXC2eFq5Q8KyYD6A&usqp=CAU');
+            {#background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2gOp_o0HxgwsnD2iyj3XXC2eFq5Q8KyYD6A&usqp=CAU');#}
+            background-color: #ECECEC;
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100% 100%;
-        }
-
-        a:hover {
-            background-color: lightgrey;
+            margin-top: 0px;
         }
 
         h1 {
@@ -42,6 +40,29 @@
             background-opacity: 0.8;
             text-shadow: 1px 1px 2px lightgray, 0 0 25px blue, 0 0 5px aqua;
         }
+
+                .gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #fccb90;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+@media (min-width: 768px) {
+  .gradient-form {
+    height: 100vh !important;
+  }
+}
+@media (min-width: 769px) {
+  .gradient-custom-2 {
+    border-top-right-radius: .3rem;
+    border-bottom-right-radius: .3rem;
+  }
+}
     </style>
 </head>
 <body>
