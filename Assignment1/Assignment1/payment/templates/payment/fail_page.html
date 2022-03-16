@@ -4,15 +4,20 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                         <div class="card-title">
-                            Amount Fail!
+                             <h2 style="color: white; text-align: center">Amount Fail!</h2>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="POST" style="text-align: center">
+                        <form method="post" style="text-align: center">
                             <h5>Amount cannot be greater than tuition!</h5>
-                            <a href="{% url 'payment:account' %}" class="nav-item2 nav-link">retry making payment?</a>
+                                 <div class="d-flex align-items-center justify-content-center pb-4">
+                                 <p class="mb-0 me-2">Retry making payment?</p>
+                                <a href="{% url 'payment:account' %}">
+                                    <input class="btn btn-outline-danger" type="button" value="Retry Payment"/>
+                                </a>
+                            </div>
                         </form>
                     </div>
                 </div>

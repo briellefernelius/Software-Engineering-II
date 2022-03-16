@@ -4,19 +4,21 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593); ">
                         <div class="card-title">
-                            Edit Profile
+                            <h2 style="color: white; text-align: center">Edit Profile</h2>
                         </div>
                     </div>
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data" style="text-align: center">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <input type="submit" value="Save Changes" style="background-color: lightblue; text: white">
-                            <a href="{% url 'profile' %}">
-                                <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
+                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" value="Save Changes"/>
+                               <div class="d-flex align-items-center justify-content-center pb-4">
+                                   <a href="{% url 'profile' %}">
+                                <input class="btn btn-outline-danger" type="button" value="Cancel"/>
                             </a>
+                            </div>
                         </form>
                     </div>
                 </div>

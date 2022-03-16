@@ -8,15 +8,13 @@
 <body>
 {% block body %}
     {% if user.is_authenticated %}
-    <h2 style="text-align: center">Welcome to Account</h2>
-    <hr></hr>
         <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                         <div class="card-title">
-                            Account
+                             <h2 style="color: white; text-align: center">Account</h2>
                         </div>
                     </div>
                     <div class="card-body">
@@ -24,7 +22,7 @@
                             {% csrf_token %}
                             <h3>Tuition: ${{ total_tuition }}</h3>
                             {{ form.as_p }}
-                            <input type="submit" value="Pay Tuition" style="background-color: lightblue; text: white; margin-left: 10px"/>
+                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" value="Pay Tuition"/>
                         </form>
                     </div>
                 </div>
