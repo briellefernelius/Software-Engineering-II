@@ -11,7 +11,10 @@ User = get_user_model()
 def course_page(request, id):
     course = Course.objects.get(pk=id)
     assignments = Assignment.objects.all().filter(course=id)
-    context = {'course': course, 'assignments': assignments}
+    context = {
+        'course': course,
+        'assignments': assignments
+    }
     messages = Get_Messages(request)
     context.update(messages)
 
