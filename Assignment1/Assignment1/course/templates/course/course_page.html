@@ -11,6 +11,34 @@
 <body>
 {% block body %}
     <h2 style="text-align: center">Welcome to {{ course.department }} {{ course.course_number }}</h2>
+     <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['A',     90],
+          ['B',      80],
+          ['C',  70],
+          ['D', 60],
+          ['F',    50]
+        ]);
+
+        var options = {
+          title: 'Class Averages'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+     <div class="col-lg-10 offset-md-1" id="piechart" style="padding-bottom: 10px; height: 500px;"></div>
     {% if user.is_instructor %}
         <a href="{% url 'course:add_assignment' course.id %}" class="btn btn-primary" style="margin-left: 500px">Add Assignment</a>
     {% endif %}
