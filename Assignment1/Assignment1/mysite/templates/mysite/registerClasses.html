@@ -4,20 +4,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 {% block body %}
-
-    <h1>Register for Classes</h1>
-     <hr></hr>
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                         <div class="card-title">
-                            Search
+                            <h2 style="color: white; text-align: center">Search For Course</h2>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="" method="GET">
+                        <form action="" method="get">
                             <select name="department">
                                 <option selected disabled hidden>Select Department</option>
                                 <option value="Computer Science">Computer Science</option>
@@ -27,7 +24,7 @@
                                 <option value="Engineering">Engineering</option>
                             </select>
                             <input type="search" name="title_name" placeholder="Enter Course Name"/>
-                            <button type="submit" style="background-color: lightblue; text: white">Search</button>
+                            <button  class="btn btn-outline-danger" type="submit">Search</button>
                         </form>
                     </div>
                 </div>
@@ -48,8 +45,7 @@
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                         <a href="/courses/courses/enroll/{{item.pk}}">
-                                <input type="button" value="Register" id="btn" class="btn btn-primary"
-                                       style="background-color:blue"/>
+                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="button" value="Register"/>
                         </a>
 
                     </div>
@@ -61,7 +57,7 @@
 
     <div class="float-child2">
 
-    <h3>You are registered for </h3>
+    <h3>Registered Classes: </h3>
 
         {% if not usercourses  %}
             <div class="card-group">
@@ -84,8 +80,7 @@
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                         <a href="/courses/courses/enroll/{{item.pk}}">
-                                <input type="button" value="Drop" id="btn" class="btn btn-primary"
-                                       style="background-color:red"/>
+                            <input class="btn btn-outline-danger" type="button" id="btn" value="Drop"/>
                         </a>
 
                     </div>

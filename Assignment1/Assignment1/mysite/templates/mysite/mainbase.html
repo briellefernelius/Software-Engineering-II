@@ -70,6 +70,7 @@
         .card
         {
             display: flex;
+            border: 1px solid black;
         }
         .float-child2
         {
@@ -115,7 +116,8 @@
         .todo_click:visited {color: black;}
         .todo_click:hover
         {
-            border: 4px dotted blue;
+            {#border: 4px dotted blue;#}
+            border:  5px dotted #b44593;
         }
         .todo-group
         {
@@ -266,7 +268,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar" style="background-color: whitesmoke; padding-left: 10px; padding-right: 10px;">
+    <nav class="navbar" style="background-color: whitesmoke; padding-left: 10px; padding-right: 10px; margin-bottom: 50px">
         <a href="#" class="navbar-brand" style="color: white"></a>
         <div class="navbar">
             <a href="{% url 'mysite:main' %}" class="nav-item nav-link">Dashboard</a>

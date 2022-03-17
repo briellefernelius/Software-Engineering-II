@@ -1,7 +1,7 @@
 {% extends 'mysite/loginbase.html' %}
 {% block body %}
 
-        <div class="container">
+        <div class="container" style="margin-top: 100px">
         <div class="row">
             <div class="col-md-4 offset-md-4" style="padding-top: 20px">
                 <div class="card">
@@ -15,7 +15,7 @@
                           {% csrf_token %}
                           <h2>Are you sure you want to delete {{ item.department }}, {{ item.course_number }}</h2>
 
-                          <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" value="Confirm"/>
+                          <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" value="Confirm"/>
                                <a href="{% url 'course:courses' %}">
                                     <input class="btn btn-outline-danger" type="button" value="Cancel"/>
                                </a>

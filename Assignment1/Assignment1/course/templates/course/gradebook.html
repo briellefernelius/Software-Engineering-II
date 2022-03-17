@@ -4,9 +4,9 @@
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                         <div class="card-title">
-                            Grade Submission
+                            <h2 style="color: white; text-align: center">Grade Submission</h2>
                         </div>
                     </div>
 
@@ -42,9 +42,9 @@
                           {% csrf_token %}
                             {{ form.as_p }}
 
-                                <input type="submit" value="Submit Grade" style="background-color: lightblue; text: white">
+                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" value="Submit Grade"/>
                             <a href="{% url 'course:assignment_submission' assignment.id %}">
-                                <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
+                                <input class="btn btn-outline-danger" type="button" value="Cancel"/>
                             </a>
 
                         </form>

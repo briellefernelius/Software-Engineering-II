@@ -24,9 +24,9 @@
         {#The User's cards div#}
         <div class="float-child1">
         {% for item in item_list %}
-                <div class="card-group">
+                <div class="card-group" style="margin: 1rem;">
 
-                   <div class="card" style="margin: 1rem;">
+                   <div class="card">
 {#                        <div style="color: red; position: relative; left: 370px; top: 1px;#}
 {#                                 border: none; font-size: 1cm; caret-color: transparent;">#}
 {#                          <a class="closeButton" type="button" href="/courses/drop/{{item.pk}}" style="color: red;" >&times;</a></div>#}
@@ -45,15 +45,42 @@
         </div>
 
 {#     For use when we have the todo/message list#}
+{#        <div class="float-child2">#}
+{#        <h1>To-Do List:</h1>#}
+{#            {% for item in todolist %}#}
+{#          <div class="todo-group">#}
+{#               <a class="todo_click" href="{% url 'course:submit_assignment' item.course.id item.id%}">#}
+{#                <div class="card" style="min-width: 440px; min-height: 220px;">#}
+{#                   <h1 style="font-size:34px; text-align: center; margin: 5px;">{{item.course.department}} {{item.course.course_number }}</h1>#}
+{#                   <h2 style="font-size:28px; text-align: center; margin-top: 20px;">{{item.title}}</h2>#}
+{#                   <h3 style="font-size:26px; text-align: center; margin-top: 30px;">{{item.due_date}}</h3>#}
+{#                </div>#}
+{#               </a>#}
+{#          </div>#}
+{#            {% endfor %}#}
+{#        {% if not todolist %}#}
+{#        <div class="todo-group">#}
+{#                <div class="card" style="min-width: 440px; min-height: 220px;">#}
+{#                   <h1 style="font-size:38px; text-align: center; margin: 5px;">Well Done!</h1>#}
+{#                   <h2 style="font-size:28px; text-align: center; margin-top: 20px;">Your to do list is empty. Time to recharge.</h2>#}
+{#                </div>#}
+{#          </div>#}
+{#        {% endif %}#}
+{#        </div>#}
+{#    </div>#}
+
+     <div class="col-lg-4 d-flex align-items-center gradient-custom-2">
+              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+{#                    For use when we have the todo/message list#}
         <div class="float-child2">
         <h1>To-Do List:</h1>
             {% for item in todolist %}
           <div class="todo-group">
-               <a class="todo_click" href="{%url 'course:submit_assignment' item.course.id item.id%}">
+               <a class="todo_click" href="{% url 'course:submit_assignment' item.course.id item.id%}">
                 <div class="card" style="min-width: 440px; min-height: 220px;">
-                   <h1 style="font-size:34px; text-align: center; margin: 5px;">{{item.course.department}} {{item.course.course_number }}</h1>
-                   <h2 style="font-size:28px; text-align: center; margin-top: 20px;">{{item.title}}</h2>
-                   <h3 style="font-size:26px; text-align: center; margin-top: 30px;">{{item.due_date}}</h3>
+                   <h1 style="font-size:34px; text-align: center; margin: 5px; color: black;">{{item.course.department}} {{item.course.course_number }}</h1>
+                   <h2 style="font-size:28px; text-align: center; margin-top: 20px; color: black;">{{item.title}}</h2>
+                   <h3 style="font-size:26px; text-align: center; margin-top: 30px; color: black;">{{item.due_date}}</h3>
                 </div>
                </a>
           </div>
@@ -61,13 +88,15 @@
         {% if not todolist %}
         <div class="todo-group">
                 <div class="card" style="min-width: 440px; min-height: 220px;">
-                   <h1 style="font-size:38px; text-align: center; margin: 5px;">Well Done!</h1>
-                   <h2 style="font-size:28px; text-align: center; margin-top: 20px;">Your to do list is empty. Time to recharge.</h2>
+                   <h1 style="font-size:38px; text-align: center; margin: 5px; color: black;">Well Done!</h1>
+                   <h2 style="font-size:28px; text-align: center; margin-top: 20px; color: black;">Your to do list is empty. Time to recharge.</h2>
                 </div>
           </div>
         {% endif %}
         </div>
     </div>
+              </div>
+            </div>
 
 
 {% endblock %}

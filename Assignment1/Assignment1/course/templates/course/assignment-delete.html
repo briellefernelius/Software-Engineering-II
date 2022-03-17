@@ -1,22 +1,22 @@
 {% extends 'mysite/loginbase.html' %}
 {% block body %}
 
-        <div class="container">
+        <div class="container" style="margin-top: 100px">
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                         <div class="card-title">
-                            Delete Course
+                            <h2 style="color: white; text-align: center">Delete Course</h2>
                         </div>
                     </div>
                     <div class="card-body">
                       <form method="POST">
                           {% csrf_token %}
                           <h2>Are you sure you want to delete {{ assignment.title }}</h2>
-                          <input type="submit" value="Confirm" style="background-color: lightblue; text: white">
+                          <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" value="Confirm"/>
                           <a href="{% url 'mysite:main' %}">
-                              <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
+                              <input class="btn btn-outline-danger" type="button" value="Cancel"/>
                           </a>
                       </form>
                     </div>
