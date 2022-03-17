@@ -36,7 +36,7 @@
                             <h5 class="card-subtitle" style="margin: 5px; text-align: center">Credit Hours: {{ item.credit_hours }}</h5>
                             <p class="card-text" style="text-align: center">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                                <a href="{% url 'course:course_page' item.id %}">
-                                    <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" value="View Course" style="font-size: 20px; width: 100%"/>
+                                    <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" value="View Course" style="font-size: 20px; width: 100%; margin-top: 15px"/>
                                 </a>
                         </div>
                     </div>
@@ -44,36 +44,29 @@
         {% endfor %}
         </div>
 
-{#     For use when we have the todo/message list#}
-{#        <div class="float-child2">#}
-{#        <h1>To-Do List:</h1>#}
-{#            {% for item in todolist %}#}
-{#          <div class="todo-group">#}
-{#               <a class="todo_click" href="{% url 'course:submit_assignment' item.course.id item.id%}">#}
-{#                <div class="card" style="min-width: 440px; min-height: 220px;">#}
-{#                   <h1 style="font-size:34px; text-align: center; margin: 5px;">{{item.course.department}} {{item.course.course_number }}</h1>#}
-{#                   <h2 style="font-size:28px; text-align: center; margin-top: 20px;">{{item.title}}</h2>#}
-{#                   <h3 style="font-size:26px; text-align: center; margin-top: 30px;">{{item.due_date}}</h3>#}
-{#                </div>#}
-{#               </a>#}
-{#          </div>#}
-{#            {% endfor %}#}
-{#        {% if not todolist %}#}
-{#        <div class="todo-group">#}
-{#                <div class="card" style="min-width: 440px; min-height: 220px;">#}
-{#                   <h1 style="font-size:38px; text-align: center; margin: 5px;">Well Done!</h1>#}
-{#                   <h2 style="font-size:28px; text-align: center; margin-top: 20px;">Your to do list is empty. Time to recharge.</h2>#}
-{#                </div>#}
-{#          </div>#}
-{#        {% endif %}#}
-{#        </div>#}
-{#    </div>#}
+        {% if user.is_instructor == True %}
+     <div class="gradient-custom-2">
+         <div>
+             <div class="float-child2">
+                 <div>
+                     <div style="min-width: 440px; min-height: 220px;">
+                         <img src="data:image/jpeg;base64,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" style="width: 185px; margin-left: 130px" alt="logo"/>
+                         <h1 style="font-size:38px; text-align: center; margin: 5px; color: white;">Well Done!</h1>
+                         <h2 style="font-size:28px; text-align: center; margin-top: 20px; color: white;">Best teacher award goes to you!</h2>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+        </div>
+{% endif %}
 
-     <div class="col-lg-4 d-flex align-items-center gradient-custom-2">
-              <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+{% if user.is_instructor == False %}
+     <div class="gradient-custom-2">
+              <div>
 {#                    For use when we have the todo/message list#}
         <div class="float-child2">
-        <h1>To-Do List:</h1>
+        <h1 style="color: white">To-Do List:</h1>
             {% for item in todolist %}
           <div class="todo-group">
                <a class="todo_click" href="{% url 'course:submit_assignment' item.course.id item.id%}">
@@ -86,10 +79,12 @@
           </div>
             {% endfor %}
         {% if not todolist %}
-        <div class="todo-group">
-                <div class="card" style="min-width: 440px; min-height: 220px;">
-                   <h1 style="font-size:38px; text-align: center; margin: 5px; color: black;">Well Done!</h1>
-                   <h2 style="font-size:28px; text-align: center; margin-top: 20px; color: black;">Your to do list is empty. Time to recharge.</h2>
+        <div>
+                <div style="min-width: 440px; min-height: 220px;">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQDw8NEBAQDxAQEBUPFxAOEBAVExEPFhEWFhURExkYHiggGCAlHBgTIzEhJSwsLi4uFx80ODMsNygtLi0BCgoKDg0OFw8QFy0dFx0tNi0rKy0tMTIvNy0rKystKy0rKy83LSstLS0tLTctKy0tLS0tNy0rKy0rLSs3Kzc3Lf/AABEIAMIBAwMBIgACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABAIDBQYHAQj/xABCEAACAQICBgUHCQYHAAAAAAAAAQIDEQQFBhIhMUFRE2FxgZEHIjJScqGxFBYjM0LR0uHwQ1NUYqLBFTRjgpKT8f/EABgBAQEBAQEAAAAAAAAAAAAAAAABAgQD/8QAHhEBAQACAgIDAAAAAAAAAAAAAAECEQMhEhMxQVH/2gAMAwEAAhEDEQA/AO4gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAW5V4rfJAXAWflUOfuY+VQ5+5gXgQKmc0ItxdSzTs/Nnv8Cj/HcP8AvP6Z/cBkgY+GdYd7OlXepL4om0qsZq8ZKS5xaa9wFYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABar1lFbd/IrqTsm3wMXUm5NtkFVWs5b3s5LcWzB6V6U4fLaSq15NzldQows6lRrfZcEtl5PYrnH838qeY15PoZQwcL7I0YRnO3KU5p37lE1MLUd8B83fPfNf47EeFP8I+e+a/x2I8Kf4TXqo7XmH11T2mRzidTS7MG25Yys23tv0e//AIlPzsx/8ZV/o/CT039a27cV0K0oPWhJxfOLt48zimG00x8Hf5S5/wAtWFOSfbsT8Gbvovp1TxMo0MRFUK0tkZJ/R1JclfbF9T8eBLx2G3Wcoz7Xap1bKT2Ka2KT5PkzPHOTbdHMxdSDpzd5wW9/ahwfdu8DMpWZABUAAAAAAAAAAAAAAAAAAAAAAAACHmmPVCGu1rXeqle12TDXdL3so8ry8bL8yUXMLmcq6leKjFNWSbbb634FWJrxpwnVm9WFOEpyfKEU234JkLI19E/bfwRjvKJJrKcfbe6Dj/tlJRl7mxOyuC5/m1TMMVVxta/nu0IP9nRXoU12Lfzbb4lvB4KpWepRpTqtK7VOEpWXN23Fg7BoBRpxy+g6drz1pTa3urrtO/ZZLsSOvK+MePNy+vHenJMRQnTk4VISpzW+M4uMl2pls6T5VKUOgw9R26VVdWL4um4tyXZdR/TObFxu41xcnnj5IVX0n2lDZXV9J9pnNBKNOeY4aNVJx1pNKW6VRQk4J96T7UjNayupaxtXKcRGn08sPXjStfpJUqijbm3bYushH0g1fY9t9lntv1Hz9n1KnDF4qFG3RRr1IxtuUVN2S6luRMctvHh5vZuadU0BzqWLwlqj1q1CXRSk981a8Jvra2PrizbMFipUaiqRtdXVnuafBnLfJLJ9Ni48HSpvvU5JfFnSznzmsnS2zKs96aapShqSadmpXTa223dpmjRMo/zFG3rrw4m9kiAAKAAAAAAAAAAAAAAAAAAAAAAQc3y/p6epfVaesna/cTgBr+Dy+dBOM3FpyunG/Lbe/cUZtgVicPXw0tka1KdJvlrRav3b+4z9enrRa4712mLZPgfL2Kw06VSdGpFxqU5unKL4Si7P/wB4k3KM9xGEv0FVwjJ3cGoyi3zs9z60dc0/0DWOfyrDuNPFJWalshXilsUnwklsUuWx8LcbzPLq2Fn0eJpVKEr2tUjZP2ZbpdqbOvHKZRLJZqvczzOtiZ9JXqOpJKyvZKK5RS2I3zycaC4LNMLOrUr4iFelUcJ06UqSSi9sJJSg3Zq+3nFnN0yZlWbV8JUVfDVp0Ki2a0Gtq5STupLqaaLZddEmuo6/i/Izl1OE61TFYyEIRc5SlUoJRildtvozhEpJScqbkkpNwbdppKV4u63PdtXEz+kem+Px0XRxOLlOkn9VFU6cJNbtZQS1u+6Nc1lzXiYxl+xsNbTXHzpdC8TKzWq5RhTjUceTmlfvVn1mvoQ2tRXnSe6Mdrb5JLazc9FtBateUauKjKjQVn0ctlSouVt8F1vb8RbMUxxk+Jpn/Jbljp4apiZKzxEko3/dQuk++Tl3JG9Yei6k404+lJ2VyzTgoxUYpRjFKKilZKKVkkjY9FsDteIktm2Mev1pf28Tmt3dtpGUZE6VRVZyi3FO0Y33tWvd95nQCoAAAAAAAAAAAAAAAAAAAAAAAAAAARsThtbzlv8AiSQBiGrbGUTgpLVklJcpJNeDMvUpKW9XI8sEuDa7dpBzvylaOyr4SlSweGpuq8VC7p06cbQcZpylJLZFNq5kdE9C8PgaChKFPEVpWdSrUpxleXqwUl5sVw8Wbl8h/m9w+Q/ze415XWhoePy6h0tT6Cj6T/ZU/uLH+H0f3FH/AKqf3G34jRzXnKfS21ne2p+Zb+a/+t/R+ZjtWsUcPCHoQhD2IRj8EXTZIaLrjVfdC39zIYPJKNNp6uvJcam3wW4aptgcoyWVVqc0409/Jz6l1dZt1OCilFJJJWSW5LkVA0gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARa+LtdR2vr3XKMZX+wu/7iHFppNO6e26JsQ6tfGS+1CHVC3902Rp0cW/2su6q0S6+YwhPUle/FpbF2ksg1p4ytFtOrVTTs10k9/iXaWcV47qsn7SUviizmP11T2iORWfweksk0qsU160NjXc9j9xsWGxEakVODUovlz5Pkc+JmWY+VCaktsX6UfWX3llG9Aoo1VOMZxd4yV0+plZpAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALdapqxb/Vy4Q8wl6K7wMVmVZxpTlxey/W3a/xKcqlejDquvBu3uK8fhZVabjBNu6fvKsHgJ0aajNpttvzeGxbDIsYnLITnrttX3pcfuJqACNZzH66p7RHJGY/XVPaI5GwFzDUXUnCmt8pJfmTMbk1ald6uvH1oXfit6AymimMupUG93nx7PtLx297NiNEyirqYik166i+yXmv4m9moyAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAeOKe9J9p6ABbrU9ZW/SZcAGInFp2exnhlatJS3oiywT4PxJoadmP11T2iObDX0dqTqSk5wipO/FuxkMvyOnSak71JrjLcnzSJpdoujeVuH09RWk1aMXvSf2n1sz4BpFt0Yt6zjHWXGyv4lwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACicmi3rsC+Cxc8IJAI4uBIBY1nzKlN9pRdAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8aPQBTqLkNRFQAp1ENRFQA81VyPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/2Q==" style="width: 185px; margin-left: 150px" alt="logo"/>
+                    <h1 style="font-size:38px; text-align: center; margin: 5px; color: white;">Well Done!</h1>
+                    <h2 style="font-size:28px; text-align: center; margin-top: 20px; color: white;">Your to do list is
+                        empty. Time to recharge.</h2>
                 </div>
           </div>
         {% endif %}
@@ -97,7 +92,7 @@
     </div>
               </div>
             </div>
-
+{% endif %}
 
 {% endblock %}
 </body>

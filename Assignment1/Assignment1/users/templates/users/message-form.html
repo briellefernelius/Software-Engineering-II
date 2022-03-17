@@ -4,9 +4,9 @@
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                         <div class="card-title">
-                            Add a Custom Message
+                             <h2 style="color: white; text-align: center">Add a Custom Message</h2>
                         </div>
                     </div>
                     <div class="card-body">
@@ -14,9 +14,9 @@
                           {% csrf_token %}
                             <div class="" style="display: flex; flex-wrap: wrap; row-gap: 20px; flex-direction:
                                 column; margin-top: 5px; margin-left: 40px">{{ form.as_p }}</div>
-                            <input type="submit" value="Save" style="background-color: lightblue; text: white">
+                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" value="Save Message"/>
                           <a href="{% url 'mysite:main' %}">
-                              <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
+                              <input class="btn btn-outline-danger" type="button" value="Cancel"/>
                           </a>
                         </form>
                     </div>
