@@ -241,6 +241,10 @@
         {
             visibility: hidden;
         }
+        #link:hover {
+            color: white;
+            background-color: grey;
+        }
 
         .gradient-custom-2 {
   /* fallback for old browsers */
@@ -271,25 +275,25 @@
     <nav class="navbar" style="background-color: whitesmoke; padding-left: 10px; padding-right: 10px; margin-bottom: 50px;">
         <a href="#" class="navbar-brand" style="color: white"></a>
         <div class="navbar">
-            <a href="{% url 'mysite:main' %}" class="nav-item nav-link">Dashboard</a>
-            <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
+            <a id="link" href="{% url 'mysite:main' %}" class="nav-item nav-link">Dashboard</a>
+            <a id="link" href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
         {% if user.is_instructor == True %}
-            <a href="{% url 'course:courses' %}" class="nav-item nav-link">Courses</a>
-            <a href="{% url 'users:calendar' %}" class="nav-item nav-link">Calendar</a>
+            <a  id="link" href="{% url 'course:courses' %}" class="nav-item nav-link">Courses</a>
+            <a  id="link" href="{% url 'users:calendar' %}" class="nav-item nav-link">Calendar</a>
         {% endif %}
         {% if user.is_instructor == False %}
-            <a href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link">Register</a>
-            <a href="{% url 'payment:account' %}" class="nav-item nav-link">Account</a>
-            <a href="{% url 'users:calendar' %}" class="nav-item nav-link">Calendar</a>
+            <a id="link" href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link">Register</a>
+            <a id="link" href="{% url 'payment:account' %}" class="nav-item nav-link">Account</a>
+            <a id="link" href="{% url 'users:calendar' %}" class="nav-item nav-link">Calendar</a>
         {% endif %}
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
+                <a id="link" href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
             {% endif %}
 
         {# Bell Notifications #}
 
             <div class="notifications">
-                <a href="#" class="notifications nav-item nav-link">
+                <a id="link" href="#" class="notifications nav-item nav-link">
                     <img src="/media/bell_icon.png">
                     <span class="badge">{% if message_count != 0 %}{{message_count}}{% endif %}</span>
                 </a>
