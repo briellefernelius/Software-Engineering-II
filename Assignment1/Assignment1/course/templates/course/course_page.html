@@ -11,6 +11,12 @@
 <body>
 {% block body %}
     <h2 style="text-align: center">Welcome to {{ course.department }} {{ course.course_number }}</h2>
+    <hr></hr>
+    {% if not user.is_instructor %}
+        <div id="grade">
+            <h2 style="text-align: center;"> Grade for {{ user.first_name }} {{ user.last_name }}: {{ grade }}</h2>
+        </div>
+    {% endif %}
      <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -66,7 +72,7 @@
                                     <h2>Due Date: {{ assignment.due_date }}</h2>
                                     <h2>Maximum Points: {{ assignment.max_points }}</h2>
                                     {% if not user.is_instructor %}
-                                        <h2>Your Points: {{ assignment.points_received }}</h2>
+                                            <h2>Your Points: {{ assignment.points_received }}</h2>
                                     {% endif %}
 
                                     <h2>Submit using: {{ assignment.submission_type }}</h2>

@@ -47,11 +47,6 @@ def account(request):
         account.expiration_year = request.POST.get('expiration_year')
         account.user = CustomUser.objects.get(pk=request.user.pk)
 
-        #card_num = request.POST.get('card_number')
-        #exp_month = request.POST.get('expiration_month')
-        #exp_year = request.POST.get('expiration_year')
-        #cvc = request.POST.get('cvc_number')
-
         card_num = account.card_number
         cvc = account.cvc_number
         exp_month = account.expiration_month

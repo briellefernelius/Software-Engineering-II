@@ -11,9 +11,54 @@ User = get_user_model()
 def course_page(request, id):
     course = Course.objects.get(pk=id)
     assignments = Assignment.objects.all().filter(course=id)
+    user = CustomUser.objects.get(pk=request.user.pk)
+    submission = Submission.objects.all().filter(user=user)
+
+    # Calculating the students grade
+    all_points = 0
+    earned_points = 0
+    grade = ''
+    max = assignments
+    points_recieved = submission
+    for points in max:
+        points = points.max_points
+        all_points += points
+
+    for total_points in points_recieved:
+        total_points = total_points.points_received
+        earned_points += total_points
+        total = earned_points / all_points * 100
+
+        if 94 <= total <= 100:
+            grade = 'A'
+        elif 90 <= total < 94:
+            grade = 'A-'
+        elif 87 <= total < 90:
+            grade = 'B+'
+        elif 84 <= total < 87:
+            grade = 'B'
+        elif 80 <= total < 84:
+            grade = 'B-'
+        elif 77 <= total < 80:
+            grade = 'C+'
+        elif 74 <= total < 77:
+            grade = 'C'
+        elif 70 <= total < 74:
+            grade = 'C-'
+        elif 67 <= total < 70:
+            grade = 'D+'
+        elif 64 <= total < 67:
+            grade = 'D'
+        elif 60 <= total < 64:
+            grade = 'D-'
+        else:
+            grade = 'E'
+
     context = {
         'course': course,
-        'assignments': assignments
+        'assignments': assignments,
+        'submission': submission,
+        'grade': grade,
     }
     messages = Get_Messages(request)
     context.update(messages)
