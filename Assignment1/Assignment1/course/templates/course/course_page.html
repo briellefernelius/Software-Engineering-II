@@ -74,7 +74,7 @@
                                     <h2>Due Date: {{ assignment.due_date }}</h2>
                                     <h2>Maximum Points: {{ assignment.max_points }}</h2>
                                     {% if not user.is_instructor %}
-                                            <h2>Your Points: {{ assignment.points_received }}</h2>
+                                            <h2>Your Points: {{ submission.points_received }}</h2>
                                     {% endif %}
 
                                     <h2>Submit using: {{ assignment.submission_type }}</h2>
@@ -92,8 +92,8 @@
                                             <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" value="View"/>
                                         </a>
                                     {% endif %}
-                                <hr>
-                                <br>
+                                <hr></hr>
+                                <br></br>
                                 </div>
                             {% endfor %}
                         </div>
