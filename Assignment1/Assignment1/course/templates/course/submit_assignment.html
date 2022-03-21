@@ -116,8 +116,7 @@
                                     <h2>Description:   {{ assignment.description }}</h2>
                                 </td>
                                 <td>
-                                    {% if submitted %}
-
+                                    {% if submit.is_graded %}
                                         <div id="assignmentchart_div" style="margin-left: 15%"></div>
                                         <p>Avg Grade: {{ avg }}</p>
                                     {% endif %}

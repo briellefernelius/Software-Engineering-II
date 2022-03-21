@@ -68,8 +68,6 @@ def course_page(request, id):
         'grade': grade,
     }
 
-
-
     messages = Get_Messages(request)
     context.update(messages)
 
@@ -159,9 +157,9 @@ def submit_assignment(request, course_id, assignment_id):
             if sub.points_received > max_grade:
                 max_grade = sub.points_received
             total += sub.points_received
-    print(f"grade list {grade_list}")
+    #print(f"grade list {grade_list}")
 
-    print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
+    #print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
 
     def Average(list):
         if len(list) != 0:
@@ -169,7 +167,8 @@ def submit_assignment(request, course_id, assignment_id):
 
     if len(grade_list) != 0:
         avg = round(Average(grade_list))
-    print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
+    #print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
+
     # Check if already a submission
     try:
         submit = Submission.objects.get(user=user, assignment=assignment)
@@ -186,6 +185,14 @@ def submit_assignment(request, course_id, assignment_id):
     else:
         form = SubmissionForm(request.POST or None)
 
+    ##### Unit test make sure student is submitting an assignment #####
+    # Make sure already not submission #
+    try:
+        Submission.objects.get(user=user, assignment=assignment)
+        print(f"Submission already exists, can't submit. Passed!")
+    except Submission.DoesNotExist:
+        print(f"If you can submit, Failed.")
+
     if form.is_valid():
         submission = form.save(commit=False)
         submission.user = CustomUser.objects.get(pk=request.user.pk)
@@ -194,6 +201,17 @@ def submit_assignment(request, course_id, assignment_id):
         submission.save()
 
         return redirect('course:course_page', current_course.id)
+
+    ##### UNIT Test continued ########
+    # Make sure submission is added and for the correct assignment #
+    try:
+        submit_list = Submission.objects.all().filter(user=user, assignment=assignment)
+        ## make sure only one added ##
+        if len(submit_list) == 1:
+            print(f"Submission added, 1 of 1.  Passed!")
+    except Submission.DoesNotExist:
+        print(f"Submission Does Not Exist.")
+
     context = {
         'form': form,
         'course': current_course,
