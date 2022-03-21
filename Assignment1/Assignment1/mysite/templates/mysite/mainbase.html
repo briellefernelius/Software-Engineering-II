@@ -275,19 +275,19 @@
     <nav class="navbar" style="background-color: whitesmoke; padding-left: 10px; padding-right: 10px; margin-bottom: 50px;">
         <a href="#" class="navbar-brand" style="color: white"></a>
         <div class="navbar">
-            <a id="link" href="{% url 'mysite:main' %}" class="nav-item nav-link">Dashboard</a>
-            <a id="link" href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
+            <a id="link" href="{% url 'mysite:main' %}" class="nav-item nav-link" name="Dashboard_Button">Dashboard</a>
+            <a id="link" href="{% url 'profile' %}" class="nav-item nav-link" name="_Button">Profile</a>
         {% if user.is_instructor == True %}
-            <a  id="link" href="{% url 'course:courses' %}" class="nav-item nav-link">Courses</a>
-            <a  id="link" href="{% url 'users:calendar' %}" class="nav-item nav-link">Calendar</a>
+            <a  id="link" href="{% url 'course:courses' %}" class="nav-item nav-link" name="Courses_Button">Courses</a>
+            <a  id="link" href="{% url 'users:calendar' %}" class="nav-item nav-link" name="Calendar_Button">Calendar</a>
         {% endif %}
         {% if user.is_instructor == False %}
-            <a id="link" href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link">Register</a>
-            <a id="link" href="{% url 'payment:account' %}" class="nav-item nav-link">Account</a>
-            <a id="link" href="{% url 'users:calendar' %}" class="nav-item nav-link">Calendar</a>
+            <a id="link" href="{% url 'mysite:registerClasses' %}" class="nav-item nav-link" name="Register_Button">Register</a>
+            <a id="link" href="{% url 'payment:account' %}" class="nav-item nav-link" name="Account_Button">Account</a>
+            <a id="link" href="{% url 'users:calendar' %}" class="nav-item nav-link" name="Calendar_Button">Calendar</a>
         {% endif %}
             {% if user.is_authenticated %}
-                <a id="link" href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
+                <a id="link" href="{% url 'logout' %}" class="nav-item nav-link" name="Logout_Button">Logout</a>
             {% endif %}
 
         {# Bell Notifications #}

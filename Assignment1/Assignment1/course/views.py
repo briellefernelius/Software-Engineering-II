@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect
 from course.forms import CourseForm, AssignmentForm, SubmissionForm, SubmissionForm_file, GradingForm
 from users.models import CustomUser
 from course.models import Course, CourseUser, Assignment, Submission
-from mysite.views import Get_Messages
+from mysite.views import Get_Messages, Message_Students_In_Course, Message_Student_Submitted
+
 User = get_user_model()
 
 
@@ -97,6 +98,8 @@ def assigment_add(request, id):
         context = {
             'course': course, 'assignments': assignments
         }
+        Message_Students_In_Course(request, id, assignment.id)
+
         messages = Get_Messages(request)
         context.update(messages)  # merging the context dictionary with the messages dictionary
         return render(request, 'course/course_page.html', context)
@@ -159,6 +162,7 @@ def submit_assignment(request, course_id, assignment_id):
         submission.assignment = Assignment.objects.get(pk=assignment_id)
         submission.max_points = assignment.max_points
         submission.save()
+
         return redirect('course:course_page', current_course.id)
     context = {'form': form, 'course': current_course, 'assignment': assignment}
     messages = Get_Messages(request)
@@ -195,6 +199,10 @@ def gradebook(request, submitid):
         submission = form.save(commit=False)
         submission.is_graded = True
         submission.save()
+
+        #Send message to students
+        Message_Student_Submitted(request, submission.id)
+
         return redirect('course:assignment_submission', assignment.id)
     return render(request, 'course/gradebook.html', context)
 
