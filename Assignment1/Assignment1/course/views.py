@@ -144,6 +144,31 @@ def submit_assignment(request, course_id, assignment_id):
     current_course = Course.objects.get(pk=course_id)
     submitted = False
 
+    total = 0
+    grade_list = []
+    min_grade = assignment.max_points
+    max_grade = 0
+    avg = 0
+
+    submission_list = Submission.objects.all().filter(assignment=assignment_id)
+    for sub in submission_list:
+        if sub.is_graded:
+            grade_list.append(int(sub.points_received))
+            if sub.points_received < max_grade:
+                min_grade = sub.points_received
+            if sub.points_received > max_grade:
+                max_grade = sub.points_received
+            total += sub.points_received
+    print(f"grade list {grade_list}")
+
+    print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
+
+
+    def Average(list):
+        return sum(list) / len(list)
+
+    avg = round(Average(grade_list))
+    print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
     # Check if already a submission
     try:
         submit = Submission.objects.get(user=user, assignment=assignment)
@@ -168,7 +193,16 @@ def submit_assignment(request, course_id, assignment_id):
         submission.save()
 
         return redirect('course:course_page', current_course.id)
-    context = {'form': form, 'course': current_course, 'assignment': assignment, 'submitted': submitted, 'submit': submit}
+    context = {
+        'form': form,
+        'course': current_course,
+        'assignment': assignment,
+        'submitted': submitted,
+        'submit': submit,
+        'min': min_grade,
+        'max': max_grade,
+        'avg': avg
+    }
     messages = Get_Messages(request)
     context.update(messages)
     return render(request, 'course/submit_assignment.html', context)

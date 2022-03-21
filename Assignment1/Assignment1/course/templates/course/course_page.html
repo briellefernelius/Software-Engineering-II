@@ -88,14 +88,9 @@
                                         </a>
                                     {% endif %}
                                     {% if not user.is_instructor %}
-<<<<<<< HEAD
-                                        <a href="{% url 'course:submit_assignment' assignment.course.id assignment.id %}" class="btn btn-primary">View</a>
-=======
                                         <a href="{% url 'course:submit_assignment' assignment.course.id assignment.id %}">
-                                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" value="Submit"/>
+                                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" value="View"/>
                                         </a>
->>>>>>> 7dd9d4835634cc44f42023f167d26ca360b54bc1
-
                                     {% endif %}
                                 <hr>
                                 <br>

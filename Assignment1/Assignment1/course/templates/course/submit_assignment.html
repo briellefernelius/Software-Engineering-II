@@ -21,11 +21,11 @@
           var data = new google.visualization.DataTable();
           data.addColumn('string', 'Category');
           data.addColumn('number', 'Min');
-          data.addColumn('number', 'Avg');
+          data.addColumn('number', 'Grade');
           data.addColumn('number', 'Max');
 
           data.addRows([
-              ['', 3, 5, 7],
+              ['', {{ min }}, {{ submit.points_received }}, {{ max }}],
           ]);
 
           var view = new google.visualization.DataView(data);
@@ -57,18 +57,19 @@
           chart.draw(view, {
               height: 350,
               width: 350,
-              lineWidth: 0,
+              lineWidth: 5,
+              fontSize: 16,
               intervals: {
                   style: 'boxes'
               },
               legend: {
-                  position: 'bottom'
+                  position: 'none'
               },
               series: {
                   0: {
                       // dummy data series, controls color of intervals
                       visibleInLegend: false,
-                      color: 'blue',
+                      color: '#994499',
                       enableInteractivity: false
                   },
                   1: {
@@ -76,6 +77,7 @@
                   },
                   2: {
                       // average series options
+                      color: 'blue',
                   },
                   3: {
                       // max series options
@@ -115,7 +117,9 @@
                                 </td>
                                 <td>
                                     {% if submitted %}
+
                                         <div id="assignmentchart_div" style="margin-left: 15%"></div>
+                                        <p>Avg Grade: {{ avg }}</p>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -124,21 +128,18 @@
 
                         <br><br>
                         {% if not submitted %}
-                        <form method="POST" enctype="multipart/form-data" style="text-align: center">
-                          {% csrf_token %}
-                            {{ form.as_p }}
-                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" value="Submit Assignment"/>
+                            <form method="POST" enctype="multipart/form-data" style="text-align: center">
+                              {% csrf_token %}
+                                {{ form.as_p }}
+                                <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" value="Submit Assignment"/>
 
-                            <a href="{% url 'course:course_page' course.id %}">
-                                <input class="btn btn-outline-danger" type="button" value="Cancel"/>
-                            </a>
-                        </form>
-
+                                <a href="{% url 'course:course_page' course.id %}">
+                                    <input class="btn btn-outline-danger" type="button" value="Cancel"/>
+                                </a>
+                            </form>
                         {% else %}
                                 <h6 style="text-align: center;">Assignment has been submitted</h6>
                         {% endif %}
-
-
                     </div>
                 </div>
             </div>
