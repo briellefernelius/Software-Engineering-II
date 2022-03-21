@@ -8,18 +8,19 @@
 <body>
 
 {% block body %}
-    <h2 style="text-align: center">Welcome to Courses</h2>
-    <a href="{% url 'course:add_courses' %}" class="btn btn-primary" style="margin-left: 500px">Add Courses</a>
+    <a href="{% url 'course:add_courses' %}">
+        <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3;" type="submit" value="Add Course" style="font-size: 20px; width: 15%; margin-left: 800px; margin-bottom: 10px; margin-top: 10px"/>
+    </a>
     {% for item in item_list %}
 {#        Only the instructor can view, edit, and delete the courses they made#}
         {% if item.instructor == user or user.is_staff == True %}
         <div class="container">
             <div class="row">
-                <div class="col-lg-10 offset-md-1">
+                <div class="col-lg-10 offset-md-1" style="margin-bottom: 15px">
                     <div class="card">
-                        <div class="card-header" style="background-color: lightblue">
+                        <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                             <div class="card-title">
-                                Courses
+                                <h4 style="color: white">Course</h4>
                             </div>
                         </div>
                         <div class="card-body">
@@ -29,9 +30,12 @@
                             <h4 style="margin-left: auto; margin-right: auto;">Credit Hours: {{ item.credit_hours }}</h4>
                             <h4 style="margin-left: auto; margin-right: auto;">Days of Week: {{ item.meeting_time_days }}</h4>
                             <h4 style="margin-left: auto; margin-right: auto;">Class Time: {{ item.start_time }} - {{ item.end_time }}</h4>
-                            <a href="{% url 'course:edit_courses' item.id %}" class="btn btn-warning">Edit</a>
-                            <a href="{% url 'course:delete_courses' item.id %}" class="btn" style="background-color: red;
-                        color: white">Delete</a>
+                            <a href="{% url 'course:edit_courses' item.id %}">
+                                <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" style="font-size: 20px;" value="Edit Course"/>
+                            </a>
+                            <a href="{% url 'course:delete_courses' item.id %}">
+                                <input class="btn btn-outline-danger" type="button" style="font-size: 20px;" value="Delete Course"/>
+                            </a>
                         </div>
                     </div>
                 </div>

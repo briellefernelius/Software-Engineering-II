@@ -24,9 +24,9 @@
             initialView: 'dayGridMonth',
 
           headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay',
 
 
     },
@@ -37,8 +37,8 @@
                     title: "{{i.course_number}}",
                     startTime: "{{i.start_time|escapejs}}",
                     displayEventTime: true,
-                    startRecur: "{{i.start_date|escapejs}}",
-                    endRecur: "{{i.end_date|escapejs}}",
+                    startRecur: "{{i.start_date|date:'y-m-d'}}",
+                    endRecur: "{{i.end_date|date:'y-m-d'}}",
                     daysOfWeek: {{i.ConvertDaysToInts}},
                     endTime: "{{i.end_time|escapejs}}",
                     display: 'auto',
@@ -63,6 +63,7 @@
             {% endfor %}
 
         ],
+        eventColor: '#673ab7'
         });
         calendar.render();
       });
@@ -70,7 +71,7 @@
 
 <style>
   .fc{
-    background-color: aliceblue;
+    background-color: white;
   }
 </style>
 

@@ -2,11 +2,11 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-md-10 offset-md-1">
+            <div class="col-md-10 offset-md-1" style="padding-top: 20px">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                         <div class="card-title">
-                            Add Course
+                            <h4 style="color: white; text-align: center">Course Information</h4>
                         </div>
                     </div>
                     <div class="card-body">
@@ -14,10 +14,13 @@
                           {% csrf_token %}
                             <h5>Format start time and end time as Hours:Minutes AM or PM</h5>
                             {{ form.as_p }}
-                            <input type="submit" value="Save Course" style="background-color: lightblue; text: white">
-                            <a href="{% url 'course:courses' %}">
-                                <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
-                            </a>
+
+                           <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" value="Save Changes"/>
+                           <div class="d-flex align-items-center justify-content-center pb-4">
+                               <a href="{% url 'course:courses' %}">
+                                    <input class="btn btn-outline-danger" type="button" value="Cancel"/>
+                               </a>
+                           </div>
                         </form>
                     </div>
                 </div>

@@ -36,6 +36,9 @@ class Course(models.Model):
         return str(self.pk) + " " + self.department + "-" + self.course_number + "-" + \
                str(CustomUser.objects.get(pk=self.instructor.id).get_full_name())
 
+    def CourseName(self):
+        return self.department + " " + str(self.course_number)
+
     def ConvertDaysToInts(self) -> list[int]:
         # returns a list of integers that represent the days as a list of ints
         array = self.meeting_time_days
@@ -89,7 +92,7 @@ class Assignment(models.Model):
         return super().clean()
 
     def __str__(self):
-        return str(self.id) + " " + self.title + " " + str(self.due_date)
+        return self.title + " Due on " + str(self.due_date)
 
 
 class Submission(models.Model):

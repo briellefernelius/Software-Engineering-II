@@ -11,6 +11,12 @@
 <body>
 {% block body %}
     <h2 style="text-align: center">Welcome to {{ course.department }} {{ course.course_number }}</h2>
+    <hr></hr>
+    {% if not user.is_instructor %}
+        <div id="grade">
+            <h2 style="text-align: center;"> Grade for {{ user.first_name }} {{ user.last_name }}: {{ grade }}</h2>
+        </div>
+    {% endif %}
      <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -42,7 +48,6 @@
   </head>
 
 
-
     <div class="assignment-container">
          <div class="assignment">
              <div class="container">
@@ -51,14 +56,16 @@
                  {% endif %}
                  <div class="row">
                     <div class="col-lg-10 offset-md-1">
+                       {% if user.is_instructor %}
+                           <a href="{% url 'course:add_assignment' course.id %}">
+                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3;" type="submit" value="Add Assignment" style="margin-bottom: 10px"/>
+                           </a>
+                       {% endif %}
                         <div class="card">
-                            <div class="card-header" style="background-color: lightblue">
+                            <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                                 <div class="card-title">
-                                    <h3>Assignments</h3>
+                                    <h2 style="color: white; text-align: center">Assignments</h2>
                                 </div>
-                                    {% if user.is_instructor %}
-                                        <a href="{% url 'course:add_assignment' course.id %}" class="btn btn-primary" style="margin-left: 4%px">Add Assignment</a>
-                                    {% endif %}
                             </div>
                             {% for assignment in assignments %}
                                 <div class="card-body">
@@ -67,17 +74,27 @@
                                     <h2>Due Date: {{ assignment.due_date }}</h2>
                                     <h2>Maximum Points: {{ assignment.max_points }}</h2>
                                     {% if not user.is_instructor %}
-                                        <h2>Your Points: {{ assignment.points_received }}</h2>
+                                            <h2>Your Points: {{ assignment.points_received }}</h2>
                                     {% endif %}
 
                                     <h2>Submit using: {{ assignment.submission_type }}</h2>
                                     {% if user.is_instructor %}
                                         <a href="{% url 'course:edit_assignment' assignment.course.id assignment.id %}" class="btn btn-warning">Edit</a>
-                                        <a href="{% url 'course:delete_assignment' assignment.course.id assignment.id %}" class="btn" style="background-color: red; color: white">Delete</a>
-                                        <a href="{% url 'course:assignment_submission' assignment.id %}" class="btn btn-primary">Submissions</a>
+                                         <a href="{% url 'course:delete_assignment' assignment.course.id assignment.id %}">
+                                            <input class="btn btn-outline-danger" type="button" value="Delete Assignment"/>
+                                        </a>
+                                         <a href="{% url 'course:assignment_submission' assignment.id %}">
+                                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" value="Submissions"/>
+                                        </a>
                                     {% endif %}
                                     {% if not user.is_instructor %}
+<<<<<<< HEAD
                                         <a href="{% url 'course:submit_assignment' assignment.course.id assignment.id %}" class="btn btn-primary">View</a>
+=======
+                                        <a href="{% url 'course:submit_assignment' assignment.course.id assignment.id %}">
+                                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" value="Submit"/>
+                                        </a>
+>>>>>>> 7dd9d4835634cc44f42023f167d26ca360b54bc1
 
                                     {% endif %}
                                 <hr>

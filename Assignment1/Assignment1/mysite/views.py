@@ -4,9 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 import datetime
 from django.utils import timezone
-from course.models import Course, CourseUser, Assignment
+from course.models import Course, CourseUser, Assignment, Submission
 from users.models import CustomUser
-from .models import *
 from users.models import UserMessages
 from users.forms import CreateMessageForm
 
@@ -32,8 +31,19 @@ def main(request):
     # get all assignments for the courses our user is enrolled in; order by due date
     assignment_list = Assignment.objects.all().filter(course__in=item_list).order_by('due_date').exclude(course__assignment__due_date__lte=datetime.datetime.utcnow())
     # get first 5 item
-    todolist = assignment_list[:5]
 
+
+    # all the user's submissions
+    submission_list = Submission.objects.all().filter(user_id=request.user.pk)
+    print(f"SUBMISSION LIST: {submission_list}")
+    slist = list()
+    for item in submission_list:
+        slist.append(item.assignment.id)
+    print(f"slist: {slist}")
+    assignment_list = assignment_list.exclude(id__in=slist)
+    print(f"new assignment list = {assignment_list}")
+
+    todolist = assignment_list[:5]
     # notifications list
     context = {'item_list': courses_list, 'todolist': todolist}
     messages = Get_Messages(request)
@@ -188,3 +198,42 @@ def Get_Messages(request) -> dict:
     return context
 
 
+# A helper function to create a message and send it to the registered students in that course
+@login_required
+def Message_Students_In_Course(request, courseid, assignmentid = None, messageDescription = ""):
+    registered_students = CourseUser.objects.all().filter(course_id=courseid)
+    course = Course.objects.get(id=courseid)
+    try:
+        assignment = Assignment.objects.get(id=assignmentid)
+    except ():
+        print("Error in getting an assignment in 'Message_Students_In_Course' -> mysite\views.py")
+
+    for student in registered_students:
+        message = UserMessages()
+        message.user_id = CustomUser.objects.get(id=student.user_id.id)
+        if (messageDescription == ""):
+            message.message_description = str(course.CourseName()) + ":\b" + str(course.instructor.get_full_name()) + " added an new assignment: " + str(assignment)
+        else:
+            message.message_description = messageDescription
+        message.save()
+        print(f"Messaging user -> {message.user_id}")
+    return
+
+
+# A helper function to create a message and send it to the registered students in that course
+@login_required
+def Message_Student_Submitted(request, submissionid, messageDescription = ""):
+
+    submission = Submission.objects.get(id=submissionid)
+    message = UserMessages()
+    message.user_id = submission.user
+    if (messageDescription == ""):
+        message.message_description = submission.assignment.course.CourseName() + ":\t Assignment: " + submission.assignment.title + " was graded."
+    else:
+        message.message_description = messageDescription
+    message.save()
+
+    # debug
+    # print(f"message: {message.message_description}")
+    # print(f"Messaging user -> {message.user_id}")
+    return

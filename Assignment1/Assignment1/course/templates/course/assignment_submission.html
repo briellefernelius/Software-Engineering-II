@@ -4,9 +4,9 @@
         <div class="row">
             <div class="col-md-10 offset-md-1">
                 <div class="card">
-                    <div class="card-header" style="background-color: lightblue">
+                    <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                         <div class="card-title">
-                            Submissions
+                            <h2 style="color: white; text-align: center">Submissions</h2>
                         </div>
                     </div>
                     <div class="card-subtitle mb-2 text-muted">
@@ -38,10 +38,10 @@
                                             <td>
                                                 {% if submit.is_graded %}
                                                     {{ submit.points_received }} of {{ submit.assignment.max_points }}
-                                                    <a href="{% url 'course:gradebook' submit.id %}" class="btn btn-outline-secondary btn-sm" style="margin-left: 8px">Update</a>
+                                                    <a href="{% url 'course:gradebook' submit.id %}" class="btn btn-outline-danger" style="margin-left: 8px">Update</a>
                                                 {% else %}
                                                      -- of {{ submit.assignment.max_points }}
-                                                    <a href="{% url 'course:gradebook' submit.id %}" class="btn btn-outline-secondary btn-sm" style="margin-left: 8px">Grade</a>
+                                                    <a href="{% url 'course:gradebook' submit.id %}" class="btn btn-outline-danger" style="margin-left: 8px">Grade</a>
                                                 {% endif %}
                                             </td>
                                         </tr>
@@ -54,7 +54,9 @@
                     </div>
                 </div>
             </div>
-                <a href="{% url 'course:course_page' course.id %}" class="btn btn-primary" style="margin-top: .5%">Back to Course</a>
+               <a href="{% url 'course:course_page' course.id %}">
+                   <input class="btn btn-outline-danger" type="button" style="font-size: 20px; margin-top: 10px" value="Back to Course"/>
+               </a>
         </div>
     </div>
 {%  endblock %}

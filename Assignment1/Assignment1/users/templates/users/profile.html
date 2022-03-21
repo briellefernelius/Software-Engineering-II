@@ -13,17 +13,17 @@
         {% if item.email == user.email %}
         <div class="container">
             <div class="row">
-                <div class="col-md-8 offset-md-2">
+                <div class="col-md-8 offset-md-2" style="padding-top: 20px">
                     <div class="card">
-                        <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593); ">
+                        <div class="card-header" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
                             <div class="card-title">
                                 <h2 style="color: white; text-align: center">Profile</h2>
                             </div>
                         </div>
-                        <div class="card-body" style="padding-left: 300px">
+                        <div class="card-body" style="padding-left: 350px">
                             {% if item.image_profile %}
                                 <img src="{{ item.image_profile.url }}" alt="Testing images." style="width: 100px; height: 100px;
-                                                vertical-align: middle; border-radius: 50%; margin-left: 80px">
+                                                vertical-align: middle; border-radius: 50%; margin-left: 40px">
                             {% endif %}
                             <h5 style="margin-left: auto; margin-right: auto;">First Name: {{ item.first_name }}</h5>
                             <h5 style="margin-left: auto; margin-right: auto;">Last Name: {{ item.last_name }}</h5>
