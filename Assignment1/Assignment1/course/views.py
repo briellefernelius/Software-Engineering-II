@@ -163,11 +163,12 @@ def submit_assignment(request, course_id, assignment_id):
 
     print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
 
-
     def Average(list):
-        return sum(list) / len(list)
+        if len(list) != 0:
+            return sum(list) / len(list)
 
-    avg = round(Average(grade_list))
+    if len(grade_list) != 0:
+        avg = round(Average(grade_list))
     print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
     # Check if already a submission
     try:
