@@ -280,7 +280,6 @@
             <a href="{% url 'payment:account' %}" class="nav-item nav-link">Account</a>
             <a href="{% url 'users:calendar' %}" class="nav-item nav-link">Calendar</a>
         {% endif %}
-            <a href="{% url 'users:pieChart' %}" class="nav-item nav-link">Pie Chart</a>
             {% if user.is_authenticated %}
                 <a href="{% url 'logout' %}" class="nav-item nav-link">Logout</a>
             {% endif %}

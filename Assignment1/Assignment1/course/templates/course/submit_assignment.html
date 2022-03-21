@@ -1,5 +1,90 @@
 {% extends 'mysite/mainbase.html' %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
 {% block body %}
+     <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawAssignmentChart);
+
+
+      function drawAssignmentChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Category');
+          data.addColumn('number', 'Min');
+          data.addColumn('number', 'Avg');
+          data.addColumn('number', 'Max');
+
+          data.addRows([
+              ['', 3, 5, 7],
+          ]);
+
+          var view = new google.visualization.DataView(data);
+          // duplicate 1 column as a dummy data series, and add intervals to it
+          view.setColumns([0, 1, {
+              id: 'min',
+              type: 'number',
+              role: 'interval',
+              calc: function (dt, row) {
+                  return dt.getValue(row, 1);
+              }
+          }, {
+              id: 'avg',
+              type: 'number',
+              role: 'interval',
+              calc: function (dt, row) {
+                  return dt.getValue(row, 2);
+              }
+          }, {
+              id: 'max',
+              type: 'number',
+              role: 'interval',
+              calc: function (dt, row) {
+                  return dt.getValue(row, 3);
+              }
+          }, 1, 2, 3]);
+
+          var chart = new google.visualization.LineChart(document.querySelector('#assignmentchart_div'));
+          chart.draw(view, {
+              height: 350,
+              width: 350,
+              lineWidth: 0,
+              intervals: {
+                  style: 'boxes'
+              },
+              legend: {
+                  position: 'bottom'
+              },
+              series: {
+                  0: {
+                      // dummy data series, controls color of intervals
+                      visibleInLegend: false,
+                      color: 'blue',
+                      enableInteractivity: false
+                  },
+                  1: {
+                      // min series options
+                  },
+                  2: {
+                      // average series options
+                  },
+                  3: {
+                      // max series options
+                  }
+              }
+          });
+      }
+    </script>
+  </head>
     <div class="container">
         <div class="row">
             <div class="col-md-10 offset-md-1">
@@ -9,14 +94,36 @@
                             Submit Assignment
                         </div>
                     </div>
-
                     <div class="card-body">
                         <h1>{{assignment.title}}</h1>
-                        <h2>Due Date: {{ assignment.due_date }}</h2>
-                        <h2>Maximum Points: {{ assignment.max_points }}</h2>
-                        <br>
-                        <h2>Description:   {{ assignment.description }}</h2>
+                        <table>
+                            <tr>
+                                <td>
+                                    <h2>Due Date: {{ assignment.due_date }}</h2>
+                                    <h2>Maximum Points: {{ assignment.max_points }}</h2>
+                                    {% if submitted %}
+                                        {% if submit.is_graded %}
+                                            <h2>Grade: {{ submit.points_received }} / {{ submit.max_points }}</h2>
+                                        {% else %}
+                                            <h2>Grade: -- / {{ assignment.max_points }}</h2>
+                                        {% endif %}
+                                    {% else %}
+                                        <h2>Grade: -- / {{ assignment.max_points }}</h2>
+                                    {% endif %}
+                                    <br>
+                                    <h2>Description:   {{ assignment.description }}</h2>
+                                </td>
+                                <td>
+                                    {% if submitted %}
+                                        <div id="assignmentchart_div" style="margin-left: 15%"></div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </table>
+
+
                         <br><br>
+                        {% if not submitted %}
                         <form method="POST" enctype="multipart/form-data" style="text-align: center">
                           {% csrf_token %}
                             {{ form.as_p }}
@@ -26,6 +133,12 @@
                                 <input type="button" value="Cancel" style="background-color: lightblue; text: white;" />
                             </a>
                         </form>
+
+                        {% else %}
+                                <h6 style="text-align: center;">Assignment has been submitted</h6>
+                        {% endif %}
+
+
                     </div>
                 </div>
             </div>

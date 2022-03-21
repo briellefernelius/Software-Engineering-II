@@ -15,6 +15,9 @@ def course_page(request, id):
         'course': course,
         'assignments': assignments
     }
+
+
+
     messages = Get_Messages(request)
     context.update(messages)
 
@@ -85,6 +88,7 @@ def submit_assignment(request, course_id, assignment_id):
     user = CustomUser.objects.get(pk=request.user.pk)
     assignment = Assignment.objects.get(id=assignment_id)
     current_course = Course.objects.get(pk=course_id)
+    submitted = False
 
     # Check if already a submission
     try:
@@ -94,7 +98,7 @@ def submit_assignment(request, course_id, assignment_id):
 
     if submit is not None:
         #messages.warning(request, "Already submitted this assignment")
-        return redirect('course:course_page', course_id)
+        submitted = True
 
     type = assignment.submission_type
     if type == '.file':
@@ -109,7 +113,7 @@ def submit_assignment(request, course_id, assignment_id):
         submission.max_points = assignment.max_points
         submission.save()
         return redirect('course:course_page', current_course.id)
-    context = {'form': form, 'course': current_course, 'assignment': assignment}
+    context = {'form': form, 'course': current_course, 'assignment': assignment, 'submitted': submitted, 'submit': submit}
     messages = Get_Messages(request)
     context.update(messages)
     return render(request, 'course/submit_assignment.html', context)

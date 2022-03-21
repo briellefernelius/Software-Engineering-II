@@ -36,13 +36,14 @@
 
         chart.draw(data, options);
       }
+
+
     </script>
   </head>
 
 
 
     <div class="assignment-container">
-
          <div class="assignment">
              <div class="container">
                  {% if user.is_instructor %}
@@ -76,7 +77,7 @@
                                         <a href="{% url 'course:assignment_submission' assignment.id %}" class="btn btn-primary">Submissions</a>
                                     {% endif %}
                                     {% if not user.is_instructor %}
-                                        <a href="{% url 'course:submit_assignment' assignment.course.id assignment.id %}" class="btn btn-primary">Submit</a>
+                                        <a href="{% url 'course:submit_assignment' assignment.course.id assignment.id %}" class="btn btn-primary">View</a>
 
                                     {% endif %}
                                 <hr>
