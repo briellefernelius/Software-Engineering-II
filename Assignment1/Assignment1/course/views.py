@@ -152,14 +152,14 @@ def submit_assignment(request, course_id, assignment_id):
     for sub in submission_list:
         if sub.is_graded:
             grade_list.append(int(sub.points_received))
-            if sub.points_received < max_grade:
+            if sub.points_received < min_grade:
                 min_grade = sub.points_received
             if sub.points_received > max_grade:
                 max_grade = sub.points_received
             total += sub.points_received
-    #print(f"grade list {grade_list}")
+    print(f"grade list {grade_list}")
 
-    #print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
+    print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
 
     def Average(list):
         if len(list) != 0:

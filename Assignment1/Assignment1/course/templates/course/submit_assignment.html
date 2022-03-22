@@ -57,8 +57,9 @@
           chart.draw(view, {
               height: 350,
               width: 350,
-              lineWidth: 5,
+              lineWidth: 4,
               fontSize: 16,
+              title: 'Based on other students',
               intervals: {
                   style: 'boxes'
               },
@@ -69,11 +70,12 @@
                   0: {
                       // dummy data series, controls color of intervals
                       visibleInLegend: false,
-                      color: '#994499',
+                      color: '#a029a0',
                       enableInteractivity: false
                   },
                   1: {
                       // min series options
+                      color: 'white',
                   },
                   2: {
                       // average series options
@@ -81,6 +83,7 @@
                   },
                   3: {
                       // max series options
+                      color: 'white'
                   }
               }
           });
