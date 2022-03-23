@@ -9,7 +9,7 @@
 
 {% block body %}
     <a href="{% url 'course:add_courses' %}">
-        <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3;" type="submit" value="Add Course" style="font-size: 20px; width: 15%; margin-left: 800px; margin-bottom: 10px; margin-top: 10px"/>
+        <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3;" type="submit" value="Add Course" name="add_course_button" style="font-size: 20px; width: 15%; margin-left: 800px; margin-bottom: 10px; margin-top: 10px"/>
     </a>
     {% for item in item_list %}
 {#        Only the instructor can view, edit, and delete the courses they made#}
@@ -34,7 +34,7 @@
                                 <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" style="font-size: 20px;" value="Edit Course"/>
                             </a>
                             <a href="{% url 'course:delete_courses' item.id %}">
-                                <input class="btn btn-outline-danger" type="button" style="font-size: 20px;" value="Delete Course"/>
+                                <input class="btn btn-outline-danger" type="button" style="font-size: 20px;" name="DeleteCourse_Button" value="Delete Course"/>
                             </a>
                         </div>
                     </div>

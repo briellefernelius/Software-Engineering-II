@@ -9,7 +9,7 @@ from .models import *
 class RegistrationForm(UserCreationForm):
     bool_choices = ((1, 'Instructor'), (0, 'Student'))
 
-    is_instructor_or_student = forms.TypedChoiceField(
+    is_instructor = forms.TypedChoiceField(
         choices=bool_choices, widget=forms.RadioSelect, coerce=int
     )
 
@@ -22,7 +22,7 @@ class RegistrationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'first_name', 'last_name', 'password1', 'password2', 'birthday', 'is_instructor_or_student']
+        fields = ['email', 'first_name', 'last_name', 'password1', 'password2', 'birthday', 'is_instructor']
 
 
 class ImageForm(forms.ModelForm):
