@@ -45,7 +45,7 @@
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                         <a href="/courses/courses/enroll/{{item.pk}}">
-                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="button" value="Register"/>
+                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="button" name="RegisterClass_Button" value="Register"/>
                         </a>
 
                     </div>
@@ -80,7 +80,7 @@
                         <h5 class="card-subtitle">Instructor Name : {{ item.instructor.last_name }}, {{ item.instructor.first_name }} </h5>
                         <p class="card-text">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                         <a href="/courses/courses/enroll/{{item.pk}}">
-                            <input class="btn btn-outline-danger" type="button" id="btn" value="Drop"/>
+                            <input class="btn btn-outline-danger" type="button" id="btn" name="Drop_Button" value="Drop"/>
                         </a>
 
                     </div>
