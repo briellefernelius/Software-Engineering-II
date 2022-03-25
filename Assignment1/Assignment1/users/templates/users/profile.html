@@ -25,22 +25,22 @@
                                 <img src="{{ item.image_profile.url }}" alt="Testing images." style="width: 100px; height: 100px;
                                                 vertical-align: middle; border-radius: 50%; margin-left: 40px">
                             {% endif %}
-                            <h5 style="margin-left: auto; margin-right: auto;">First Name: {{ item.first_name }}</h5>
-                            <h5 style="margin-left: auto; margin-right: auto;">Last Name: {{ item.last_name }}</h5>
-                            <h5 style="margin-left: auto; margin-right: auto;">Email: {{ item.email }}</h5>
-                            <h5 style="margin-left: auto; margin-right: auto;">Bio: {{ item.bio }}</h5>
-                            <h5 style="margin-left: auto; margin-right: auto;">Phone Number: {{ item.phone_number }}</h5>
-                            <h5 style="margin-left: auto; margin-right: auto;">Birthday: {{ item.birthday }}</h5>
-                            <h5 style="margin-left: auto; margin-right: auto;">Address Line1: {{ item.addressLine1 }}</h5>
-                            <h5 style="margin-left: auto; margin-right: auto;">Address Line2: {{ item.addressLine2 }}</h5>
-                            <h5 style="margin-left: auto; margin-right: auto;">City: {{ item.city }}</h5>
-                            <h5>Link 1: <a href="{{ item.link1 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link1 }}</a></h5>
-                            <h5>Link 2: <a href="{{ item.link2 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link2 }}</a></h5>
-                            <h5>Link 3: <a href="{{ item.link3 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link3 }}</a></h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="firstName">First Name: {{ item.first_name }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="lastName">Last Name: {{ item.last_name }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="email">Email: {{ item.email }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="bio">Bio: {{ item.bio }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="phoneNumber">Phone Number: {{ item.phone_number }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="birthday">Birthday: {{ item.birthday }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="addressline1">Address Line1: {{ item.addressLine1 }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="addressline2">Address Line2: {{ item.addressLine2 }}</h5>
+                            <h5 style="margin-left: auto; margin-right: auto;"id="city">City: {{ item.city }}</h5>
+                            <h5>Link 1: <a id="link1" href="{{ item.link1 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link1 }}</a></h5>
+                            <h5>Link 2: <a id="link2" href="{{ item.link2 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link2 }}</a></h5>
+                            <h5>Link 3: <a id="link3" href="{{ item.link3 }}" target ="_blank" style="margin-left: auto; margin-right: auto; color: blue">{{ item.link3 }}</a></h5>
 
                         </div>
                      <div class="d-flex align-items-center justify-content-center pb-4">
-                               <a href="{% url 'users:edit_profile' item.id %}">
+                               <a href="{% url 'users:edit_profile' item.id %}" name="editButton">
                                 <input class="btn btn-outline-danger" type="button" value="Edit Profile"/>
                                </a>
                      </div>

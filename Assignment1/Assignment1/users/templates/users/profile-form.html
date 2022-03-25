@@ -13,11 +13,11 @@
                         <form method="post" enctype="multipart/form-data" style="text-align: center">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" value="Save Changes"/>
-                               <div class="d-flex align-items-center justify-content-center pb-4">
-                                   <a href="{% url 'profile' %}">
-                                <input class="btn btn-outline-danger" type="button" value="Cancel"/>
-                            </a>
+                            <input name="saveProfileChanges" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" value="Save Changes"/>
+                            <div class="d-flex align-items-center justify-content-center pb-4">
+                                <a href="{% url 'profile' %}">
+                                    <input class="btn btn-outline-danger" type="button" value="Cancel"/>
+                                </a>
                             </div>
                         </form>
                     </div>
