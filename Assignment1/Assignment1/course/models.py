@@ -97,6 +97,7 @@ class Assignment(models.Model):
 
 class Submission(models.Model):
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     textbox = models.TextField(null=True, blank=True)
     file = models.FileField(upload_to='file_submissions/', blank=True)
@@ -114,7 +115,8 @@ class Submission(models.Model):
         return os.path.basename(self.file.name)
 
     def __str__(self):
-        return str(self.pk) + ": " + str(self.assignment.course.course_number) + "-" + str(self.assignment.title) + ", " + str(self.user)
+        return str(self.pk) + ": " + str(self.course.course_number) + "-" + str(self.assignment.title) \
+               + ", " + str(self.user)
 
 
 # This class is needed so a user can have multiple courses they are signed up for :)
@@ -124,4 +126,3 @@ class CourseUser(models.Model):
 
     def __str__(self):
         return str(self.pk) + " " + self.user_id.first_name + " - " + str(self.course_id)
-

@@ -13,20 +13,22 @@ def course_page(request, id):
     course = Course.objects.get(pk=id)
     assignments = Assignment.objects.all().filter(course=id)
     user = CustomUser.objects.get(pk=request.user.pk)
-    submission = Submission.objects.all().filter(user=user)
+    submission = Submission.objects.all().filter(user=user, course=id)
+    print(f"submission {submission}")
 
     # Calculating the students grade
     all_points = 0
     earned_points = 0
     grade = ''
-    max = assignments
-    points_recieved = submission
-    for points in max:
+    max_points = assignments
+    points_received = submission
+
+    for points in max_points:
         points = points.max_points
         all_points += points
         print(f"all point {all_points}")
 
-    for total_points in points_recieved:
+    for total_points in points_received:
         total_points = total_points.points_received
         if all_points != 0:
             earned_points += total_points
@@ -34,7 +36,7 @@ def course_page(request, id):
             total = earned_points / all_points * 100
             print(f"2nd all {all_points}")
             print(f"total_points {total_points}")
-            print(f"total {total}")
+            print(f"total: {earned_points} / {all_points} = {total}")
 
             if 94 <= total <= 100:
                 grade = 'A'
@@ -198,6 +200,7 @@ def submit_assignment(request, course_id, assignment_id):
         submission.user = CustomUser.objects.get(pk=request.user.pk)
         submission.assignment = Assignment.objects.get(pk=assignment_id)
         submission.max_points = assignment.max_points
+        submission.course = Course.objects.get(pk=course_id)
         submission.save()
 
         return redirect('course:course_page', current_course.id)
