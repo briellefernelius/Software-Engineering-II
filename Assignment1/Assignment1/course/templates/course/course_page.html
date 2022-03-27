@@ -18,41 +18,90 @@
         </div>
     {% endif %}
      <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.setOnLoadCallback(drawAssignmentChart);
 
-      function drawChart() {
 
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['A',     90],
-          ['B',      80],
-          ['C',  70],
-          ['D', 60],
-          ['F',    50]
-        ]);
+      function drawAssignmentChart() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Category');
+          data.addColumn('number', 'Min');
+          data.addColumn('number', 'Grade');
+          data.addColumn('number', 'Max');
 
-        var options = {
-          title: 'Class Averages'
-        };
+          data.addRows([
+              ['', {{ min }}, {{ avg }}, {{ max }}]
+          ]);
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+          var view = new google.visualization.DataView(data);
+          // duplicate 1 column as a dummy data series, and add intervals to it
+          view.setColumns([0, 1, {
+              id: 'min',
+              type: 'number',
+              role: 'interval',
+              calc: function (dt, row) {
+                  return dt.getValue(row, 1);
+              }
+          }, {
+              id: 'avg',
+              type: 'number',
+              role: 'interval',
+              calc: function (dt, row) {
+                  return dt.getValue(row, 2);
+              }
+          }, {
+              id: 'max',
+              type: 'number',
+              role: 'interval',
+              calc: function (dt, row) {
+                  return dt.getValue(row, 3);
+              }
+          }, 1, 2, 3]);
 
-        chart.draw(data, options);
+          var chart = new google.visualization.LineChart(document.querySelector('#assignmentchart_div'));
+          chart.draw(view, {
+              height: 350,
+              width: 350,
+              lineWidth: 4,
+              fontSize: 16,
+              title: 'Class Average: {{ avg }}',
+              intervals: {
+                  style: 'boxes'
+              },
+              legend: {
+                  position: 'none'
+              },
+              series: {
+                  0: {
+                      // dummy data series, controls color of intervals
+                      visibleInLegend: false,
+                      color: '#a029a0',
+                      enableInteractivity: false
+                  },
+                  1: {
+                      // min series options
+                      color: 'white',
+                  },
+                  2: {
+                      // average series options
+                      color: 'green',
+                  },
+                  3: {
+                      // max series options
+                      color: 'white'
+                  }
+              }
+          });
       }
-
-
     </script>
   </head>
-
-
     <div class="assignment-container">
          <div class="assignment">
              <div class="container">
                  {% if user.is_instructor %}
-                     <div class="col-lg-10 offset-md-1" id="piechart" style="padding-bottom: 10px; height: 500px;"></div>
+                     <div id="assignmentchart_div" style="padding-left: 38%"></div>
                  {% endif %}
                  <div class="row">
                     <div class="col-lg-10 offset-md-1">

@@ -22,6 +22,12 @@ def course_page(request, id):
     grade = ''
     max_points = assignments
     points_received = submission
+    total = 0
+    total2 = 0
+    grade_list = []
+    min_grade = 100
+    max_grade = 0
+    avg = 0
 
     for points in max_points:
         points = points.max_points
@@ -63,7 +69,33 @@ def course_page(request, id):
             else:
                 grade = 'E'
 
+    submission_list = Submission.objects.all().filter(assignment__in = assignments)
+
+    print(f"sub list {submission_list}")
+    for sub in submission_list:
+        print(f"Min = {min_grade}")
+        if sub.is_graded:
+            grade_list.append(int(sub.points_received))
+            if sub.points_received < min_grade:
+                min_grade = sub.points_received
+            if sub.points_received > max_grade:
+                max_grade = sub.points_received
+            total2 += sub.points_received
+    print(f"grade list {grade_list}")
+
+    def Average(list):
+        if len(list) != 0:
+            return sum(list) / len(list)
+
+    if len(grade_list) != 0:
+        avg = round(Average(grade_list))
+
+    print(f"Min = {min_grade}, Max = {max_grade}, Avg = {avg} ")
+
     context = {
+        'min': min_grade,
+        'max': max_grade,
+        'avg': avg,
         'course': course,
         'assignments': assignments,
         'submission': submission,
