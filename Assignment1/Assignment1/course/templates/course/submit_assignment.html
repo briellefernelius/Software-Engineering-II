@@ -133,7 +133,7 @@
                             <form method="POST" enctype="multipart/form-data" style="text-align: center">
                               {% csrf_token %}
                                 {{ form.as_p }}
-                                <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" value="Submit Assignment"/>
+                                <input class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit" name="submit_assignment" value="Submit Assignment"/>
 
                                 <a href="{% url 'course:course_page' course.id %}">
                                     <input class="btn btn-outline-danger" type="button" value="Cancel"/>

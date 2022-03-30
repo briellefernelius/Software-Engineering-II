@@ -36,7 +36,7 @@
                             <h5 class="card-subtitle" style="margin: 5px; text-align: center">Credit Hours: {{ item.credit_hours }}</h5>
                             <p class="card-text" style="text-align: center">{{ item.meeting_time_days }}: {{ item.start_time }} - {{ item.end_time }}</p>
                                <a href="{% url 'course:course_page' item.id %}">
-                                    <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" value="View Course" style="font-size: 20px; width: 100%; margin-top: 15px"/>
+                                    <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" name='view_course' type="button" value="View Course" style="font-size: 20px; width: 100%; margin-top: 15px"/>
                                 </a>
                         </div>
                     </div>

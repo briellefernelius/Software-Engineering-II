@@ -134,7 +134,7 @@
                                     {% endif %}
                                     {% if not user.is_instructor %}
                                         <a href="{% url 'course:submit_assignment' assignment.course.id assignment.id %}">
-                                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" value="View"/>
+                                            <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" name="view_assignment" type="button" value="View"/>
                                         </a>
                                     {% endif %}
                                 <hr></hr>
